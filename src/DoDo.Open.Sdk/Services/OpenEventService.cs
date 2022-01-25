@@ -130,10 +130,12 @@ namespace DoDo.Open.Sdk.Services
                             try
                             {
                                 var json = Encoding.UTF8.GetString(buffer.Array, 0, receive.Count);
+                                if (!string.IsNullOrWhiteSpace(json))
+                                {
+                                    Console.WriteLine($"接收消息：{json}\n");
 
-                                Console.WriteLine($"接收消息：{json}\n");
-
-                                _eventProcessService.Received(json);
+                                    _eventProcessService.Received(json);
+                                }
                             }
                             catch (Exception ex)
                             {
