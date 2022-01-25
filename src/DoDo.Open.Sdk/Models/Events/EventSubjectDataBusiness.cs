@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventSubjectDataBusiness<T> : EventSubjectBase
+    public class EventSubjectDataBusiness<T> : EventSubjectDataBase
     {
         /// <summary>
         /// 事件ID
