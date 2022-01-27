@@ -13,7 +13,7 @@ var openApiOptions = new OpenApiOptions
 };
 //开放接口服务
 var openApiService = new OpenApiService(openApiOptions);
-//示例事件处理服务，该处理服务仅用作前期测试，需要开发具体功能时请替换成自己的实现类（继承IEventProcessService即可）
+//示例事件处理服务，该服务仅用作前期测试，需要开发具体功能时请替换成自己的实现类（继承IEventProcessService接口即可）
 var eventProcessService = new DemoEventProcessService(openApiService);
 //开放事件服务
 var openEventService = new OpenEventService(openApiService, eventProcessService);
