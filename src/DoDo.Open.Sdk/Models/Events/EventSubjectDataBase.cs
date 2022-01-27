@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventSubjectBase
+    public class EventSubjectDataBase
     {
     }
 }

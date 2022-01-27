@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace DoDo.Open.Sdk.Models.Events
 {
     public class EventSubjectOutput<T>
-    where T : EventSubjectBase
+    where T : EventSubjectDataBase
     {
         /// <summary>
         /// 数据类型，0：业务数据
