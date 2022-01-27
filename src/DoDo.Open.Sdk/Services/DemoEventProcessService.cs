@@ -69,7 +69,6 @@ namespace DoDo.Open.Sdk.Services
                             reply += "置频道消息撤回\n";
                             reply += "取成员信息\n";
                             reply += "置成员禁言\n";
-                            reply += "取MQTT连接\n";
                             reply += "取WebSocket连接\n";
                         }
                         else if (content.StartsWith("取机器人信息"))
