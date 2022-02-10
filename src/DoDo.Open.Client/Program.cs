@@ -7,9 +7,9 @@ var openApiOptions = new OpenApiOptions
 {
     BaseApi = "接口地址",
     ClientId = "机器人唯一标识",
-    ClientSecret = "密钥，切勿泄漏，验证签名使用",
     Token = "鉴权token",
-    PublicKey = "公钥，用于签名加密"
+    PublicKey = "公钥，用于签名加密",
+    ClientSecret = "密钥，切勿泄漏，验证签名使用"
 };
 //开放接口服务
 var openApiService = new OpenApiService(openApiOptions);
