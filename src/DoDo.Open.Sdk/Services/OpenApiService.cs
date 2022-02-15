@@ -254,12 +254,7 @@ namespace DoDo.Open.Sdk.Services
                 var client = new RestClient(_openApiOptions.BaseApi);
                 var request = new RestRequest(resource);
 
-                var timestamp = DateTime.Now.GetTimeStamp().ToString();
-
-                request.AddHeader("Authorization", _openApiOptions.Token);
-                request.AddHeader("clientId", _openApiOptions.ClientId);
-                request.AddHeader("timestamp", timestamp);
-                request.AddHeader("sign", UtilService.RSAEncrypt(_openApiOptions.PublicKey, $"{timestamp}{_openApiOptions.ClientSecret}"));
+                request.AddHeader("Authorization",$"Bot {_openApiOptions.ClientId}.{_openApiOptions.Token}");
 
                 request.AddJsonBody(JsonConvert.SerializeObject(input));
 
