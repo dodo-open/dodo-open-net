@@ -20,17 +20,5 @@ namespace DoDo.Open.Sdk.Models
         /// </summary>
         [JsonProperty("token")]
         public string Token { get; set; }
-
-        /// <summary>
-        /// 公钥,后续验证签名使用
-        /// </summary>
-        [JsonProperty("publicKey")]
-        public string PublicKey { get; set; }
-
-        /// <summary>
-        /// 密钥,切勿泄漏,验证签名使用
-        /// </summary>
-        [JsonProperty("clientSecret")]
-        public string ClientSecret { get; set; }
     }
 }
