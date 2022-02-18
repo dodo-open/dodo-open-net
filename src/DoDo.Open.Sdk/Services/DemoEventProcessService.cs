@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using DoDo.Open.Sdk.Models.Bots;
@@ -8,8 +10,10 @@ using DoDo.Open.Sdk.Models.Events;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
+using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.WebSockets;
 using Newtonsoft.Json;
+using RestSharp;
 
 namespace DoDo.Open.Sdk.Services
 {
@@ -72,6 +76,7 @@ namespace DoDo.Open.Sdk.Services
                                 reply += "置频道消息撤回\n";
                                 reply += "取成员信息\n";
                                 reply += "置成员禁言\n";
+                                reply += "置资源图片上传\n";
                                 reply += "取WebSocket连接\n";
                             }
                             else if (content.StartsWith("取机器人信息"))
@@ -197,10 +202,10 @@ namespace DoDo.Open.Sdk.Services
                             }
                             else if (content.StartsWith("置频道图片消息发送"))
                             {
-                                var output = _openApiService.SendChannelMessage(new SendChannelMessageInput<MessagePhoto>
+                                var output = _openApiService.SendChannelMessage(new SendChannelMessageInput<MessagePicture>
                                 {
                                     ChannelId = eventBody.ChannelId,
-                                    MessageBody = new MessagePhoto
+                                    MessageBody = new MessagePicture
                                     {
                                         Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
                                         Width = 500,
@@ -300,6 +305,24 @@ namespace DoDo.Open.Sdk.Services
                                     reply += "调用接口失败！";
                                 }
                             }
+                            else if (content.StartsWith("置资源图片上传", true, CultureInfo.CurrentCulture))
+                            {
+                                var output = _openApiService.UploadResourcePicture(new UploadResourcePictureInput
+                                {
+                                    File = new RestClient("https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png").DownloadData(new RestRequest())
+                                });
+
+                                if (output != null)
+                                {
+                                    reply += $"链接：{output.Url}\n";
+                                    reply += $"高度：{output.Height}\n";
+                                    reply += $"宽度：{output.Width }\n";
+                                }
+                                else
+                                {
+                                    reply += "调用接口失败！";
+                                }
+                            }
                             else if (content.StartsWith("取WebSocket连接", true, CultureInfo.CurrentCulture))
                             {
                                 var output = _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput());
@@ -328,7 +351,7 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (eventBody.MessageType == MessageTypeConst.Photo)
                         {
-                            var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePhoto>>>>(message);
+                            var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePicture>>>>(message);
                             if (messageResult == null) return;
 
                             var messageBody = messageResult.Data.EventBody.MessageBody;
@@ -342,7 +365,7 @@ namespace DoDo.Open.Sdk.Services
                                 }
                             });
 
-                            _openApiService.SendChannelMessage(new SendChannelMessageInput<MessagePhoto>
+                            _openApiService.SendChannelMessage(new SendChannelMessageInput<MessagePicture>
                             {
                                 ChannelId = eventBody.ChannelId,
                                 MessageBody = messageBody

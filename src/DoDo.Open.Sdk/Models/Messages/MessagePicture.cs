@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
-    public class MessagePhoto: MessageBase
+    public class MessagePicture : MessageBase
     {
         /// <summary>
         /// 图片链接
