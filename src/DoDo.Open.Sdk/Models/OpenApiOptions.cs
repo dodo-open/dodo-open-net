@@ -5,7 +5,7 @@ namespace DoDo.Open.Sdk.Models
     public class OpenApiOptions
     {
         /// <summary>
-        /// BaseApi地址
+        /// 接口地址
         /// </summary>
         public string BaseApi { get; set; }
 
