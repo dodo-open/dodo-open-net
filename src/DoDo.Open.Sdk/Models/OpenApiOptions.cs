@@ -15,7 +15,7 @@ namespace DoDo.Open.Sdk.Models
         public string ClientId { get; set; }
 
         /// <summary>
-        /// 鉴权token
+        /// 机器人鉴权Token
         /// </summary>
         public string Token { get; set; }
     }
