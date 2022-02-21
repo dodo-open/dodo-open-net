@@ -12,13 +12,11 @@ namespace DoDo.Open.Sdk.Models
         /// <summary>
         /// 机器人唯一标识
         /// </summary>
-        [JsonProperty("clientId")]
         public string ClientId { get; set; }
 
         /// <summary>
         /// 鉴权token
         /// </summary>
-        [JsonProperty("token")]
         public string Token { get; set; }
     }
 }
