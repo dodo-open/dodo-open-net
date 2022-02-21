@@ -5,9 +5,9 @@ using DoDo.Open.Sdk.Services;
 //接口配置
 var openApiOptions = new OpenApiOptions
 {
-    BaseApi = "接口地址",
-    ClientId = "机器人唯一标识",
-    Token = "机器人鉴权Token"
+    BaseApi = "https://botopen-test.imdodo.com",
+    ClientId = "82223747",
+    Token = "ODIyMjM3NDc.fO-_vQ9m.N2wgeySOHBRd-7CqTzNkPiDFZZXJW1Jf2Q8zl-Co0II"
 };
 //开放接口服务
 var openApiService = new OpenApiService(openApiOptions);

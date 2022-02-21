@@ -307,9 +307,9 @@ namespace DoDo.Open.Sdk.Services
                             }
                             else if (content.StartsWith("置资源图片上传", true, CultureInfo.CurrentCulture))
                             {
-                                var output = _openApiService.UploadResourcePicture(new UploadResourcePictureInput
+                                var output = _openApiService.UploadResourcePicture(new UploadResourceInput
                                 {
-                                    File = new RestClient("https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png").DownloadData(new RestRequest())
+                                    FilePath = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png"
                                 });
 
                                 if (output != null)
@@ -411,7 +411,7 @@ namespace DoDo.Open.Sdk.Services
                     ChannelId = output.DefaultChannelId,
                     MessageBody = new MessageText
                     {
-                        Content = "\U0001f973\U0001f973\U0001f973 机器人已上线！"
+                        Content = "🥳🥳🥳 机器人已上线！"
                     }
                 });
             }

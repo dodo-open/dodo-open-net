@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DoDo.Open.Sdk.Models.Resources
 {
-    public class UploadResourcePictureInput
+    public class UploadResourceInput
     {
-        public byte[] File { get; set; }
+        /// <summary>
+        /// 本地地址 / 网络地址
+        /// </summary>
+        public string FilePath { get; set; }
     }
 }

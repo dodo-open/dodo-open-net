@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text.RegularExpressions;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
 using DoDo.Open.Sdk.Models.Channels;
@@ -159,9 +160,9 @@ namespace DoDo.Open.Sdk.Services
         /// 置资源图片上传接口
         /// </summary>
         /// <param name="input"></param>
-        public UploadResourcePictureOutput UploadResourcePicture(UploadResourcePictureInput input)
+        public UploadResourcePictureOutput UploadResourcePicture(UploadResourceInput input)
         {
-            var result = BaseRequest<UploadResourcePictureInput, UploadResourcePictureOutput>("/api/v1/resource/picture/upload", input, "multipart/form-data");
+            var result = BaseRequest<UploadResourceInput, UploadResourcePictureOutput>("/api/v1/resource/picture/upload", input);
 
             return result;
         }
@@ -189,11 +190,10 @@ namespace DoDo.Open.Sdk.Services
         /// 基础调用（什么也不带）
         /// </summary>
         /// <param name="resource">接口路径</param>
-        /// <param name="contentType">请求格式</param>
         /// <returns>返回结果</returns>
-        public bool BaseRequest(string resource, string contentType = "application/json")
+        public bool BaseRequest(string resource)
         {
-            var result = BaseRequest<object, object>(resource, Method.POST, new object(), contentType);
+            var result = BaseRequest<object, object>(resource, Method.POST, new object());
 
             if (result == default)
                 return default;
@@ -206,12 +206,11 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <typeparam name="TOutput">返回参数类型</typeparam>
         /// <param name="resource">接口路径</param>
-        /// <param name="contentType">请求格式</param>
         /// <returns>返回结果</returns>
-        public TOutput BaseRequest<TOutput>(string resource, string contentType = "application/json")
+        public TOutput BaseRequest<TOutput>(string resource)
             where TOutput : new()
         {
-            var result = BaseRequest<object, TOutput>(resource, Method.POST, new object(), contentType);
+            var result = BaseRequest<object, TOutput>(resource, Method.POST, new object());
 
             if (result == default)
                 return default;
@@ -225,12 +224,11 @@ namespace DoDo.Open.Sdk.Services
         /// <typeparam name="TInput">请求参数类型</typeparam>
         /// <param name="resource">接口路径</param>
         /// <param name="input">请求数据</param>
-        /// <param name="contentType">请求格式</param>
         /// <returns>返回结果</returns>
-        public bool BaseRequest<TInput>(string resource, TInput input, string contentType = "application/json")
+        public bool BaseRequest<TInput>(string resource, TInput input)
             where TInput : new()
         {
-            var result = BaseRequest<TInput, object>(resource, Method.POST, input, contentType);
+            var result = BaseRequest<TInput, object>(resource, Method.POST, input);
 
             if (result == default)
                 return default;
@@ -245,13 +243,12 @@ namespace DoDo.Open.Sdk.Services
         /// <typeparam name="TOutput">返回参数类型</typeparam>
         /// <param name="resource">接口路径</param>
         /// <param name="input">请求数据</param>
-        /// <param name="contentType">请求格式</param>
         /// <returns>返回结果</returns>
-        public TOutput BaseRequest<TInput, TOutput>(string resource, TInput input, string contentType = "application/json")
+        public TOutput BaseRequest<TInput, TOutput>(string resource, TInput input)
             where TInput : new()
             where TOutput : new()
         {
-            var result = BaseRequest<TInput, TOutput>(resource, Method.POST, input, contentType);
+            var result = BaseRequest<TInput, TOutput>(resource, Method.POST, input);
 
             if (result == default)
                 return default;
@@ -267,9 +264,8 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="resource">接口路径</param>
         /// <param name="method">请求方式</param>
         /// <param name="input">请求数据</param>
-        /// <param name="contentType">请求格式</param>
         /// <returns>返回结果</returns>
-        public OpenApiBaseOutput<TOutput> BaseRequest<TInput, TOutput>(string resource, Method method, TInput input, string contentType = "application/json")
+        public OpenApiBaseOutput<TOutput> BaseRequest<TInput, TOutput>(string resource, Method method, TInput input)
         where TInput : new()
         where TOutput : new()
         {
@@ -280,22 +276,15 @@ namespace DoDo.Open.Sdk.Services
 
                 request.AddHeader("Authorization", $"Bot {_openApiOptions.ClientId}.{_openApiOptions.Token}");
 
-                if (contentType == "multipart/form-data")
+                if (input is UploadResourceInput uploadResourceInput)
                 {
-                    var fields = input.GetType().GetProperties();
-
-                    foreach (var propertyInfo in fields)
+                    if (Regex.IsMatch(uploadResourceInput.FilePath, "(http|https|ftp)://.*?"))
                     {
-                        if (propertyInfo.PropertyType.Name == "Byte[]")
-                        {
-                            request.AddFileBytes(propertyInfo.Name.ToLower(),
-                                (byte[]) propertyInfo.GetValue(input) ?? Array.Empty<byte>(),
-                                propertyInfo.Name);
-                        }
-                        else
-                        {
-                            request.AddParameter(propertyInfo.Name.ToLower(), propertyInfo.GetValue(input) ?? "");
-                        }
+                        request.AddFile("file", new RestClient(uploadResourceInput.FilePath).DownloadData(new RestRequest()), uploadResourceInput.FilePath);
+                    }
+                    else
+                    {
+                        request.AddFile("file", uploadResourceInput.FilePath);
                     }
                 }
                 else
