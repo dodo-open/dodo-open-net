@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using DoDo.Open.Sdk.Models.Bots;
@@ -13,7 +11,6 @@ using DoDo.Open.Sdk.Models.Messages;
 using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.WebSockets;
 using Newtonsoft.Json;
-using RestSharp;
 
 namespace DoDo.Open.Sdk.Services
 {
@@ -401,20 +398,6 @@ namespace DoDo.Open.Sdk.Services
         public void Connected(string message)
         {
             Console.WriteLine($"{message}\n");
-
-            var outputList = _openApiService.GetIslandList(new GetIslandListInput());
-
-            foreach (var output in outputList)
-            {
-                _openApiService.SendChannelMessage(new SendChannelMessageInput<MessageText>
-                {
-                    ChannelId = output.DefaultChannelId,
-                    MessageBody = new MessageText
-                    {
-                        Content = "🥳🥳🥳 机器人已上线！"
-                    }
-                });
-            }
         }
 
         public void Disconnected(string message)
