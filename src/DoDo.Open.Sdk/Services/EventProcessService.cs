@@ -39,7 +39,7 @@ namespace DoDo.Open.Sdk.Services
         /// 消息接收
         /// </summary>
         /// <param name="message"></param>
-        public virtual void Received(string message)
+        internal virtual void Received(string message)
         {
             Task.Factory.StartNew(() =>
             {
