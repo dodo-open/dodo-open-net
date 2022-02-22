@@ -20,9 +20,9 @@ namespace DoDo.Open.Sdk.Models.Channels
         {
             get
             {
-                if (MessageBody is MessagePhoto)
+                if (MessageBody is MessagePicture)
                 {
-                    return MessageTypeConst.Photo;
+                    return MessageTypeConst.Picture;
                 }
                 else if (MessageBody is MessageVideo)
                 {

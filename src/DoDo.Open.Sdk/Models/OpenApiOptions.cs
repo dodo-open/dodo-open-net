@@ -5,20 +5,18 @@ namespace DoDo.Open.Sdk.Models
     public class OpenApiOptions
     {
         /// <summary>
-        /// BaseApi地址
+        /// 接口地址
         /// </summary>
         public string BaseApi { get; set; }
 
         /// <summary>
         /// 机器人唯一标识
         /// </summary>
-        [JsonProperty("clientId")]
         public string ClientId { get; set; }
 
         /// <summary>
-        /// 鉴权token
+        /// 机器人鉴权Token
         /// </summary>
-        [JsonProperty("token")]
         public string Token { get; set; }
     }
 }

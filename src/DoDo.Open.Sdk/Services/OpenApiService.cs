@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
 using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
+using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.WebSockets;
 using Newtonsoft.Json;
 using RestSharp;
@@ -149,6 +151,21 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
+        #region 资源
+
+        /// <summary>
+        /// 置资源图片上传接口
+        /// </summary>
+        /// <param name="input"></param>
+        public UploadResourcePictureOutput UploadResourcePicture(UploadResourceInput input)
+        {
+            var result = BaseRequest<UploadResourceInput, UploadResourcePictureOutput>("/api/v1/resource/picture/upload", input);
+
+            return result;
+        }
+
+        #endregion
+
         #region WebSocket
 
         /// <summary>
@@ -254,10 +271,24 @@ namespace DoDo.Open.Sdk.Services
                 var client = new RestClient(_openApiOptions.BaseApi);
                 var request = new RestRequest(resource);
 
-                request.AddHeader("Authorization",$"Bot {_openApiOptions.ClientId}.{_openApiOptions.Token}");
+                request.AddHeader("Authorization", $"Bot {_openApiOptions.ClientId}.{_openApiOptions.Token}");
 
-                request.AddJsonBody(JsonConvert.SerializeObject(input));
-
+                if (input is UploadResourceInput uploadResourceInput)
+                {
+                    if (Regex.IsMatch(uploadResourceInput.FilePath, "(http|https|ftp)://.*?"))
+                    {
+                        request.AddFile("file", new RestClient(uploadResourceInput.FilePath).DownloadData(new RestRequest()), uploadResourceInput.FilePath);
+                    }
+                    else
+                    {
+                        request.AddFile("file", uploadResourceInput.FilePath);
+                    }
+                }
+                else
+                {
+                    request.AddJsonBody(JsonConvert.SerializeObject(input));
+                }
+                
                 Console.WriteLine($"请求接口：{resource}");
                 Console.WriteLine($"请求参数：{JsonConvert.SerializeObject(input)}");
 

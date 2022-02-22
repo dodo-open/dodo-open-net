@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.WebSockets;
 
 namespace DoDo.Open.Sdk.Services
@@ -14,20 +15,21 @@ namespace DoDo.Open.Sdk.Services
     {
         private ClientWebSocket _clientWebSocket;
         private readonly OpenApiService _openApiService;
-        private readonly IEventProcessService _eventProcessService;
+        private readonly EventProcessService _eventProcessService;
+        private readonly OpenEventOptions _openEventOptions;
 
-        public OpenEventService(OpenApiService openApiService, IEventProcessService eventProcessService)
+        public OpenEventService(OpenApiService openApiService, EventProcessService eventProcessService, OpenEventOptions openEventOptions)
         {
             _openApiService = openApiService;
             _eventProcessService = eventProcessService;
+            _openEventOptions = openEventOptions;
         }
 
         /// <summary>
         /// 接收事件消息
         /// </summary>
-        /// <param name="isReconnect">是否断线重连</param>
         /// <returns></returns>
-        public async Task ReceiveAsync(bool isReconnect = false)
+        public async Task ReceiveAsync()
         {
             try
             {
@@ -134,7 +136,18 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     Console.WriteLine($"接收消息：{json}\n");
 
-                                    _eventProcessService.Received(json);
+                                    if (_openEventOptions.IsAsync)
+                                    {
+                                        Task.Factory.StartNew(() =>
+                                        {
+                                            _eventProcessService.Received(json);
+                                            Thread.Sleep(10000);
+                                        });
+                                    }
+                                    else
+                                    {
+                                        _eventProcessService.Received(json);
+                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -168,7 +181,7 @@ namespace DoDo.Open.Sdk.Services
                             }
                         }
 
-                        if (isReconnect)
+                        if (_openEventOptions.IsReconnect)
                         {
                             var reconnectCount = 0;
 
