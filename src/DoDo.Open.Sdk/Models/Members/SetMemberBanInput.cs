@@ -22,7 +22,7 @@ namespace DoDo.Open.Sdk.Models.Members
         public string DoDoId { get; set; }
 
         /// <summary>
-        /// 禁言时长（秒），为0时解禁
+        /// 禁言时长（秒），最长7天
         /// </summary>
         [JsonProperty("duration")]
         public int Duration { get; set; }

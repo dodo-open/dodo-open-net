@@ -34,9 +34,9 @@ namespace DoDo.Open.Sdk.Models.Members
         public string AvatarUrl { get; set; }
 
         /// <summary>
-        /// 性别
+        /// 性别，-1：保密，0：女，1：男
         /// </summary>
         [JsonProperty("sex")]
-        public string Sex { get; set; }
+        public int Sex { get; set; }
     }
 }
