@@ -346,7 +346,7 @@ namespace DoDo.Open.Sdk.Services
                                 });
                             }
                         }
-                        else if (eventBody.MessageType == MessageTypeConst.Photo)
+                        else if (eventBody.MessageType == MessageTypeConst.Picture)
                         {
                             var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePicture>>>>(message);
                             if (messageResult == null) return;
