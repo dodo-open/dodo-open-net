@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using DoDo.Open.Sdk.Models.Events;
 using DoDo.Open.Sdk.Models.Messages;
 using Newtonsoft.Json;
@@ -41,46 +40,43 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="message"></param>
         internal virtual void Received(string message)
         {
-            Task.Factory.StartNew(() =>
+            Console.WriteLine($"{message}\n");
+
+            var eventSubjectResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBase>>(message);
+            if (eventSubjectResult == null) return;
+
+            if (eventSubjectResult.Type == EventSubjectDataTypeConst.Business)
             {
-                Console.WriteLine($"{message}\n");
+                var eventSubjectDataResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyBase>>>(message);
+                if (eventSubjectDataResult == null) return;
 
-                var eventSubjectResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBase>>(message);
-                if (eventSubjectResult == null) return;
-
-                if (eventSubjectResult.Type == EventSubjectDataTypeConst.Business)
+                if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelMessage)
                 {
-                    var eventSubjectDataResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyBase>>>(message);
-                    if (eventSubjectDataResult == null) return;
+                    var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBase>>>>(message);
+                    if (eventBodyResult == null) return;
 
-                    if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelMessage)
+                    var eventBody = eventBodyResult.Data.EventBody;
+
+                    if (eventBody.MessageType == MessageTypeConst.Text)
                     {
-                        var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBase>>>>(message);
-                        if (eventBodyResult == null) return;
-
-                        var eventBody = eventBodyResult.Data.EventBody;
-
-                        if (eventBody.MessageType == MessageTypeConst.Text)
-                        {
-                            var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageText>>>>(message);
-                            if (messageResult == null) return;
-                            ChannelMessageEvent(messageResult);
-                        }
-                        else if (eventBody.MessageType == MessageTypeConst.Picture)
-                        {
-                            var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePicture>>>>(message);
-                            if (messageResult == null) return;
-                            ChannelMessageEvent(messageResult);
-                        }
-                        else if (eventBody.MessageType == MessageTypeConst.Video)
-                        {
-                            var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageVideo>>>>(message);
-                            if (messageResult == null) return;
-                            ChannelMessageEvent(messageResult);
-                        }
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageText>>>>(message);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
+                    else if (eventBody.MessageType == MessageTypeConst.Picture)
+                    {
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePicture>>>>(message);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
+                    else if (eventBody.MessageType == MessageTypeConst.Video)
+                    {
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageVideo>>>>(message);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
                     }
                 }
-            });
+            }
         }
 
         /// <summary>
