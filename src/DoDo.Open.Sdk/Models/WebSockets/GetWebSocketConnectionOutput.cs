@@ -10,7 +10,7 @@ namespace DoDo.Open.Sdk.Models.WebSockets
     public class GetWebSocketConnectionOutput
     {
         /// <summary>
-        /// 节点
+        /// 连接节点
         /// </summary>
         [JsonProperty("endpoint")]
         public string Endpoint { get; set; }
