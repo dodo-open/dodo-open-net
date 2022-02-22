@@ -9,7 +9,7 @@ var openApiService = new OpenApiService(new OpenApiOptions
     ClientId = "机器人唯一标识",
     Token = "机器人鉴权Token"
 });
-//事件处理服务
+//事件处理服务，可自定义，只要继承EventProcessService抽象类即可
 var eventProcessService = new DemoEventProcessService(openApiService);
 //开放事件服务
 var openEventService = new OpenEventService(openApiService, eventProcessService, new OpenEventOptions
