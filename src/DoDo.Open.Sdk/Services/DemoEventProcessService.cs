@@ -249,7 +249,7 @@ namespace DoDo.Open.Sdk.Services
 
                 if (output)
                 {
-                    reply += "置频道消息撤回成功";
+                    reply += "置频道消息撤回成功！";
                 }
                 else
                 {
@@ -291,7 +291,7 @@ namespace DoDo.Open.Sdk.Services
 
                 if (output)
                 {
-                    reply += "置成员禁言成功";
+                    reply += "置成员禁言成功！";
                 }
                 else
                 {
