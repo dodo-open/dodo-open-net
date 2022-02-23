@@ -81,7 +81,7 @@ namespace DoDo.Open.Sdk.Services
                     reply += $"机器人唯一标识：{output.ClientId}\n";
                     reply += $"机器人DoDo号：{output.DodoId}\n";
                     reply += $"机器人昵称：{output.NickName}\n";
-                    reply += $"机器人图标：{output.AvatarUrl}\n";
+                    reply += $"机器人头像：{output.AvatarUrl}\n";
                 }
                 else
                 {
