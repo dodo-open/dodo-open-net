@@ -19,12 +19,12 @@ namespace DoDo.Open.Sdk.Models.Islands
         /// 页码
         /// </summary>
         [JsonProperty("pageNo")]
-        public string PageNo { get; set; }
+        public int PageNo { get; set; }
 
         /// <summary>
         /// 页大小
         /// </summary>
         [JsonProperty("pageSize")]
-        public string PageSize { get; set; }
+        public int PageSize { get; set; }
     }
 }

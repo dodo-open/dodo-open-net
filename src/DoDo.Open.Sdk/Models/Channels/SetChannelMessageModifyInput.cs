@@ -13,6 +13,12 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string ChannelId { get; set; }
 
         /// <summary>
+        /// 预更新消息ID
+        /// </summary>
+        [JsonProperty("messageId")]
+        public string MessageId { get; set; }
+
+        /// <summary>
         /// 消息类型，1：文本消息，目前仅支持更新文本消息
         /// </summary>
         [JsonProperty("messageType")]

@@ -54,9 +54,9 @@ namespace DoDo.Open.Sdk.Services
         /// 置机器人群退出
         /// </summary>
         /// <param name="input"></param>
-        public SetBotIslandLeaveOutput SetBotIslandLeave(SetBotIslandLeaveInput input)
+        public bool SetBotIslandLeave(SetBotIslandLeaveInput input)
         {
-            var result = BaseRequest<SetBotIslandLeaveInput, SetBotIslandLeaveOutput>("/api/v1/bot/island/leave", input);
+            var result = BaseRequest<SetBotIslandLeaveInput>("/api/v1/bot/island/leave", input);
 
             return result;
         }
@@ -279,7 +279,7 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
-        #region WebSocket
+        #region 事件
 
         /// <summary>
         /// 取WebSocket连接

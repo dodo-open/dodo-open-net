@@ -25,6 +25,6 @@ namespace DoDo.Open.Sdk.Models.Members
         /// 在群昵称
         /// </summary>
         [JsonProperty("nickName")]
-        public int NickName { get; set; }
+        public string NickName { get; set; }
     }
 }
