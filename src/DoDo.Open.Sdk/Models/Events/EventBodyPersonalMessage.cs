@@ -8,21 +8,9 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventBodyChannelMessage<T> : EventBodyBase
-    where T : MessageBase
+    public class EventBodyPersonalMessage<T> : EventBodyBase
+        where T : MessageBase
     {
-        /// <summary>
-        /// 来源群号
-        /// </summary>
-        [JsonProperty("islandId")]
-        public string IslandId { get; set; }
-
-        /// <summary>
-        /// 来源频道号
-        /// </summary>
-        [JsonProperty("channelId")]
-        public string ChannelId { get; set; }
-
         /// <summary>
         /// 来源DoDo号
         /// </summary>
@@ -34,12 +22,6 @@ namespace DoDo.Open.Sdk.Models.Events
         /// </summary>
         [JsonProperty("personal")]
         public MessageModelPersonal Personal { get; set; }
-
-        /// <summary>
-        /// 成员信息
-        /// </summary>
-        [JsonProperty("member")]
-        public MessageModelMember Member { get; set; }
 
         /// <summary>
         /// 消息ID
@@ -58,11 +40,5 @@ namespace DoDo.Open.Sdk.Models.Events
         /// </summary>
         [JsonProperty("messageBody")]
         public T MessageBody { get; set; }
-
-        /// <summary>
-        /// 引用消息ID
-        /// </summary>
-        [JsonProperty("referencedMessageId")]
-        public string ReferencedMessageId { get; set; }
     }
 }

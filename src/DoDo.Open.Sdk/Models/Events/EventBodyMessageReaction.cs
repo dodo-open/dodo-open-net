@@ -8,8 +8,7 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventBodyChannelMessage<T> : EventBodyBase
-    where T : MessageBase
+    public class EventBodyMessageReaction
     {
         /// <summary>
         /// 来源群号
@@ -42,27 +41,16 @@ namespace DoDo.Open.Sdk.Models.Events
         public MessageModelMember Member { get; set; }
 
         /// <summary>
-        /// 消息ID
+        /// 反应目标
         /// </summary>
-        [JsonProperty("messageId")]
-        public string MessageId { get; set; }
+        [JsonProperty("reactionTarget")]
+        public MessageReactionTarget ReactionTarget { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文本消息，2：图片消息，3：视频消息
+        /// 反应表情
         /// </summary>
-        [JsonProperty("messageType")]
-        public int MessageType { get; set; }
+        [JsonProperty("reactionEmoji")]
+        public MessageEmoji ReactionEmoji { get; set; }
 
-        /// <summary>
-        /// 消息内容
-        /// </summary>
-        [JsonProperty("messageBody")]
-        public T MessageBody { get; set; }
-
-        /// <summary>
-        /// 引用消息ID
-        /// </summary>
-        [JsonProperty("referencedMessageId")]
-        public string ReferencedMessageId { get; set; }
     }
 }
