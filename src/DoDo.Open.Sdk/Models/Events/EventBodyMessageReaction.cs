@@ -41,7 +41,7 @@ namespace DoDo.Open.Sdk.Models.Events
         public MessageModelMember Member { get; set; }
 
         /// <summary>
-        /// 反应目标
+        /// 反应对象
         /// </summary>
         [JsonProperty("reactionTarget")]
         public MessageReactionTarget ReactionTarget { get; set; }
