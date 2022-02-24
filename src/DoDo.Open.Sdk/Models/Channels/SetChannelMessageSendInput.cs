@@ -1,10 +1,10 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
 using Newtonsoft.Json;
 
-namespace DoDo.Open.Sdk.Models.Personals
+namespace DoDo.Open.Sdk.Models.Channels
 {
-    public class SendPersonalMessageInput<T>
-        where T : MessageBase
+    public class SetChannelMessageSendInput<T>
+    where T : MessageBase
     {
         /// <summary>
         /// 频道号

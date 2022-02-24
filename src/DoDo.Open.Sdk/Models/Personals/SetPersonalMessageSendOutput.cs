@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Personals
 {
-    public class SendPersonalMessageOutput
+    public class SetPersonalMessageSendOutput
     {
         /// <summary>
         /// 消息ID

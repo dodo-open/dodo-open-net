@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoDo.Open.Sdk.Models.Channels
 {
-    public class WithdrawChannelMessageOutput
+    public class SetChannelMessageWithdrawOutput
     {
     }
 }

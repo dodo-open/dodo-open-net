@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Resources
 {
-    public class UploadResourcePictureOutput
+    public class SetResourcePictureUploadOutput
     {
         /// <summary>
         /// 图片链接

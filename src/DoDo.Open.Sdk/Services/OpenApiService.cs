@@ -7,7 +7,9 @@ using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
+using DoDo.Open.Sdk.Models.Personals;
 using DoDo.Open.Sdk.Models.Resources;
+using DoDo.Open.Sdk.Models.Roles;
 using DoDo.Open.Sdk.Models.WebSockets;
 using Newtonsoft.Json;
 using RestSharp;
@@ -48,6 +50,17 @@ namespace DoDo.Open.Sdk.Services
             return result;
         }
 
+        /// <summary>
+        /// 置机器人群退出
+        /// </summary>
+        /// <param name="input"></param>
+        public SetBotIslandLeaveOutput SetBotIslandLeave(SetBotIslandLeaveInput input)
+        {
+            var result = BaseRequest<SetBotIslandLeaveInput, SetBotIslandLeaveOutput>("/api/v1/bot/island/leave", input);
+
+            return result;
+        }
+
         #endregion
 
         #region 群
@@ -70,6 +83,17 @@ namespace DoDo.Open.Sdk.Services
         public GetIslandInfoOutput GetIslandInfo(GetIslandInfoInput input)
         {
             var result = BaseRequest<GetIslandInfoInput, GetIslandInfoOutput>("/api/v1/island/info", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取群成员列表
+        /// </summary>
+        /// <param name="input"></param>
+        public List<GetIslandMemberListOutput> GetIslandMemberList(GetIslandMemberListInput input)
+        {
+            var result = BaseRequest<GetIslandMemberListInput, List<GetIslandMemberListOutput>>("/api/v1/island/member/list", input);
 
             return result;
         }
@@ -104,10 +128,22 @@ namespace DoDo.Open.Sdk.Services
         /// 置频道消息发送
         /// </summary>
         /// <param name="input"></param>
-        public SendChannelMessageOutput SendChannelMessage<T>(SendChannelMessageInput<T> input)
+        public SetChannelMessageSendOutput SetChannelMessageSend<T>(SetChannelMessageSendInput<T> input)
         where T : MessageBase
         {
-            var result = BaseRequest<SendChannelMessageInput<T>, SendChannelMessageOutput>("/api/v1/channel/message/send", input);
+            var result = BaseRequest<SetChannelMessageSendInput<T>, SetChannelMessageSendOutput>("/api/v1/channel/message/send", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 置频道消息更新
+        /// </summary>
+        /// <param name="input"></param>
+        public SetChannelMessageModifyOutput SetChannelMessageModify<T>(SetChannelMessageModifyInput<T> input)
+            where T : MessageBase
+        {
+            var result = BaseRequest<SetChannelMessageModifyInput<T>, SetChannelMessageModifyOutput>("/api/v1/channel/message/modify", input);
 
             return result;
         }
@@ -116,7 +152,7 @@ namespace DoDo.Open.Sdk.Services
         /// 置频道消息撤回
         /// </summary>
         /// <param name="input"></param>
-        public bool WithdrawChannelMessage(WithdrawChannelMessageInput input)
+        public bool SetChannelMessageWithdraw(SetChannelMessageWithdrawInput input)
         {
             var result = BaseRequest("/api/v1/channel/message/withdraw", input);
 
@@ -125,7 +161,57 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
+
+        #region 身份组
+
+        /// <summary>
+        /// 取身份组列表
+        /// </summary>
+        /// <param name="input"></param>
+        public List<GetRoleListOutput> GetRoleList(GetRoleListInput input)
+        {
+            var result = BaseRequest<GetRoleListInput, List<GetRoleListOutput>>("/api/v1/role/list", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 置身份组成员新增
+        /// </summary>
+        /// <param name="input"></param>
+        public bool SetRoleMemberAdd(SetRoleMemberAddInput input)
+        {
+            var result = BaseRequest("/api/v1/role/member/add", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 置身份组成员移除
+        /// </summary>
+        /// <param name="input"></param>
+        public bool SetRoleMemberRemove(SetRoleMemberRemoveInput input)
+        {
+            var result = BaseRequest("/api/v1/role/member/remove", input);
+
+            return result;
+        }
+
+        #endregion
+
+
         #region 成员
+
+        /// <summary>
+        /// 取成员身份组列表
+        /// </summary>
+        /// <param name="input"></param>
+        public List<GetMemberRoleListOutput> GetMemberRoleList(GetMemberRoleListInput input)
+        {
+            var result = BaseRequest<GetMemberRoleListInput, List<GetMemberRoleListOutput>>("/api/v1/member/role/list", input);
+
+            return result;
+        }
 
         /// <summary>
         /// 取成员信息
@@ -134,6 +220,17 @@ namespace DoDo.Open.Sdk.Services
         public GetMemberInfoOutput GetMemberInfo(GetMemberInfoInput input)
         {
             var result = BaseRequest<GetMemberInfoInput, GetMemberInfoOutput>("/api/v1/member/info", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 置成员昵称
+        /// </summary>
+        /// <param name="input"></param>
+        public bool SetMemberNick(SetMemberNickInput input)
+        {
+            var result = BaseRequest("/api/v1/member/nick/set", input);
 
             return result;
         }
@@ -151,15 +248,31 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
+        #region 个人
+
+        /// <summary>
+        /// 置个人消息发送
+        /// </summary>
+        /// <param name="input"></param>
+        public SetPersonalMessageSendOutput SetPersonalMessageSend<T>(SetPersonalMessageSendInput<T> input)
+            where T : MessageBase
+        {
+            var result = BaseRequest<SetPersonalMessageSendInput<T>, SetPersonalMessageSendOutput>("/api/v1/personal/message/send", input);
+
+            return result;
+        }
+
+        #endregion
+
         #region 资源
 
         /// <summary>
         /// 置资源图片上传接口
         /// </summary>
         /// <param name="input"></param>
-        public UploadResourcePictureOutput UploadResourcePicture(UploadResourceInput input)
+        public SetResourcePictureUploadOutput UploadResourcePicture(SetResourceUploadInput input)
         {
-            var result = BaseRequest<UploadResourceInput, UploadResourcePictureOutput>("/api/v1/resource/picture/upload", input);
+            var result = BaseRequest<SetResourceUploadInput, SetResourcePictureUploadOutput>("/api/v1/resource/picture/upload", input);
 
             return result;
         }
@@ -273,7 +386,7 @@ namespace DoDo.Open.Sdk.Services
 
                 request.AddHeader("Authorization", $"Bot {_openApiOptions.ClientId}.{_openApiOptions.Token}");
 
-                if (input is UploadResourceInput uploadResourceInput)
+                if (input is SetResourceUploadInput uploadResourceInput)
                 {
                     if (Regex.IsMatch(uploadResourceInput.FilePath, "(http|https|ftp)://.*?"))
                     {

@@ -1,16 +1,16 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
 using Newtonsoft.Json;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.Personals
 {
-    public class SendChannelMessageInput<T>
-    where T : MessageBase
+    public class SetPersonalMessageSendInput<T>
+        where T : MessageBase
     {
         /// <summary>
-        /// 频道号
+        /// DoDo号
         /// </summary>
-        [JsonProperty("channelId")]
-        public string ChannelId { get; set; }
+        [JsonProperty("dodoId")]
+        public string DoDoId { get; set; }
 
         /// <summary>
         /// 消息类型，1：文本消息，2：图片消息，3：视频消息
