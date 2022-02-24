@@ -141,7 +141,6 @@ namespace DoDo.Open.Sdk.Services
                                         Task.Factory.StartNew(() =>
                                         {
                                             _eventProcessService.Received(json);
-                                            Thread.Sleep(10000);
                                         });
                                     }
                                     else

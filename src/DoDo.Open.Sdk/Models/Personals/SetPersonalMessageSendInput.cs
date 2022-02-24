@@ -38,11 +38,5 @@ namespace DoDo.Open.Sdk.Models.Personals
         /// </summary>
         [JsonProperty("messageBody")]
         public T MessageBody { get; set; }
-
-        /// <summary>
-        /// 引用消息ID
-        /// </summary>
-        [JsonProperty("referencedMessageId")]
-        public string ReferencedMessageId { get; set; }
     }
 }

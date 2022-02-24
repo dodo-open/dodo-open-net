@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Threading;
 using DoDo.Open.Sdk.Models.Bots;
 using DoDo.Open.Sdk.Models.Channels;
@@ -61,30 +62,30 @@ namespace DoDo.Open.Sdk.Services
             {
                 reply += $"<@!{eventBody.DodoId}>\n\n";
                 reply += "**菜单来咯！**\n\n";
-                reply += "【机器人】取机器人信息\n";
-                reply += "【机器人】置机器人群退出\n";
-                reply += "【群】取群列表\n";
-                reply += "【群】取群信息\n";
+                reply += "【机器人】取机器人信息 OK\n";
+                reply += "【机器人】置机器人群退出 OK\n";
+                reply += "【群】取群列表 OK\n";
+                reply += "【群】取群信息 OK\n";
                 reply += "【群】取群成员列表\n";
-                reply += "【频道】取频道列表\n";
-                reply += "【频道】取频道信息\n";
-                reply += "【频道】置频道文本消息发送\n";
-                reply += "【频道】置频道图片消息发送\n";
-                reply += "【频道】置频道视频消息发送\n";
-                reply += "【频道】置频道消息更新\n";
-                reply += "【频道】置频道消息撤回\n";
-                reply += "【身份组】取身份组列表\n";
-                reply += "【身份组】置身份组成员新增\n";
-                reply += "【身份组】置身份组成员移除\n";
-                reply += "【成员】取成员信息\n";
-                reply += "【成员】取成员身份组列表\n";
-                reply += "【成员】置成员昵称\n";
-                reply += "【成员】置成员禁言\n";
-                reply += "【个人】置个人文本消息发送\n";
-                reply += "【个人】置个人图片消息发送\n";
-                reply += "【个人】置个人视频消息发送\n";
-                reply += "【资源】置资源图片上传\n";
-                reply += "【事件】取WebSocket连接\n";
+                reply += "【频道】取频道列表 OK\n";
+                reply += "【频道】取频道信息 OK\n";
+                reply += "【频道】置频道文本消息发送 OK\n";
+                reply += "【频道】置频道图片消息发送 OK\n";
+                reply += "【频道】置频道视频消息发送 OK\n";
+                reply += "【频道】置频道消息编辑\n";
+                reply += "【频道】置频道消息撤回 OK\n";
+                reply += "【身份组】取身份组列表 OK\n";
+                reply += "【身份组】置身份组成员新增 ID OK\n";
+                reply += "【身份组】置身份组成员移除 ID OK\n";
+                reply += "【成员】取成员信息 OK\n";
+                reply += "【成员】取成员身份组列表 OK\n";
+                reply += "【成员】置成员昵称 OK\n";
+                reply += "【成员】置成员禁言 OK\n";
+                reply += "【个人】置个人文本消息发送 OK\n";
+                reply += "【个人】置个人图片消息发送 OK\n";
+                reply += "【个人】置个人视频消息发送 OK\n";
+                reply += "【资源】置资源图片上传 OK\n";
+                reply += "【事件】取WebSocket连接 OK\n";
             }
             else if (content.Contains("置机器人群退出"))
             {
@@ -301,9 +302,9 @@ namespace DoDo.Open.Sdk.Services
                     reply += "调用接口失败！";
                 }
             }
-            else if (content.Contains("置频道消息更新"))
+            else if (content.Contains("置频道消息编辑"))
             {
-                var output = _openApiService.SetChannelMessageModify(new SetChannelMessageModifyInput<MessageText>
+                var output = _openApiService.SetChannelMessageModify(new SetChannelMessageEditInput<MessageText>
                 {
                     MessageId = eventBody.MessageId,
                     ChannelId = eventBody.ChannelId,
@@ -315,7 +316,7 @@ namespace DoDo.Open.Sdk.Services
 
                 if (output != null)
                 {
-                    reply += "置频道消息更新成功！";
+                    reply += "置频道消息编辑成功！";
                 }
                 else
                 {
@@ -365,11 +366,13 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置身份组成员新增"))
             {
+                var regex = Regex.Match(content, @"(\d+?)$");
+
                 var output = _openApiService.SetRoleMemberAdd(new SetRoleMemberAddInput
                 {
                     IslandId = eventBody.IslandId,
                     DoDoId = eventBody.DodoId,
-                    RoleId = ""
+                    RoleId = regex.Value
                 });
 
                 if (output)
@@ -384,11 +387,12 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置身份组成员移除"))
             {
+                var regex = Regex.Match(content, @"(\d+?)$");
                 var output = _openApiService.SetRoleMemberRemove(new SetRoleMemberRemoveInput
                 {
                     IslandId = eventBody.IslandId,
                     DoDoId = eventBody.DodoId,
-                    RoleId = ""
+                    RoleId = regex.Value
                 });
 
                 if (output)
@@ -460,7 +464,7 @@ namespace DoDo.Open.Sdk.Services
 
                 if (output)
                 {
-                    reply += "置成员禁言成功！";
+                    reply += "置成员昵称成功！";
                 }
                 else
                 {

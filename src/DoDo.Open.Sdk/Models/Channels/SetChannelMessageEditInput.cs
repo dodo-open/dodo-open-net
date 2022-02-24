@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Channels
 {
-    public class SetChannelMessageModifyInput<T>
+    public class SetChannelMessageEditInput<T>
         where T : MessageBase
     {
         /// <summary>
