@@ -386,7 +386,7 @@ namespace DoDo.Open.Sdk.Services
                 }
                 else if (content.Contains("置频道消息编辑"))
                 {
-                    var output = _openApiService.SetChannelMessageModify(new SetChannelMessageEditInput<MessageBodyText>
+                    var output = _openApiService.SetChannelMessageEdit(new SetChannelMessageEditInput<MessageBodyText>
                     {
                         MessageId = eventBody.MessageId,
                         MessageBody = new MessageBodyText
@@ -639,7 +639,7 @@ namespace DoDo.Open.Sdk.Services
                 }
                 else if (content.Contains("置资源图片上传"))
                 {
-                    var output = _openApiService.UploadResourcePicture(new SetResourceUploadInput
+                    var output = _openApiService.SetResourcePictureUpload(new SetResourceUploadInput
                     {
                         FilePath = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png"
                     });

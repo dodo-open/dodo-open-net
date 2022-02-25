@@ -140,7 +140,7 @@ namespace DoDo.Open.Sdk.Services
         /// 置频道消息编辑
         /// </summary>
         /// <param name="input"></param>
-        public SetChannelMessageEditOutput SetChannelMessageModify<T>(SetChannelMessageEditInput<T> input)
+        public SetChannelMessageEditOutput SetChannelMessageEdit<T>(SetChannelMessageEditInput<T> input)
             where T : MessageBodyBase
         {
             var result = BaseRequest<SetChannelMessageEditInput<T>, SetChannelMessageEditOutput>("/api/v1/channel/message/edit", input);
@@ -265,10 +265,10 @@ namespace DoDo.Open.Sdk.Services
         #region 资源
 
         /// <summary>
-        /// 置资源图片上传接口
+        /// 置资源图片上传
         /// </summary>
         /// <param name="input"></param>
-        public SetResourcePictureUploadOutput UploadResourcePicture(SetResourceUploadInput input)
+        public SetResourcePictureUploadOutput SetResourcePictureUpload(SetResourceUploadInput input)
         {
             var result = BaseRequest<SetResourceUploadInput, SetResourcePictureUploadOutput>("/api/v1/resource/picture/upload", input);
 
