@@ -13,7 +13,7 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string MessageId { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文本消息，目前仅支持更新文本消息
+        /// 消息类型，1：文本消息，目前仅编辑更新文本消息
         /// </summary>
         [JsonProperty("messageType")]
         public int MessageType => MessageTypeConst.Text;
