@@ -115,25 +115,8 @@ namespace DoDo.Open.Sdk.Services
         /// 个人消息事件-文本消息
         /// </summary>
         /// <param name="input"></param>
-        public virtual void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyText>>> input)
-        {
-
-        }
-
-        /// <summary>
-        /// 个人消息事件-图片消息
-        /// </summary>
-        /// <param name="input"></param>
-        public virtual void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyPicture>>> input)
-        {
-
-        }
-
-        /// <summary>
-        /// 个人消息事件-视频消息
-        /// </summary>
-        /// <param name="input"></param>
-        public virtual void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyVideo>>> input)
+        public virtual void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
+            where T : MessageBodyBase
         {
 
         }
@@ -142,25 +125,8 @@ namespace DoDo.Open.Sdk.Services
         /// 频道消息事件-文本消息
         /// </summary>
         /// <param name="input"></param>
-        public virtual void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyText>>> input)
-        {
-
-        }
-
-        /// <summary>
-        /// 频道消息事件-图片消息
-        /// </summary>
-        /// <param name="input"></param>
-        public virtual void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyPicture>>> input)
-        {
-
-        }
-
-        /// <summary>
-        /// 频道消息事件-视频消息
-        /// </summary>
-        /// <param name="input"></param>
-        public virtual void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyVideo>>> input)
+        public virtual void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
+        where T : MessageBodyBase
         {
 
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
-    public class MessageReactionTarget
+    public class MessageModelReactionTarget
     {
         /// <summary>
         /// 对象类型，0：消息
