@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace DoDo.Open.Sdk.Models.Channels
 {
     public class SetChannelMessageEditInput<T>
-        where T : MessageBase
+        where T : MessageBodyBase
     {
         /// <summary>
         /// 群号

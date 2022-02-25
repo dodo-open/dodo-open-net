@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace DoDo.Open.Sdk.Models.Events
 {
     public class EventBodyChannelMessage<T> : EventBodyBase
-    where T : MessageBase
+    where T : MessageBodyBase
     {
         /// <summary>
         /// 来源群号

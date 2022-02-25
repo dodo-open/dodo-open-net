@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
-    public class MessageEmoji
+    public class MessageBodyText: MessageBodyBase
     {
         /// <summary>
-        /// 表情类型，1：Emoji
+        /// 文本内容
         /// </summary>
-        public int Type { get; set; }
-
-        /// <summary>
-        /// 表情ID
-        /// </summary>
-        public string Id { get; set; }
+        [JsonProperty("content")]
+        public string Content { get; set; }
     }
 }

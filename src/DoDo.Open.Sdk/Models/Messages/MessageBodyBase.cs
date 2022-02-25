@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
-    public class MessageBase
+    public class MessageBodyBase
     {
     }
 }

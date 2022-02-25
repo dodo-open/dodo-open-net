@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace DoDo.Open.Sdk.Models.Personals
 {
     public class SetPersonalMessageSendInput<T>
-        where T : MessageBase
+        where T : MessageBodyBase
     {
         /// <summary>
         /// DoDo号
@@ -20,11 +20,11 @@ namespace DoDo.Open.Sdk.Models.Personals
         {
             get
             {
-                if (MessageBody is MessagePicture)
+                if (MessageBody is MessageBodyPicture)
                 {
                     return MessageTypeConst.Picture;
                 }
-                else if (MessageBody is MessageVideo)
+                else if (MessageBody is MessageBodyVideo)
                 {
                     return MessageTypeConst.Video;
                 }

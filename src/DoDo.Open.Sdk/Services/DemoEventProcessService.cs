@@ -48,7 +48,7 @@ namespace DoDo.Open.Sdk.Services
             Console.WriteLine(message);
         }
 
-        public override void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageText>>> input)
+        public override void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyText>>> input)
         {
             var eventBody = input.Data.EventBody;
             var messageBody = input.Data.EventBody.MessageBody;
@@ -86,6 +86,22 @@ namespace DoDo.Open.Sdk.Services
                 reply += "【个人】置个人视频消息发送\n";
                 reply += "【资源】置资源图片上传\n";
                 reply += "【事件】取WebSocket连接\n";
+            }
+            else if (content.StartsWith("取机器人信息"))
+            {
+                var output = _openApiService.GetBotInfo(new GetBotInfoInput());
+
+                if (output != null)
+                {
+                    reply += $"机器人唯一标识：{output.ClientId}\n";
+                    reply += $"机器人DoDo号：{output.DodoId}\n";
+                    reply += $"机器人昵称：{output.NickName}\n";
+                    reply += $"机器人头像：{output.AvatarUrl}\n";
+                }
+                else
+                {
+                    reply += "调用接口失败！";
+                }
             }
             else if (content.Contains("置机器人群退出"))
             {
@@ -239,10 +255,10 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置频道文本消息发送"))
             {
-                var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageText>
+                var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
                 {
                     ChannelId = eventBody.ChannelId,
-                    MessageBody = new MessageText
+                    MessageBody = new MessageBodyText
                     {
                         Content = "测试文本消息"
                     }
@@ -259,10 +275,10 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置频道图片消息发送"))
             {
-                var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessagePicture>
+                var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyPicture>
                 {
                     ChannelId = eventBody.ChannelId,
-                    MessageBody = new MessagePicture
+                    MessageBody = new MessageBodyPicture
                     {
                         Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
                         Width = 500,
@@ -282,10 +298,10 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置频道视频消息发送"))
             {
-                var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageVideo>
+                var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyVideo>
                 {
                     ChannelId = eventBody.ChannelId,
-                    MessageBody = new MessageVideo
+                    MessageBody = new MessageBodyVideo
                     {
                         Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
                         CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
@@ -305,12 +321,12 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置频道消息编辑"))
             {
-                var output = _openApiService.SetChannelMessageModify(new SetChannelMessageEditInput<MessageText>
+                var output = _openApiService.SetChannelMessageModify(new SetChannelMessageEditInput<MessageBodyText>
                 {
                     IslandId = eventBody.IslandId,
                     ChannelId = eventBody.ChannelId,
                     MessageId = eventBody.MessageId,
-                    MessageBody = new MessageText
+                    MessageBody = new MessageBodyText
                     {
                         Content = "修改后的文本"
                     }
@@ -494,10 +510,10 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置个人文本消息发送"))
             {
-                var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageText>
+                var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
                 {
                     DoDoId = eventBody.DodoId,
-                    MessageBody = new MessageText
+                    MessageBody = new MessageBodyText
                     {
                         Content = "测试文本消息"
                     }
@@ -514,10 +530,10 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置个人图片消息发送"))
             {
-                var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessagePicture>
+                var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyPicture>
                 {
                     DoDoId = eventBody.DodoId,
-                    MessageBody = new MessagePicture
+                    MessageBody = new MessageBodyPicture
                     {
                         Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
                         Width = 500,
@@ -537,10 +553,10 @@ namespace DoDo.Open.Sdk.Services
             }
             else if (content.Contains("置个人视频消息发送"))
             {
-                var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageVideo>
+                var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyVideo>
                 {
                     DoDoId = eventBody.DodoId,
-                    MessageBody = new MessageVideo
+                    MessageBody = new MessageBodyVideo
                     {
                         Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
                         CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
@@ -592,10 +608,10 @@ namespace DoDo.Open.Sdk.Services
 
             if (reply != "")
             {
-                _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageText>
+                _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
                 {
                     ChannelId = eventBody.ChannelId,
-                    MessageBody = new MessageText
+                    MessageBody = new MessageBodyText
                     {
                         Content = reply
                     }
@@ -604,105 +620,105 @@ namespace DoDo.Open.Sdk.Services
 
         }
 
-        public override void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageText>>> input)
+        public override void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyText>>> input)
         {
             var eventBody = input.Data.EventBody;
             var messageBody = input.Data.EventBody.MessageBody;
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageText>
+            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
             {
                 DoDoId = eventBody.DodoId,
-                MessageBody = new MessageText
+                MessageBody = new MessageBodyText
                 {
                     Content = "触发个人消息事件："
                 }
             });
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageText>
+            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
             {
                 DoDoId = eventBody.DodoId,
                 MessageBody = messageBody
             });
         }
 
-        public override void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessagePicture>>> input)
+        public override void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyPicture>>> input)
         {
             var eventBody = input.Data.EventBody;
             var messageBody = input.Data.EventBody.MessageBody;
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageText>
+            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
             {
                 DoDoId = eventBody.DodoId,
-                MessageBody = new MessageText
+                MessageBody = new MessageBodyText
                 {
                     Content = "触发个人消息事件："
                 }
             });
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessagePicture>
+            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyPicture>
             {
                 DoDoId = eventBody.DodoId,
                 MessageBody = messageBody
             });
         }
 
-        public override void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageVideo>>> input)
+        public override void PersonalMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyVideo>>> input)
         {
             var eventBody = input.Data.EventBody;
             var messageBody = input.Data.EventBody.MessageBody;
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageText>
+            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
             {
                 DoDoId = eventBody.DodoId,
-                MessageBody = new MessageText
+                MessageBody = new MessageBodyText
                 {
                     Content = "触发个人消息事件："
                 }
             });
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageVideo>
+            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyVideo>
             {
                 DoDoId = eventBody.DodoId,
                 MessageBody = messageBody
             });
         }
 
-        public override void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePicture>>> input)
+        public override void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyPicture>>> input)
         {
             var eventBody = input.Data.EventBody;
             var messageBody = input.Data.EventBody.MessageBody;
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageText>
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
             {
                 ChannelId = eventBody.ChannelId,
-                MessageBody = new MessageText
+                MessageBody = new MessageBodyText
                 {
                     Content = "触发频道消息事件："
                 }
             });
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessagePicture>
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyPicture>
             {
                 ChannelId = eventBody.ChannelId,
                 MessageBody = messageBody
             });
         }
 
-        public override void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageVideo>>> input)
+        public override void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyVideo>>> input)
         {
             var eventBody = input.Data.EventBody;
             var messageBody = input.Data.EventBody.MessageBody;
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageText>
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
             {
                 ChannelId = eventBody.ChannelId,
-                MessageBody = new MessageText
+                MessageBody = new MessageBodyText
                 {
                     Content = "触发频道消息事件："
                 }
             });
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageVideo>
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyVideo>
             {
                 ChannelId = eventBody.ChannelId,
                 MessageBody = messageBody
@@ -714,10 +730,10 @@ namespace DoDo.Open.Sdk.Services
             var eventBody = input.Data.EventBody;
             var messageBody = input.Data.EventBody;
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageText>
+            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
             {
                 DoDoId = eventBody.DodoId,
-                MessageBody = new MessageText
+                MessageBody = new MessageBodyText
                 {
                     Content = $"触发消息反应事件：{JsonConvert.SerializeObject(messageBody)}"
                 }

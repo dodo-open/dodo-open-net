@@ -50,7 +50,7 @@ namespace DoDo.Open.Sdk.Models.Events
         /// 反应表情
         /// </summary>
         [JsonProperty("reactionEmoji")]
-        public MessageEmoji ReactionEmoji { get; set; }
+        public MessageModelEmoji ReactionEmoji { get; set; }
 
     }
 }

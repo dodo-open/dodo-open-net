@@ -129,7 +129,7 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         public SetChannelMessageSendOutput SetChannelMessageSend<T>(SetChannelMessageSendInput<T> input)
-        where T : MessageBase
+        where T : MessageBodyBase
         {
             var result = BaseRequest<SetChannelMessageSendInput<T>, SetChannelMessageSendOutput>("/api/v1/channel/message/send", input);
 
@@ -141,7 +141,7 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         public SetChannelMessageEditOutput SetChannelMessageModify<T>(SetChannelMessageEditInput<T> input)
-            where T : MessageBase
+            where T : MessageBodyBase
         {
             var result = BaseRequest<SetChannelMessageEditInput<T>, SetChannelMessageEditOutput>("/api/v1/channel/message/edit", input);
 
@@ -255,7 +255,7 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         public SetPersonalMessageSendOutput SetPersonalMessageSend<T>(SetPersonalMessageSendInput<T> input)
-            where T : MessageBase
+            where T : MessageBodyBase
         {
             var result = BaseRequest<SetPersonalMessageSendInput<T>, SetPersonalMessageSendOutput>("/api/v1/personal/message/send", input);
 
