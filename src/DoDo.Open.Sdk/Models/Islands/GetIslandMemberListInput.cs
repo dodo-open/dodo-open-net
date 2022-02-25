@@ -16,12 +16,6 @@ namespace DoDo.Open.Sdk.Models.Islands
         public string IslandId { get; set; }
 
         /// <summary>
-        /// 页码
-        /// </summary>
-        [JsonProperty("pageNo")]
-        public int PageNo { get; set; }
-
-        /// <summary>
         /// 页大小
         /// </summary>
         [JsonProperty("pageSize")]

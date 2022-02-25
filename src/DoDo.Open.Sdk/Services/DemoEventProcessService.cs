@@ -252,7 +252,6 @@ namespace DoDo.Open.Sdk.Services
                     var outputList = _openApiService.GetIslandMemberList(new GetIslandMemberListInput
                     {
                         IslandId = eventBody.IslandId,
-                        PageNo = 1,
                         PageSize = 3,
                         MaxId = 0
                     });

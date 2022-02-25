@@ -161,7 +161,6 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
-
         #region 身份组
 
         /// <summary>
@@ -198,7 +197,6 @@ namespace DoDo.Open.Sdk.Services
         }
 
         #endregion
-
 
         #region 成员
 
