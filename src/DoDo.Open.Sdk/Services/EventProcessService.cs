@@ -106,8 +106,7 @@ namespace DoDo.Open.Sdk.Services
                 {
                     var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>>>(message);
                     if (eventBodyResult == null) return;
-
-                    var eventBody = eventBodyResult.Data.EventBody;
+                    MessageReactionEvent(eventBodyResult);
                 }
             }
         }
