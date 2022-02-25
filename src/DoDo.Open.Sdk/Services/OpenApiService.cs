@@ -91,9 +91,9 @@ namespace DoDo.Open.Sdk.Services
         /// 取群成员列表
         /// </summary>
         /// <param name="input"></param>
-        public List<GetIslandMemberListOutput> GetIslandMemberList(GetIslandMemberListInput input)
+        public GetIslandMemberListOutput GetIslandMemberList(GetIslandMemberListInput input)
         {
-            var result = BaseRequest<GetIslandMemberListInput, List<GetIslandMemberListOutput>>("/api/v1/island/member/list", input);
+            var result = BaseRequest<GetIslandMemberListInput, GetIslandMemberListOutput>("/api/v1/island/member/list", input);
 
             return result;
         }

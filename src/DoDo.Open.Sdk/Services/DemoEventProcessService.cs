@@ -171,12 +171,13 @@ namespace DoDo.Open.Sdk.Services
                 {
                     IslandId = eventBody.IslandId,
                     PageNo = 1,
-                    PageSize = 100
+                    PageSize = 3,
+                    MaxId = 0
                 });
 
                 if (outputList != null)
                 {
-                    foreach (var output in outputList)
+                    foreach (var output in outputList.List)
                     {
                         reply += $"DoDo号：{output.DodoId}\n";
                         reply += $"在群昵称：{output.NickName}\n";

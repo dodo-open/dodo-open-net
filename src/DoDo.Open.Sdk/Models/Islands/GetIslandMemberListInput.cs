@@ -26,5 +26,11 @@ namespace DoDo.Open.Sdk.Models.Islands
         /// </summary>
         [JsonProperty("pageSize")]
         public int PageSize { get; set; }
+
+        /// <summary>
+        /// 上一页最大ID值，为提升分页查询性能，需要传入上一页查询记录中的最大ID值，第一页时请传0
+        /// </summary>
+        [JsonProperty("maxId")]
+        public int MaxId { get; set; }
     }
 }

@@ -10,6 +10,19 @@ namespace DoDo.Open.Sdk.Models.Islands
     public class GetIslandMemberListOutput
     {
         /// <summary>
+        /// 最大ID值
+        /// </summary>
+        public long MaxId { get; set; }
+
+        /// <summary>
+        /// 数据列表
+        /// </summary>
+        public List<GetIslandMemberListItem> List { get; set; }
+    }
+
+    public class GetIslandMemberListItem
+    {
+        /// <summary>
         /// DoDo号
         /// </summary>
         [JsonProperty("dodoId")]
