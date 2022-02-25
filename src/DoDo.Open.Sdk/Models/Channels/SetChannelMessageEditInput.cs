@@ -7,18 +7,6 @@ namespace DoDo.Open.Sdk.Models.Channels
         where T : MessageBodyBase
     {
         /// <summary>
-        /// 群号
-        /// </summary>
-        [JsonProperty("islandId")]
-        public string IslandId { get; set; }
-
-        /// <summary>
-        /// 频道号
-        /// </summary>
-        [JsonProperty("channelId")]
-        public string ChannelId { get; set; }
-
-        /// <summary>
         /// 预更新消息ID
         /// </summary>
         [JsonProperty("messageId")]

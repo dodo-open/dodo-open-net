@@ -389,8 +389,6 @@ namespace DoDo.Open.Sdk.Services
                 {
                     var output = _openApiService.SetChannelMessageModify(new SetChannelMessageEditInput<MessageBodyText>
                     {
-                        IslandId = eventBody.IslandId,
-                        ChannelId = eventBody.ChannelId,
                         MessageId = eventBody.MessageId,
                         MessageBody = new MessageBodyText
                         {
