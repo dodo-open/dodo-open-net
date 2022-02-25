@@ -15,7 +15,7 @@ namespace DoDo.Open.Sdk.Models.Islands
         public long MaxId { get; set; }
 
         /// <summary>
-        /// 数据列表
+        /// 成员列表
         /// </summary>
         public List<GetIslandMemberListItem> List { get; set; }
     }

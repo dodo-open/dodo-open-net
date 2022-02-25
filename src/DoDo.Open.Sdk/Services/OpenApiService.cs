@@ -201,23 +201,23 @@ namespace DoDo.Open.Sdk.Services
         #region 成员
 
         /// <summary>
-        /// 取成员身份组列表
-        /// </summary>
-        /// <param name="input"></param>
-        public List<GetMemberRoleListOutput> GetMemberRoleList(GetMemberRoleListInput input)
-        {
-            var result = BaseRequest<GetMemberRoleListInput, List<GetMemberRoleListOutput>>("/api/v1/member/role/list", input);
-
-            return result;
-        }
-
-        /// <summary>
         /// 取成员信息
         /// </summary>
         /// <param name="input"></param>
         public GetMemberInfoOutput GetMemberInfo(GetMemberInfoInput input)
         {
             var result = BaseRequest<GetMemberInfoInput, GetMemberInfoOutput>("/api/v1/member/info", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取成员身份组列表
+        /// </summary>
+        /// <param name="input"></param>
+        public List<GetMemberRoleListOutput> GetMemberRoleList(GetMemberRoleListInput input)
+        {
+            var result = BaseRequest<GetMemberRoleListInput, List<GetMemberRoleListOutput>>("/api/v1/member/role/list", input);
 
             return result;
         }
