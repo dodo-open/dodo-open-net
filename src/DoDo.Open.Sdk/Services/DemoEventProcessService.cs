@@ -185,25 +185,6 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置成员禁言"))
-                {
-                    var output = _openApiService.SetMemberBan(new SetMemberBanInput
-                    {
-                        IslandId = eventBody.IslandId,
-                        DoDoId = eventBody.DodoId,
-                        Duration = 30,
-                        Reason = "禁言测试"
-                    });
-
-                    if (output)
-                    {
-                        reply += "置成员禁言成功！";
-                    }
-                    else
-                    {
-                        reply += "调用接口失败！";
-                    }
-                }
                 else if (content.Contains("取群列表"))
                 {
                     var outputList = _openApiService.GetIslandList(new GetIslandListInput());
@@ -395,7 +376,7 @@ namespace DoDo.Open.Sdk.Services
                         }
                     });
 
-                    if (output != null)
+                    if (output)
                     {
                         reply += "置频道消息编辑成功！";
                     }
@@ -681,7 +662,7 @@ namespace DoDo.Open.Sdk.Services
                     });
                 }
             }
-            if (eventBody.MessageBody is MessageBodyPicture messageBodyPicture)
+            else if (eventBody.MessageBody is MessageBodyPicture messageBodyPicture)
             {
                 var messageBody = messageBodyPicture;
 
@@ -700,7 +681,7 @@ namespace DoDo.Open.Sdk.Services
                     MessageBody = messageBody
                 });
             }
-            if (eventBody.MessageBody is MessageBodyVideo messageBodyVideo)
+            else if (eventBody.MessageBody is MessageBodyVideo messageBodyVideo)
             {
                 var messageBody = messageBodyVideo;
 
@@ -719,7 +700,6 @@ namespace DoDo.Open.Sdk.Services
                     MessageBody = messageBody
                 });
             }
-
         }
 
         public override void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)

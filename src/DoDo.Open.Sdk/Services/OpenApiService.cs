@@ -140,10 +140,10 @@ namespace DoDo.Open.Sdk.Services
         /// 置频道消息编辑
         /// </summary>
         /// <param name="input"></param>
-        public SetChannelMessageEditOutput SetChannelMessageEdit<T>(SetChannelMessageEditInput<T> input)
+        public bool SetChannelMessageEdit<T>(SetChannelMessageEditInput<T> input)
             where T : MessageBodyBase
         {
-            var result = BaseRequest<SetChannelMessageEditInput<T>, SetChannelMessageEditOutput>("/api/v1/channel/message/edit", input);
+            var result = BaseRequest("/api/v1/channel/message/edit", input);
 
             return result;
         }
