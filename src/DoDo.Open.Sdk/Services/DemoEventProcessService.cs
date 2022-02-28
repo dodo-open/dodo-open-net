@@ -132,15 +132,15 @@ namespace DoDo.Open.Sdk.Services
                     reply += "【机器人】置机器人群退出\n";
                     reply += "【群】取群列表\n";
                     reply += "【群】取群信息\n";
-                    reply += "【群】取群成员列表 Error\n";
+                    reply += "【群】取群成员列表\n";
                     reply += "【频道】取频道列表\n";
                     reply += "【频道】取频道信息\n";
                     reply += "【频道】置频道文本消息发送\n";
                     reply += "【频道】置频道图片消息发送\n";
                     reply += "【频道】置频道视频消息发送\n";
-                    reply += "【频道】置频道消息编辑 Error\n";
+                    reply += "【频道】置频道消息编辑\n";
                     reply += "【频道】置频道消息撤回\n";
-                    reply += "【身份组】取身份组列表 Error\n";
+                    reply += "【身份组】取身份组列表\n";
                     reply += "【身份组】置身份组成员新增 ID\n";
                     reply += "【身份组】置身份组成员移除 ID\n";
                     reply += "【成员】取成员信息\n";
@@ -367,9 +367,18 @@ namespace DoDo.Open.Sdk.Services
                 }
                 else if (content.Contains("置频道消息编辑"))
                 {
+                    var outputMessage = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+                    {
+                        ChannelId = eventBody.ChannelId,
+                        MessageBody = new MessageBodyText
+                        {
+                            Content = "测试文本消息"
+                        }
+                    });
+
                     var output = _openApiService.SetChannelMessageEdit(new SetChannelMessageEditInput<MessageBodyText>
                     {
-                        MessageId = eventBody.MessageId,
+                        MessageId = outputMessage.MessageId,
                         MessageBody = new MessageBodyText
                         {
                             Content = "修改后的文本"
