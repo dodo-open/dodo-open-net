@@ -134,8 +134,6 @@ namespace DoDo.Open.Sdk.Services
                                 var json = Encoding.UTF8.GetString(buffer.Array, 0, receive.Count);
                                 if (!string.IsNullOrWhiteSpace(json))
                                 {
-                                    Console.WriteLine($"接收消息：{json}\n");
-
                                     if (_openEventOptions.IsAsync)
                                     {
                                         Task.Factory.StartNew(() =>

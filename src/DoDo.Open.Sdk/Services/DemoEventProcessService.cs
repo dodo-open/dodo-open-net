@@ -228,35 +228,6 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("取群成员列表"))
-                {
-                    var outputList = _openApiService.GetIslandMemberList(new GetIslandMemberListInput
-                    {
-                        IslandId = eventBody.IslandId,
-                        PageSize = 3,
-                        MaxId = 0
-                    });
-
-                    if (outputList != null)
-                    {
-                        foreach (var output in outputList.List)
-                        {
-                            reply += $"DoDo号：{output.DodoId}\n";
-                            reply += $"在群昵称：{output.NickName}\n";
-                            reply += $"头像：{output.AvatarUrl}\n";
-                            reply += $"加群时间：{output.JoinTime}\n";
-                            reply += $"性别：{output.Sex}\n";
-                            reply += $"等级：{output.Level}\n";
-                            reply += $"是否机器人：{output.IsBot}\n";
-                            reply += "\n";
-                        }
-                    }
-                    else
-                    {
-                        reply += "调用接口失败！";
-                    }
-
-                }
                 else if (content.Contains("取频道列表"))
                 {
                     var outputList = _openApiService.GetChannelList(new GetChannelListInput
@@ -475,6 +446,34 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
 
+                }
+                else if (content.Contains("取成员列表"))
+                {
+                    var outputList = _openApiService.GetMemberList(new GetMemberListInput
+                    {
+                        IslandId = eventBody.IslandId,
+                        PageSize = 3,
+                        MaxId = 0
+                    });
+
+                    if (outputList != null)
+                    {
+                        foreach (var output in outputList.List)
+                        {
+                            reply += $"DoDo号：{output.DodoId}\n";
+                            reply += $"在群昵称：{output.NickName}\n";
+                            reply += $"头像：{output.AvatarUrl}\n";
+                            reply += $"加群时间：{output.JoinTime}\n";
+                            reply += $"性别：{output.Sex}\n";
+                            reply += $"等级：{output.Level}\n";
+                            reply += $"是否机器人：{output.IsBot}\n";
+                            reply += "\n";
+                        }
+                    }
+                    else
+                    {
+                        reply += "调用接口失败！";
+                    }
                 }
                 else if (content.Contains("取成员信息"))
                 {

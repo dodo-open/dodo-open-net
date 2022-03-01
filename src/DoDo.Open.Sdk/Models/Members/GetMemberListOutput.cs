@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace DoDo.Open.Sdk.Models.Islands
+namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetIslandMemberListOutput
+    public class GetMemberListOutput
     {
         /// <summary>
         /// 最大ID值
@@ -17,10 +13,10 @@ namespace DoDo.Open.Sdk.Models.Islands
         /// <summary>
         /// 成员列表
         /// </summary>
-        public List<GetIslandMemberListItem> List { get; set; }
+        public List<GetMemberListItem> List { get; set; }
     }
 
-    public class GetIslandMemberListItem
+    public class GetMemberListItem
     {
         /// <summary>
         /// DoDo号

@@ -40,7 +40,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="message"></param>
         internal virtual void Received(string message)
         {
-            Console.WriteLine($"{message}\n");
+            Console.WriteLine($"接收事件：{message}\n");
 
             var eventSubjectResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBase>>(message);
             if (eventSubjectResult == null) return;

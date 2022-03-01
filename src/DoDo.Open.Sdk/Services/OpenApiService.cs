@@ -86,18 +86,7 @@ namespace DoDo.Open.Sdk.Services
 
             return result;
         }
-
-        /// <summary>
-        /// 取群成员列表
-        /// </summary>
-        /// <param name="input"></param>
-        public GetIslandMemberListOutput GetIslandMemberList(GetIslandMemberListInput input)
-        {
-            var result = BaseRequest<GetIslandMemberListInput, GetIslandMemberListOutput>("/api/v1/island/member/list", input);
-
-            return result;
-        }
-
+        
         #endregion
 
         #region 频道
@@ -199,6 +188,17 @@ namespace DoDo.Open.Sdk.Services
         #endregion
 
         #region 成员
+
+        /// <summary>
+        /// 取成员列表
+        /// </summary>
+        /// <param name="input"></param>
+        public GetMemberListOutput GetMemberList(GetMemberListInput input)
+        {
+            var result = BaseRequest<GetMemberListInput, GetMemberListOutput>("/api/v1/member/list", input);
+
+            return result;
+        }
 
         /// <summary>
         /// 取成员信息

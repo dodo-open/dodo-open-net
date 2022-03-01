@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace DoDo.Open.Sdk.Models.Islands
+namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetIslandMemberListInput
+    public class GetMemberListInput
     {
         /// <summary>
         /// 群号
