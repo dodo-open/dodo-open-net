@@ -714,14 +714,30 @@ namespace DoDo.Open.Sdk.Services
         public override void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)
         {
             var eventBody = input.Data.EventBody;
-            var messageBody = input.Data.EventBody;
 
-            _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
             {
-                DoDoId = eventBody.DodoId,
+                ChannelId = eventBody.ChannelId,
                 MessageBody = new MessageBodyText
                 {
-                    Content = $"触发消息反应事件：{JsonConvert.SerializeObject(messageBody)}"
+                    Content = "触发消息反应事件"
+                }
+            });
+
+            var reply = "";
+
+            reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
+            reply += $"反应对象ID：{eventBody.ReactionTarget.Id}\n";
+            reply += $"反应表情类型：{eventBody.ReactionEmoji.Type}\n";
+            reply += $"反应表情ID：{eventBody.ReactionEmoji.Id}\n";
+            reply += $"反应类型：{eventBody.ReactionType}\n";
+
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
                 }
             });
         }
