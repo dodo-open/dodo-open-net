@@ -334,8 +334,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
                             CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
-                            Duration = 100,
-                            Size = 100
+                            Duration = 0,
+                            Size = 0
                         }
                     });
 
@@ -645,8 +645,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
                             CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
-                            Duration = 100,
-                            Size = 100
+                            Duration = 0,
+                            Size = 0
                         }
                     });
 
