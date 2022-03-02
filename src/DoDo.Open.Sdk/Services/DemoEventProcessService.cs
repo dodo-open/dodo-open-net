@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using DoDo.Open.Sdk.Models.Bots;
@@ -12,7 +11,6 @@ using DoDo.Open.Sdk.Models.Personals;
 using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.Roles;
 using DoDo.Open.Sdk.Models.WebSockets;
-using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Services
 {
@@ -30,22 +28,22 @@ namespace DoDo.Open.Sdk.Services
 
         public override void Connected(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine($"{message}\n");
         }
 
         public override void Disconnected(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine($"{message}\n");
         }
 
         public override void Reconnected(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine($"{message}\n");
         }
 
         public override void Exception(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine($"{message}\n");
         }
 
         public override void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
@@ -132,7 +130,6 @@ namespace DoDo.Open.Sdk.Services
                     reply += "【机器人】置机器人群退出\n";
                     reply += "【群】取群列表\n";
                     reply += "【群】取群信息\n";
-                    reply += "【群】取群成员列表\n";
                     reply += "【频道】取频道列表\n";
                     reply += "【频道】取频道信息\n";
                     reply += "【频道】置频道文本消息发送\n";
@@ -143,6 +140,7 @@ namespace DoDo.Open.Sdk.Services
                     reply += "【身份组】取身份组列表\n";
                     reply += "【身份组】置身份组成员新增 ID\n";
                     reply += "【身份组】置身份组成员移除 ID\n";
+                    reply += "【成员】取成员列表\n";
                     reply += "【成员】取成员信息\n";
                     reply += "【成员】取成员身份组列表\n";
                     reply += "【成员】置成员昵称\n";
@@ -191,14 +189,21 @@ namespace DoDo.Open.Sdk.Services
 
                     if (outputList != null)
                     {
-                        foreach (var output in outputList)
+                        if (outputList.Count > 0)
                         {
-                            reply += $"群号：{output.IslandId}\n";
-                            reply += $"群名称：{output.IslandName}\n";
-                            reply += $"群头像：{output.CoverUrl}\n";
-                            reply += $"系统公告频道号：{output.SystemChannelId}\n";
-                            reply += $"进群默认频道号：{output.DefaultChannelId}\n";
-                            reply += "\n";
+                            foreach (var output in outputList)
+                            {
+                                reply += $"群号：{output.IslandId}\n";
+                                reply += $"群名称：{output.IslandName}\n";
+                                reply += $"群头像：{output.CoverUrl}\n";
+                                reply += $"系统公告频道号：{output.SystemChannelId}\n";
+                                reply += $"进群默认频道号：{output.DefaultChannelId}\n";
+                                reply += "\n";
+                            }
+                        }
+                        else
+                        {
+                            reply += "暂无列表数据！";
                         }
                     }
                     else
@@ -237,12 +242,19 @@ namespace DoDo.Open.Sdk.Services
 
                     if (outputList != null)
                     {
-                        foreach (var output in outputList)
+                        if (outputList.Count > 0)
                         {
-                            reply += $"频道号：{output.ChannelId}\n";
-                            reply += $"频道名称：{output.ChannelName}\n";
-                            reply += $"默认频道标识：{output.DefaultFlag}\n";
-                            reply += "\n";
+                            foreach (var output in outputList)
+                            {
+                                reply += $"频道号：{output.ChannelId}\n";
+                                reply += $"频道名称：{output.ChannelName}\n";
+                                reply += $"默认频道标识：{output.DefaultFlag}\n";
+                                reply += "\n";
+                            }
+                        }
+                        else
+                        {
+                            reply += "暂无列表数据！";
                         }
                     }
                     else
@@ -393,11 +405,18 @@ namespace DoDo.Open.Sdk.Services
 
                     if (outputList != null)
                     {
-                        foreach (var output in outputList)
+                        if (outputList.Count > 0)
                         {
-                            reply += $"身份组ID：{output.RoleId}\n";
-                            reply += $"身份组名称：{output.RoleName}\n";
-                            reply += "\n";
+                            foreach (var output in outputList)
+                            {
+                                reply += $"身份组ID：{output.RoleId}\n";
+                                reply += $"身份组名称：{output.RoleName}\n";
+                                reply += "\n";
+                            }
+                        }
+                        else
+                        {
+                            reply += "暂无列表数据！";
                         }
                     }
                     else
@@ -456,18 +475,25 @@ namespace DoDo.Open.Sdk.Services
                         MaxId = 0
                     });
 
-                    if (outputList != null)
+                    if (outputList?.List != null)
                     {
-                        foreach (var output in outputList.List)
+                        if (outputList.List.Count > 0)
                         {
-                            reply += $"DoDo号：{output.DodoId}\n";
-                            reply += $"在群昵称：{output.NickName}\n";
-                            reply += $"头像：{output.AvatarUrl}\n";
-                            reply += $"加群时间：{output.JoinTime}\n";
-                            reply += $"性别：{output.Sex}\n";
-                            reply += $"等级：{output.Level}\n";
-                            reply += $"是否机器人：{output.IsBot}\n";
-                            reply += "\n";
+                            foreach (var output in outputList.List)
+                            {
+                                reply += $"DoDo号：{output.DodoId}\n";
+                                reply += $"在群昵称：{output.NickName}\n";
+                                reply += $"头像：{output.AvatarUrl}\n";
+                                reply += $"加群时间：{output.JoinTime}\n";
+                                reply += $"性别：{output.Sex}\n";
+                                reply += $"等级：{output.Level}\n";
+                                reply += $"是否机器人：{output.IsBot}\n";
+                                reply += "\n";
+                            }
+                        }
+                        else
+                        {
+                            reply += "暂无列表数据！";
                         }
                     }
                     else
@@ -510,11 +536,18 @@ namespace DoDo.Open.Sdk.Services
 
                     if (outputList != null)
                     {
-                        foreach (var output in outputList)
+                        if (outputList.Count > 0)
                         {
-                            reply += $"身份组ID：{output.RoleId}\n";
-                            reply += $"身份组名称：{output.RoleName}\n";
-                            reply += "\n";
+                            foreach (var output in outputList)
+                            {
+                                reply += $"身份组ID：{output.RoleId}\n";
+                                reply += $"身份组名称：{output.RoleName}\n";
+                                reply += "\n";
+                            }
+                        }
+                        else
+                        {
+                            reply += "暂无列表数据！";
                         }
                     }
                     else

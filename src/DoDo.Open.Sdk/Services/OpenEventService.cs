@@ -69,6 +69,9 @@ namespace DoDo.Open.Sdk.Services
                     return;
                 }
 
+                Console.WriteLine($"开始连接：{getWebSocketConnectionOutput.Endpoint}");
+
+
                 for (var i = 0; i < 3; i++)
                 {
                     try
