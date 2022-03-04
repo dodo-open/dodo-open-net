@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.Personals
 {
-    public class SendChannelMessageOutput
+    public class SetPersonalMessageSendOutput
     {
         /// <summary>
         /// 消息ID
@@ -16,3 +16,4 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string MessageId { get; set; }
     }
 }
+       

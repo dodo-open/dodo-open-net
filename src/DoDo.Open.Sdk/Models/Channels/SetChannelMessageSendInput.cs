@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Channels
 {
-    public class SendChannelMessageInput<T>
-    where T : MessageBase
+    public class SetChannelMessageSendInput<T>
+    where T : MessageBodyBase
     {
         /// <summary>
         /// 频道号
@@ -20,11 +20,11 @@ namespace DoDo.Open.Sdk.Models.Channels
         {
             get
             {
-                if (MessageBody is MessagePicture)
+                if (MessageBody is MessageBodyPicture)
                 {
                     return MessageTypeConst.Picture;
                 }
-                else if (MessageBody is MessageVideo)
+                else if (MessageBody is MessageBodyVideo)
                 {
                     return MessageTypeConst.Video;
                 }

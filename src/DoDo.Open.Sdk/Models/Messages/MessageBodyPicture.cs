@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace DoDo.Open.Sdk.Models.Resources
+namespace DoDo.Open.Sdk.Models.Messages
 {
-    public class UploadResourcePictureOutput
+    public class MessageBodyPicture : MessageBodyBase
     {
         /// <summary>
         /// 图片链接
@@ -26,5 +26,11 @@ namespace DoDo.Open.Sdk.Models.Resources
         /// </summary>
         [JsonProperty("height")]
         public int? Height { get; set; }
+
+        /// <summary>
+        /// 是否原图，0：压缩图，1：原图
+        /// </summary>
+        [JsonProperty("isOriginal")]
+        public int? IsOriginal { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="message"></param>
         internal virtual void Received(string message)
         {
-            Console.WriteLine($"{message}\n");
+            Console.WriteLine($"接收事件：{message}\n");
 
             var eventSubjectResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBase>>(message);
             if (eventSubjectResult == null) return;
@@ -50,58 +50,92 @@ namespace DoDo.Open.Sdk.Services
                 var eventSubjectDataResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyBase>>>(message);
                 if (eventSubjectDataResult == null) return;
 
-                if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelMessage)
+                if (eventSubjectDataResult.Data.EventType == EventTypeConst.PersonalMessage)
                 {
-                    var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBase>>>>(message);
+                    var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyBase>>>>(message);
                     if (eventBodyResult == null) return;
 
                     var eventBody = eventBodyResult.Data.EventBody;
 
                     if (eventBody.MessageType == MessageTypeConst.Text)
                     {
-                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageText>>>>(message);
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyText>>>>(message);
+                        if (messageResult == null) return;
+                        PersonalMessageEvent(messageResult);
+                    }
+                    else if (eventBody.MessageType == MessageTypeConst.Picture)
+                    {
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyPicture>>>>(message);
+                        if (messageResult == null) return;
+                        PersonalMessageEvent(messageResult);
+                    }
+                    else if (eventBody.MessageType == MessageTypeConst.Video)
+                    {
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyVideo>>>>(message);
+                        if (messageResult == null) return;
+                        PersonalMessageEvent(messageResult);
+                    }
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelMessage)
+                {
+                    var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyBase>>>>(message);
+                    if (eventBodyResult == null) return;
+
+                    var eventBody = eventBodyResult.Data.EventBody;
+
+                    if (eventBody.MessageType == MessageTypeConst.Text)
+                    {
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyText>>>>(message);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
                     else if (eventBody.MessageType == MessageTypeConst.Picture)
                     {
-                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePicture>>>>(message);
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyPicture>>>>(message);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
                     else if (eventBody.MessageType == MessageTypeConst.Video)
                     {
-                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageVideo>>>>(message);
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyVideo>>>>(message);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
                 }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MessageReaction)
+                {
+                    var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>>>(message);
+                    if (eventBodyResult == null) return;
+                    MessageReactionEvent(eventBodyResult);
+                }
             }
+        }
+
+        /// <summary>
+        /// 个人消息事件-文本消息
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
+            where T : MessageBodyBase
+        {
+
         }
 
         /// <summary>
         /// 频道消息事件-文本消息
         /// </summary>
         /// <param name="input"></param>
-        public virtual void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageText>>> input)
+        public virtual void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
+        where T : MessageBodyBase
         {
 
         }
 
         /// <summary>
-        /// 频道消息事件-图片消息
+        /// 消息反应事件
         /// </summary>
         /// <param name="input"></param>
-        public virtual void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessagePicture>>> input)
-        {
-
-        }
-
-        /// <summary>
-        /// 频道消息事件-视频消息
-        /// </summary>
-        /// <param name="input"></param>
-        public virtual void ChannelMessageEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageVideo>>> input)
+        public virtual void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)
         {
 
         }

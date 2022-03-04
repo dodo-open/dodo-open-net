@@ -1,20 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetMemberInfoOutput
+    public class GetMemberListOutput
     {
         /// <summary>
-        /// 群号
+        /// 最大ID值
         /// </summary>
-        [JsonProperty("islandId")]
-        public string IslandId { get; set; }
+        public long MaxId { get; set; }
 
+        /// <summary>
+        /// 成员列表
+        /// </summary>
+        public List<GetMemberListItem> List { get; set; }
+    }
+
+    public class GetMemberListItem
+    {
         /// <summary>
         /// DoDo号
         /// </summary>

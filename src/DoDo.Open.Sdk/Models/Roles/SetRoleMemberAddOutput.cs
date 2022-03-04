@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoDo.Open.Sdk.Models.Messages
+namespace DoDo.Open.Sdk.Models.Roles
 {
-    public class MessageBase
+    public class SetRoleMemberAddOutput
     {
     }
 }

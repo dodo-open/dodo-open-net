@@ -23,7 +23,7 @@ namespace DoDo.Open.Sdk.Models.Bots
         public string NickName { get; set; }
 
         /// <summary>
-        /// 机器人图标
+        /// 机器人头像
         /// </summary>
         [JsonProperty("avatarUrl")]
         public string AvatarUrl { get; set; }

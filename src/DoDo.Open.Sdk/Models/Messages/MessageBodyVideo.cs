@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
-    public class MessageVideo: MessageBase
+    public class MessageBodyVideo: MessageBodyBase
     {
         /// <summary>
         /// 视频链接

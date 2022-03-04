@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.Members
 {
-    public class WithdrawChannelMessageOutput
+    public class SetMemberNickOutput
     {
     }
 }

@@ -17,5 +17,10 @@ namespace DoDo.Open.Sdk.Models.Events
         /// 频道消息事件
         /// </summary>
         public static int ChannelMessage = 2001;
+
+        /// <summary>
+        /// 消息反应事件
+        /// </summary>
+        public static int MessageReaction = 3001;
     }
 }

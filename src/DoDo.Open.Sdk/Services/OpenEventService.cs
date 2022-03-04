@@ -69,6 +69,9 @@ namespace DoDo.Open.Sdk.Services
                     return;
                 }
 
+                Console.WriteLine($"开始连接：{getWebSocketConnectionOutput.Endpoint}");
+
+
                 for (var i = 0; i < 3; i++)
                 {
                     try
@@ -134,14 +137,11 @@ namespace DoDo.Open.Sdk.Services
                                 var json = Encoding.UTF8.GetString(buffer.Array, 0, receive.Count);
                                 if (!string.IsNullOrWhiteSpace(json))
                                 {
-                                    Console.WriteLine($"接收消息：{json}\n");
-
                                     if (_openEventOptions.IsAsync)
                                     {
                                         Task.Factory.StartNew(() =>
                                         {
                                             _eventProcessService.Received(json);
-                                            Thread.Sleep(10000);
                                         });
                                     }
                                     else
