@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <VersionPrefix>1.2.0</VersionPrefix>
     <Description>DoDo开放平台官方 .Net SDK</Description>
     <Authors>dodo-open,Rhyheart</Authors>
     <PackageProjectUrl>https://github.com/dodo-open/dodo-open-net</PackageProjectUrl>
