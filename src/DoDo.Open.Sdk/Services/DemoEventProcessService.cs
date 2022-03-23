@@ -519,6 +519,8 @@ namespace DoDo.Open.Sdk.Services
                         reply += $"性别：{output.Sex}\n";
                         reply += $"等级：{output.Level}\n";
                         reply += $"是否机器人：{output.IsBot}\n";
+                        reply += $"在线设备：{output.OnlineDevice}\n";
+                        reply += $"在线状态：{output.OnlineStatus}\n";
                     }
                     else
                     {
