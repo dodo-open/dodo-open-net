@@ -248,7 +248,10 @@ namespace DoDo.Open.Sdk.Services
                             {
                                 reply += $"频道号：{output.ChannelId}\n";
                                 reply += $"频道名称：{output.ChannelName}\n";
+                                reply += $"频道类型：{output.ChannelType}\n";
                                 reply += $"默认频道标识：{output.DefaultFlag}\n";
+                                reply += $"分组ID：{output.GroupId}\n";
+                                reply += $"分组名称：{output.GroupName}\n";
                                 reply += "\n";
                             }
                         }
@@ -274,7 +277,10 @@ namespace DoDo.Open.Sdk.Services
                     {
                         reply += $"频道号：{output.ChannelId}\n";
                         reply += $"频道名称：{output.ChannelName}\n";
+                        reply += $"频道类型：{output.ChannelType}\n";
                         reply += $"默认频道标识：{output.DefaultFlag}\n";
+                        reply += $"分组ID：{output.GroupId}\n";
+                        reply += $"分组名称：{output.GroupName}\n";
                         reply += "\n";
                     }
                     else
