@@ -1,34 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
-    public class MessageBodyVideo: MessageBodyBase
+    public class MessageBodyFile : MessageBodyBase
     {
         /// <summary>
-        /// 视频链接
+        /// 文件链接
         /// </summary>
         [JsonProperty("url")]
         public string Url { get; set; }
 
         /// <summary>
-        /// 封面链接
+        /// 文件名称
         /// </summary>
-        [JsonProperty("coverUrl")]
-        public string CoverUrl { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
         /// <summary>
-        /// 视频时长
-        /// </summary>
-        [JsonProperty("duration")]
-        public long? Duration { get; set; }
-
-        /// <summary>
-        /// 视频大小
+        /// 文件大小
         /// </summary>
         [JsonProperty("size")]
         public long? Size { get; set; }

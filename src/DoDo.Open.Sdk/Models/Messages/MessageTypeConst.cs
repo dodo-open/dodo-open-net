@@ -22,5 +22,10 @@ namespace DoDo.Open.Sdk.Models.Messages
         /// 视频消息
         /// </summary>
         public static int Video = 3;
+
+        /// <summary>
+        /// 文件消息
+        /// </summary>
+        public static int File = 5;
     }
 }

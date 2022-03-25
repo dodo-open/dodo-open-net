@@ -101,6 +101,12 @@ namespace DoDo.Open.Sdk.Services
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
+                    else if (eventBody.MessageType == MessageTypeConst.File)
+                    {
+                        var messageResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyFile>>>>(message);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
                 }
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MessageReaction)
                 {
