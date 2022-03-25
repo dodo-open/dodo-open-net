@@ -17,7 +17,7 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string ChannelName { get; set; }
 
         /// <summary>
-        /// 频道类型，1：文字频道，2：语音频道，3：帖子频道，4：链接频道
+        /// 频道类型，1：文字频道，2：语音频道，4：帖子频道，5：链接频道，6：资料频道
         /// </summary>
         [JsonProperty("channelType")]
         public int ChannelType { get; set; }
