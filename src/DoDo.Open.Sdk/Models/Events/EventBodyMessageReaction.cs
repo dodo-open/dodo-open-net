@@ -29,18 +29,6 @@ namespace DoDo.Open.Sdk.Models.Events
         public string DodoId { get; set; }
 
         /// <summary>
-        /// 个人信息
-        /// </summary>
-        [JsonProperty("personal")]
-        public MessageModelPersonal Personal { get; set; }
-
-        /// <summary>
-        /// 成员信息
-        /// </summary>
-        [JsonProperty("member")]
-        public MessageModelMember Member { get; set; }
-
-        /// <summary>
         /// 反应对象
         /// </summary>
         [JsonProperty("reactionTarget")]
