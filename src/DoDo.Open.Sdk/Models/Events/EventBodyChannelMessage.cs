@@ -42,6 +42,12 @@ namespace DoDo.Open.Sdk.Models.Events
         public MessageModelMember Member { get; set; }
 
         /// <summary>
+        /// 回复信息
+        /// </summary>
+        [JsonProperty("reference")]
+        public MessageModelReference Reference { get; set; }
+
+        /// <summary>
         /// 消息ID
         /// </summary>
         [JsonProperty("messageId")]
@@ -58,11 +64,5 @@ namespace DoDo.Open.Sdk.Models.Events
         /// </summary>
         [JsonProperty("messageBody")]
         public T MessageBody { get; set; }
-
-        /// <summary>
-        /// 引用消息ID
-        /// </summary>
-        [JsonProperty("referencedMessageId")]
-        public string ReferencedMessageId { get; set; }
     }
 }
