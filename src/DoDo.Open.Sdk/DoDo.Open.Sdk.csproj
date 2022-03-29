@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <VersionPrefix>1.2.3</VersionPrefix>
+    <VersionPrefix>1.2.4</VersionPrefix>
     <Description>DoDo开放平台官方 .Net SDK</Description>
     <Authors>dodo-open,Rhyheart</Authors>
     <PackageProjectUrl>https://github.com/dodo-open/dodo-open-net</PackageProjectUrl>
@@ -10,6 +10,7 @@
     <PackageTags>dodo,dodo-open,bot,sdk</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
