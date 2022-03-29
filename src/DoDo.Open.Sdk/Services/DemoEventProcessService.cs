@@ -59,7 +59,7 @@ namespace DoDo.Open.Sdk.Services
                     DoDoId = eventBody.DodoId,
                     MessageBody = new MessageBodyText
                     {
-                        Content = "触发个人消息事件-文本"
+                        Content = "触发个人消息事件-文本消息"
                     }
                 });
 
@@ -78,7 +78,7 @@ namespace DoDo.Open.Sdk.Services
                     DoDoId = eventBody.DodoId,
                     MessageBody = new MessageBodyText
                     {
-                        Content = "触发个人消息事件-图片"
+                        Content = "触发个人消息事件-图片消息"
                     }
                 });
 
@@ -97,7 +97,7 @@ namespace DoDo.Open.Sdk.Services
                     DoDoId = eventBody.DodoId,
                     MessageBody = new MessageBodyText
                     {
-                        Content = "触发个人消息事件-视频"
+                        Content = "触发个人消息事件-视频消息"
                     }
                 });
 
@@ -113,12 +113,13 @@ namespace DoDo.Open.Sdk.Services
         {
             var eventBody = input.Data.EventBody;
 
+            var reply = "";
+
             if (eventBody.MessageBody is MessageBodyText messageBodyText)
             {
                 var messageBody = messageBodyText;
 
                 var content = messageBody.Content;
-                var reply = "";
 
                 Console.WriteLine($"\n【{content}】");
 
@@ -248,7 +249,10 @@ namespace DoDo.Open.Sdk.Services
                             {
                                 reply += $"频道号：{output.ChannelId}\n";
                                 reply += $"频道名称：{output.ChannelName}\n";
+                                reply += $"频道类型：{output.ChannelType}\n";
                                 reply += $"默认频道标识：{output.DefaultFlag}\n";
+                                reply += $"分组ID：{output.GroupId}\n";
+                                reply += $"分组名称：{output.GroupName}\n";
                                 reply += "\n";
                             }
                         }
@@ -274,7 +278,10 @@ namespace DoDo.Open.Sdk.Services
                     {
                         reply += $"频道号：{output.ChannelId}\n";
                         reply += $"频道名称：{output.ChannelName}\n";
+                        reply += $"频道类型：{output.ChannelType}\n";
                         reply += $"默认频道标识：{output.DefaultFlag}\n";
+                        reply += $"分组ID：{output.GroupId}\n";
+                        reply += $"分组名称：{output.GroupName}\n";
                         reply += "\n";
                     }
                     else
@@ -488,6 +495,8 @@ namespace DoDo.Open.Sdk.Services
                                 reply += $"性别：{output.Sex}\n";
                                 reply += $"等级：{output.Level}\n";
                                 reply += $"是否机器人：{output.IsBot}\n";
+                                reply += $"在线设备：{output.OnlineDevice}\n";
+                                reply += $"在线状态：{output.OnlineStatus}\n";
                                 reply += "\n";
                             }
                         }
@@ -519,6 +528,8 @@ namespace DoDo.Open.Sdk.Services
                         reply += $"性别：{output.Sex}\n";
                         reply += $"等级：{output.Level}\n";
                         reply += $"是否机器人：{output.IsBot}\n";
+                        reply += $"在线设备：{output.OnlineDevice}\n";
+                        reply += $"在线状态：{output.OnlineStatus}\n";
                     }
                     else
                     {
@@ -690,55 +701,46 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-
-                if (reply != "")
-                {
-                    _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
-                    {
-                        ChannelId = eventBody.ChannelId,
-                        MessageBody = new MessageBodyText
-                        {
-                            Content = reply
-                        }
-                    });
-                }
             }
             else if (eventBody.MessageBody is MessageBodyPicture messageBodyPicture)
             {
                 var messageBody = messageBodyPicture;
 
-                _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
-                {
-                    ChannelId = eventBody.ChannelId,
-                    MessageBody = new MessageBodyText
-                    {
-                        Content = "触发频道消息事件-图片"
-                    }
-                });
-
-                _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyPicture>
-                {
-                    ChannelId = eventBody.ChannelId,
-                    MessageBody = messageBody
-                });
+                reply += "触发频道消息事件-图片消息\n";
+                reply += $"图片链接：{messageBody.Url}\n";
+                reply += $"图片宽度：{messageBody.Width}\n";
+                reply += $"图片高度：{messageBody.Height}\n";
+                reply += $"是否原图：{messageBody.IsOriginal}\n";
             }
             else if (eventBody.MessageBody is MessageBodyVideo messageBodyVideo)
             {
                 var messageBody = messageBodyVideo;
 
+                reply += "触发频道消息事件-视频消息\n";
+                reply += $"视频链接：{messageBody.Url}\n";
+                reply += $"封面链接：{messageBody.CoverUrl}\n";
+                reply += $"视频时长：{messageBody.Duration}\n";
+                reply += $"视频大小：{messageBody.Size}\n";
+            }
+            else if (eventBody.MessageBody is MessageBodyFile messageBodyFile)
+            {
+                var messageBody = messageBodyFile;
+
+                reply += "触发频道消息事件-文件消息\n";
+                reply += $"文件链接：{messageBody.Url}\n";
+                reply += $"文件名称：{messageBody.Name}\n";
+                reply += $"文件大小：{messageBody.Size}\n";
+            }
+
+            if (reply != "")
+            {
                 _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
                 {
                     ChannelId = eventBody.ChannelId,
                     MessageBody = new MessageBodyText
                     {
-                        Content = "触发频道消息事件-视频"
+                        Content = reply
                     }
-                });
-
-                _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyVideo>
-                {
-                    ChannelId = eventBody.ChannelId,
-                    MessageBody = messageBody
                 });
             }
         }
@@ -747,17 +749,9 @@ namespace DoDo.Open.Sdk.Services
         {
             var eventBody = input.Data.EventBody;
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
-            {
-                ChannelId = eventBody.ChannelId,
-                MessageBody = new MessageBodyText
-                {
-                    Content = "触发消息反应事件"
-                }
-            });
-
             var reply = "";
 
+            reply += "触发消息反应事件\n";
             reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
             reply += $"反应对象ID：{eventBody.ReactionTarget.Id}\n";
             reply += $"反应表情类型：{eventBody.ReactionEmoji.Type}\n";
@@ -767,6 +761,64 @@ namespace DoDo.Open.Sdk.Services
             _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
             {
                 ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override void MemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            reply += "触发成员加入事件\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"变动时间：{eventBody.ModifyTime}\n";
+
+            var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
+            {
+                IslandId = eventBody.IslandId
+            });
+
+            if (output == null)
+                return;
+
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = output.SystemChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override void MemberLeaveEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            reply += "触发成员退出事件\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"退出类型：{eventBody.LeaveType}\n";
+            reply += $"操作者DoDo号：{eventBody.OperateDoDoId}\n";
+            reply += $"变动时间：{eventBody.ModifyTime}\n";
+
+            var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
+            {
+                IslandId = eventBody.IslandId
+            });
+
+            if (output == null)
+                return;
+
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = output.SystemChannelId,
                 MessageBody = new MessageBodyText
                 {
                     Content = reply

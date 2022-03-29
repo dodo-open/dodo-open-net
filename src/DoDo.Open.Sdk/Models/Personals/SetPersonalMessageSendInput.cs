@@ -13,7 +13,7 @@ namespace DoDo.Open.Sdk.Models.Personals
         public string DoDoId { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文本消息，2：图片消息，3：视频消息
+        /// 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息
         /// </summary>
         [JsonProperty("messageType")]
         public int MessageType
@@ -27,6 +27,10 @@ namespace DoDo.Open.Sdk.Models.Personals
                 else if (MessageBody is MessageBodyVideo)
                 {
                     return MessageTypeConst.Video;
+                }
+                else if (MessageBody is MessageBodyFile)
+                {
+                    return MessageTypeConst.File;
                 }
 
                 return MessageTypeConst.Text;

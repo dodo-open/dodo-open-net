@@ -56,5 +56,17 @@ namespace DoDo.Open.Sdk.Models.Members
         /// </summary>
         [JsonProperty("isBot")]
         public int IsBot { get; set; }
+
+        /// <summary>
+        /// 在线设备
+        /// </summary>
+        [JsonProperty("onlineDevice")]
+        public int OnlineDevice { get; set; }
+
+        /// <summary>
+        /// 在线状态
+        /// </summary>
+        [JsonProperty("onlineStatus")]
+        public int OnlineStatus { get; set; }
     }
 }
