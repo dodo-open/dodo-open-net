@@ -114,6 +114,18 @@ namespace DoDo.Open.Sdk.Services
                     if (eventBodyResult == null) return;
                     MessageReactionEvent(eventBodyResult);
                 }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberJoin)
+                {
+                    var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>>>(message);
+                    if (eventBodyResult == null) return;
+                    MemberJoinEvent(eventBodyResult);
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberLeave)
+                {
+                    var eventBodyResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>>>(message);
+                    if (eventBodyResult == null) return;
+                    MemberLeaveEvent(eventBodyResult);
+                }
             }
         }
 
@@ -142,6 +154,24 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         public virtual void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 成员加入事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void MemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 成员退出事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void MemberLeaveEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>> input)
         {
 
         }

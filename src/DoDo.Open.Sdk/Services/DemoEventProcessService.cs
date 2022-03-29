@@ -767,5 +767,63 @@ namespace DoDo.Open.Sdk.Services
                 }
             });
         }
+
+        public override void MemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            reply += "触发成员加入事件\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"变动时间：{eventBody.ModifyTime}\n";
+
+            var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
+            {
+                IslandId = eventBody.IslandId
+            });
+
+            if (output == null)
+                return;
+
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = output.SystemChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override void MemberLeaveEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            reply += "触发成员退出事件\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"退出类型：{eventBody.LeaveType}\n";
+            reply += $"操作者DoDo号：{eventBody.OperateDoDoId}\n";
+            reply += $"变动时间：{eventBody.ModifyTime}\n";
+
+            var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
+            {
+                IslandId = eventBody.IslandId
+            });
+
+            if (output == null)
+                return;
+
+            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = output.SystemChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
     }
 }
