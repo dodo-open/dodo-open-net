@@ -130,7 +130,7 @@ namespace DoDo.Open.Sdk.Services
                         var buffer = new ArraySegment<byte>(new byte[1024]);
                         var receive = await _clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
 
-                        if (buffer != null && buffer.Array != null)
+                        if (buffer.Array != null)
                         {
                             try
                             {
@@ -141,7 +141,7 @@ namespace DoDo.Open.Sdk.Services
                                     {
                                         Task.Factory.StartNew(() =>
                                         {
-                                            _eventProcessService.Received(json);
+                                            _eventProcessService.ReceivedInternal(json);
                                         });
                                     }
                                     else
