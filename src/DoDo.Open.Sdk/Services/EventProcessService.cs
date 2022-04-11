@@ -35,12 +35,12 @@ namespace DoDo.Open.Sdk.Services
         public abstract void Exception(string message);
 
         /// <summary>
-        /// 消息接收
+        /// 消息接收 - 内部
         /// </summary>
         /// <param name="message"></param>
-        internal virtual void Received(string message)
+        internal virtual void ReceivedInternal(string message)
         {
-            Console.WriteLine($"接收事件：{message}\n");
+            Received(message);
 
             var eventSubjectResult = JsonConvert.DeserializeObject<EventSubjectOutput<EventSubjectDataBase>>(message);
             if (eventSubjectResult == null) return;
@@ -127,6 +127,15 @@ namespace DoDo.Open.Sdk.Services
                     MemberLeaveEvent(eventBodyResult);
                 }
             }
+        }
+
+        /// <summary>
+        /// 消息接收
+        /// </summary>
+        /// <param name="message"></param>
+        public virtual void Received(string message)
+        {
+            
         }
 
         /// <summary>

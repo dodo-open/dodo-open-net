@@ -46,6 +46,11 @@ namespace DoDo.Open.Sdk.Services
             Console.WriteLine($"{message}\n");
         }
 
+        public override void Received(string message)
+        {
+            Console.WriteLine($"接收事件：{message}\n");
+        }
+
         public override void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
         {
             var eventBody = input.Data.EventBody;
