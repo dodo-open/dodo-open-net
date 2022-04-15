@@ -127,7 +127,7 @@ namespace DoDo.Open.Sdk.Services
                 {
                     try
                     {
-                        var buffer = new ArraySegment<byte>(new byte[1024]);
+                        var buffer = new ArraySegment<byte>(new byte[20480]);
                         var receive = await _clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
 
                         if (buffer.Array != null)
