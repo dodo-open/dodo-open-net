@@ -19,7 +19,7 @@ namespace DoDo.Open.Sdk.Models.Events
         /// 事件类型，1001：个人消息事件，2001：频道消息事件
         /// </summary>
         [JsonProperty("eventType")]
-        public int EventType { get; set; }
+        public string EventType { get; set; }
 
         /// <summary>
         /// 事件内容，事件类型不同，内容也会不同
