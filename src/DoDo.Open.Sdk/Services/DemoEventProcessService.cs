@@ -495,6 +495,7 @@ namespace DoDo.Open.Sdk.Services
                             {
                                 reply += $"DoDo号：{output.DodoId}\n";
                                 reply += $"在群昵称：{output.NickName}\n";
+                                reply += $"个人昵称：{output.PersonalNickName}\n";
                                 reply += $"头像：{output.AvatarUrl}\n";
                                 reply += $"加群时间：{output.JoinTime}\n";
                                 reply += $"性别：{output.Sex}\n";
@@ -528,6 +529,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += $"群号：{output.IslandId}\n";
                         reply += $"DoDo号：{output.DodoId}\n";
                         reply += $"在群昵称：{output.NickName}\n";
+                        reply += $"个人昵称：{output.PersonalNickName}\n";
                         reply += $"头像：{output.AvatarUrl}\n";
                         reply += $"加群时间：{output.JoinTime}\n";
                         reply += $"性别：{output.Sex}\n";
