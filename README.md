@@ -2,7 +2,7 @@
 
 DoDo开放平台官方 .Net SDK
 
-  <a href="https://raw.githubusercontent.com/dodo-open/dodo-open-net/master/LICENSE">
+  <a href="https://github.com/Rhyheart/dodo-open-net/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/dodo-open/dodo-open-net" alt="license">
   </a>
   <a href="https://github.com/dodo-open/dodo-open-net/releases">
