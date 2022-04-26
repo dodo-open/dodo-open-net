@@ -6,7 +6,7 @@
 
 <div align="center">
 
-  # DoDo开放平台官方 .Net SDK
+  # dodo-open-net
 
   _✨ 基于最新 C# .NET Standard 开发，支持Windows、MacOS、Linux、Docker，完美跨平台。 ✨_
 
