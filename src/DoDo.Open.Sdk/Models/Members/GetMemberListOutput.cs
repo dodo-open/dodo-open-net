@@ -31,6 +31,12 @@ namespace DoDo.Open.Sdk.Models.Members
         public string NickName { get; set; }
 
         /// <summary>
+        /// 个人昵称
+        /// </summary>
+        [JsonProperty("personalNickName")]
+        public string PersonalNickName { get; set; }
+
+        /// <summary>
         /// 头像
         /// </summary>
         [JsonProperty("avatarUrl")]
