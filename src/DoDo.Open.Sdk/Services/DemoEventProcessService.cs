@@ -173,7 +173,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置机器人群退出"))
+                else if (content.StartsWith("置机器人群退出"))
                 {
                     var output = _openApiService.SetBotIslandLeave(new SetBotIslandLeaveInput
                     {
@@ -182,14 +182,14 @@ namespace DoDo.Open.Sdk.Services
 
                     if (output)
                     {
-                        reply += "置机器人群成功！";
+                        reply += "置机器人群退出成功！";
                     }
                     else
                     {
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("取群列表"))
+                else if (content.StartsWith("取群列表"))
                 {
                     var outputList = _openApiService.GetIslandList(new GetIslandListInput());
 
@@ -218,7 +218,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("取群信息"))
+                else if (content.StartsWith("取群信息"))
                 {
                     var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
                     {
@@ -239,7 +239,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("取频道列表"))
+                else if (content.StartsWith("取频道列表"))
                 {
                     var outputList = _openApiService.GetChannelList(new GetChannelListInput
                     {
@@ -272,7 +272,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("取频道信息"))
+                else if (content.StartsWith("取频道信息"))
                 {
                     var output = _openApiService.GetChannelInfo(new GetChannelInfoInput
                     {
@@ -294,7 +294,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置频道文本消息发送"))
+                else if (content.StartsWith("置频道文本消息发送"))
                 {
                     var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
                     {
@@ -314,7 +314,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置频道图片消息发送"))
+                else if (content.StartsWith("置频道图片消息发送"))
                 {
                     var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyPicture>
                     {
@@ -337,7 +337,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置频道视频消息发送"))
+                else if (content.StartsWith("置频道视频消息发送"))
                 {
                     var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyVideo>
                     {
@@ -360,7 +360,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置频道消息编辑"))
+                else if (content.StartsWith("置频道消息编辑"))
                 {
                     var outputMessage = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
                     {
@@ -389,7 +389,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置频道消息撤回"))
+                else if (content.StartsWith("置频道消息撤回"))
                 {
                     Thread.Sleep(3000);
                     var output = _openApiService.SetChannelMessageWithdraw(new SetChannelMessageWithdrawInput
@@ -408,7 +408,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("取身份组列表"))
+                else if (content.StartsWith("取身份组列表"))
                 {
                     var outputList = _openApiService.GetRoleList(new GetRoleListInput
                     {
@@ -437,7 +437,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("置身份组成员新增"))
+                else if (content.StartsWith("置身份组成员新增"))
                 {
                     var regex = Regex.Match(content, @"(\d+?)$");
 
@@ -458,7 +458,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("置身份组成员移除"))
+                else if (content.StartsWith("置身份组成员移除"))
                 {
                     var regex = Regex.Match(content, @"(\d+?)$");
                     var output = _openApiService.SetRoleMemberRemove(new SetRoleMemberRemoveInput
@@ -478,7 +478,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("取成员列表"))
+                else if (content.StartsWith("取成员列表"))
                 {
                     var outputList = _openApiService.GetMemberList(new GetMemberListInput
                     {
@@ -516,7 +516,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("取成员信息"))
+                else if (content.StartsWith("取成员信息"))
                 {
                     var output = _openApiService.GetMemberInfo(new GetMemberInfoInput
                     {
@@ -544,7 +544,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("取成员身份组列表"))
+                else if (content.StartsWith("取成员身份组列表"))
                 {
                     var outputList = _openApiService.GetMemberRoleList(new GetMemberRoleListInput
                     {
@@ -574,7 +574,7 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.Contains("置成员昵称"))
+                else if (content.StartsWith("置成员昵称"))
                 {
                     var output = _openApiService.SetMemberNick(new SetMemberNickInput
                     {
@@ -592,7 +592,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置成员禁言"))
+                else if (content.StartsWith("置成员禁言"))
                 {
                     var output = _openApiService.SetMemberBan(new SetMemberBanInput
                     {
@@ -611,7 +611,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置个人文本消息发送"))
+                else if (content.StartsWith("置个人文本消息发送"))
                 {
                     var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
                     {
@@ -631,7 +631,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置个人图片消息发送"))
+                else if (content.StartsWith("置个人图片消息发送"))
                 {
                     var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyPicture>
                     {
@@ -654,7 +654,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置个人视频消息发送"))
+                else if (content.StartsWith("置个人视频消息发送"))
                 {
                     var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyVideo>
                     {
@@ -677,7 +677,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("置资源图片上传"))
+                else if (content.StartsWith("置资源图片上传"))
                 {
                     var output = _openApiService.SetResourcePictureUpload(new SetResourceUploadInput
                     {
@@ -695,7 +695,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "调用接口失败！";
                     }
                 }
-                else if (content.Contains("取WebSocket连接"))
+                else if (content.StartsWith("取WebSocket连接"))
                 {
                     var output = _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput());
 
