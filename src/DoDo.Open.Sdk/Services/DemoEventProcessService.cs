@@ -759,6 +759,8 @@ namespace DoDo.Open.Sdk.Services
             var reply = "";
 
             reply += "触发消息反应事件\n";
+            reply += $"来源频道号：{eventBody.ChannelId}\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
             reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
             reply += $"反应对象ID：{eventBody.ReactionTarget.Id}\n";
             reply += $"反应表情类型：{eventBody.ReactionEmoji.Type}\n";
