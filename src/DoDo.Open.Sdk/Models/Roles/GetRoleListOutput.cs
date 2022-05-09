@@ -20,5 +20,11 @@ namespace DoDo.Open.Sdk.Models.Roles
         /// </summary>
         [JsonProperty("roleName")]
         public string RoleName { get; set; }
+
+        /// <summary>
+        /// 身份组颜色
+        /// </summary>
+        [JsonProperty("roleColor")]
+        public string RoleColor { get; set; }
     }
 }

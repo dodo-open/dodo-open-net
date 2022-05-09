@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DoDo.Open.Sdk.Models.Messages;
 using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Events
@@ -18,6 +19,12 @@ namespace DoDo.Open.Sdk.Models.Events
         /// </summary>
         [JsonProperty("dodoId")]
         public string DodoId { get; set; }
+
+        /// <summary>
+        /// 成员信息
+        /// </summary>
+        [JsonProperty("member")]
+        public MessageModelMember Member { get; set; }
 
         /// <summary>
         /// 退出类型，1：主动，2：被踢

@@ -148,6 +148,17 @@ namespace DoDo.Open.Sdk.Services
             return result;
         }
 
+        /// <summary>
+        /// 置频道消息反应
+        /// </summary>
+        /// <param name="input"></param>
+        public bool SetChannelMessageReaction(SetChannelMessageReactionInput input)
+        {
+            var result = BaseRequest("/api/v1/channel/message/reaction", input);
+
+            return result;
+        }
+
         #endregion
 
         #region 身份组

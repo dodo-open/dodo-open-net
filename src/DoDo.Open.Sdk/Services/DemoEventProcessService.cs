@@ -143,6 +143,7 @@ namespace DoDo.Open.Sdk.Services
                     reply += "【频道】置频道视频消息发送\n";
                     reply += "【频道】置频道消息编辑\n";
                     reply += "【频道】置频道消息撤回\n";
+                    reply += "【频道】置频道消息反应\n";
                     reply += "【身份组】取身份组列表\n";
                     reply += "【身份组】置身份组成员新增 ID\n";
                     reply += "【身份组】置身份组成员移除 ID\n";
@@ -201,6 +202,7 @@ namespace DoDo.Open.Sdk.Services
                             {
                                 reply += $"群号：{output.IslandId}\n";
                                 reply += $"群名称：{output.IslandName}\n";
+                                reply += $"成员数：{output.MemberCount}\n";
                                 reply += $"群头像：{output.CoverUrl}\n";
                                 reply += $"系统公告频道号：{output.SystemChannelId}\n";
                                 reply += $"进群默认频道号：{output.DefaultChannelId}\n";
@@ -230,6 +232,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += $"群号：{output.IslandId}\n";
                         reply += $"群名称：{output.IslandName}\n";
                         reply += $"群头像：{output.CoverUrl}\n";
+                        reply += $"成员数：{output.MemberCount}\n";
                         reply += $"群描述：{output.Description}\n";
                         reply += $"系统公告频道号：{output.SystemChannelId}\n";
                         reply += $"进群默认频道号：{output.DefaultChannelId}\n";
@@ -408,6 +411,34 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
+                else if (content.StartsWith("置频道消息反应"))
+                {
+
+                    var output = _openApiService.SetChannelMessageReaction(new SetChannelMessageReactionInput
+                    {
+                        ReactionTarget = new MessageModelReactionTarget
+                        {
+                            Type = 0,
+                            Id = eventBody.MessageId
+                        },
+                        ReactionEmoji = new MessageModelEmoji
+                        {
+                            Type = 1,
+                            Id = "128520"
+                        },
+                        ReactionType = 1
+                    });
+
+                    if (output)
+                    {
+                        reply += "置频道消息反应成功！";
+                    }
+                    else
+                    {
+                        reply += "调用接口失败！";
+                    }
+
+                }
                 else if (content.StartsWith("取身份组列表"))
                 {
                     var outputList = _openApiService.GetRoleList(new GetRoleListInput
@@ -423,6 +454,7 @@ namespace DoDo.Open.Sdk.Services
                             {
                                 reply += $"身份组ID：{output.RoleId}\n";
                                 reply += $"身份组名称：{output.RoleName}\n";
+                                reply += $"身份组颜色：{output.RoleColor}\n";
                                 reply += "\n";
                             }
                         }
@@ -560,6 +592,7 @@ namespace DoDo.Open.Sdk.Services
                             {
                                 reply += $"身份组ID：{output.RoleId}\n";
                                 reply += $"身份组名称：{output.RoleName}\n";
+                                reply += $"身份组颜色：{output.RoleColor}\n";
                                 reply += "\n";
                             }
                         }
