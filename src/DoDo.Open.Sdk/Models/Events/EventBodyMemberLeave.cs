@@ -21,10 +21,10 @@ namespace DoDo.Open.Sdk.Models.Events
         public string DodoId { get; set; }
 
         /// <summary>
-        /// 成员信息
+        /// 个人信息
         /// </summary>
-        [JsonProperty("member")]
-        public MessageModelMember Member { get; set; }
+        [JsonProperty("personal")]
+        public MessageModelPersonal Personal { get; set; }
 
         /// <summary>
         /// 退出类型，1：主动，2：被踢
