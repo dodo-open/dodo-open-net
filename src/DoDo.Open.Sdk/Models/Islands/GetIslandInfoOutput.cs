@@ -23,6 +23,12 @@ namespace DoDo.Open.Sdk.Models.Islands
         public string CoverUrl { get; set; }
 
         /// <summary>
+        /// 成员数
+        /// </summary>
+        [JsonProperty("memberCount")]
+        public int MemberCount { get; set; }
+
+        /// <summary>
         /// 群描述
         /// </summary>
         [JsonProperty("description")]
