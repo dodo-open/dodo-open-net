@@ -10,7 +10,7 @@
 
   _✨ 基于最新 C# .NET Standard 开发，支持Windows、MacOS、Linux、Docker，完美跨平台。 ✨_
 
-  <a href="https://github.com/Rhyheart/dodo-open-net/blob/main/LICENSE">
+  <a href="https://github.com/dodo-open/dodo-open-net/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/dodo-open/dodo-open-net" alt="license">
   </a>
   <a href="https://github.com/dodo-open/dodo-open-net/releases">
