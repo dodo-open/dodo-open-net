@@ -143,7 +143,6 @@ namespace DoDo.Open.Sdk.Services
                     reply += "【频道】置频道视频消息发送\n";
                     reply += "【频道】置频道消息编辑\n";
                     reply += "【频道】置频道消息撤回\n";
-                    reply += "【频道】置频道消息反应\n";
                     reply += "【频道】置频道消息反应新增\n";
                     reply += "【频道】置频道消息反应移除\n";
                     reply += "【身份组】取身份组列表\n";

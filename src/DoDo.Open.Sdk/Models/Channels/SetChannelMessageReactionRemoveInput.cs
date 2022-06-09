@@ -21,7 +21,7 @@ namespace DoDo.Open.Sdk.Models.Channels
         public MessageModelEmoji ReactionEmoji { get; set; }
 
         /// <summary>
-        /// DoDo号
+        /// DoDo号，不传或传空时表示移除机器人自身的反应
         /// </summary>
         [JsonProperty("dodoId")]
         public string DoDoId { get; set; }
