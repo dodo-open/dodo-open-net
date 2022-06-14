@@ -206,6 +206,7 @@ namespace DoDo.Open.Sdk.Services
                                 reply += $"群号：{output.IslandId}\n";
                                 reply += $"群名称：{output.IslandName}\n";
                                 reply += $"成员数：{output.MemberCount}\n";
+                                reply += $"在线成员数：{output.OnlineMemberCount}\n";
                                 reply += $"群头像：{output.CoverUrl}\n";
                                 reply += $"系统公告频道号：{output.SystemChannelId}\n";
                                 reply += $"进群默认频道号：{output.DefaultChannelId}\n";
@@ -236,6 +237,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += $"群名称：{output.IslandName}\n";
                         reply += $"群头像：{output.CoverUrl}\n";
                         reply += $"成员数：{output.MemberCount}\n";
+                        reply += $"在线成员数：{output.OnlineMemberCount}\n";
                         reply += $"群描述：{output.Description}\n";
                         reply += $"系统公告频道号：{output.SystemChannelId}\n";
                         reply += $"进群默认频道号：{output.DefaultChannelId}\n";
