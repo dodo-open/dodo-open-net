@@ -638,7 +638,6 @@ namespace DoDo.Open.Sdk.Services
 
                     if (output != null)
                     {
-                        reply += $"群号：{output.IslandId}\n";
                         reply += $"DoDo号：{output.DodoId}\n";
                         reply += $"在群昵称：{output.NickName}\n";
                         reply += $"邀请人数：{output.InvitationCount}\n";
