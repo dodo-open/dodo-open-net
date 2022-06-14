@@ -653,12 +653,13 @@ namespace DoDo.Open.Sdk.Services
                     var output = _openApiService.GetMemberUPowerchainInfo(new GetMemberUPowerchainInfoInput
                     {
                         IslandId = eventBody.IslandId,
-                        DoDoId = eventBody.DodoId
+                        DoDoId = eventBody.DodoId,
+                        Issuer = "哔哩哔哩",
+                        Series = "dodo测试1"
                     });
 
                     if (output != null)
                     {
-                        reply += $"群号：{output.IslandId}\n";
                         reply += $"DoDo号：{output.DodoId}\n";
                         reply += $"在群昵称：{output.NickName}\n";
                         reply += $"个人昵称：{output.PersonalNickName}\n";
