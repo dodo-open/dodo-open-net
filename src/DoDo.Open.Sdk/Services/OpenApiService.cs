@@ -112,7 +112,11 @@ namespace DoDo.Open.Sdk.Services
 
             return result;
         }
+        
+        #endregion
 
+        #region 文字频道
+        
         /// <summary>
         /// 置频道消息发送
         /// </summary>
@@ -152,9 +156,32 @@ namespace DoDo.Open.Sdk.Services
         /// 置频道消息反应
         /// </summary>
         /// <param name="input"></param>
+        [Obsolete("该方法已弃用，请使用 SetChannelMessageReactionAdd 和 SetChannelMessageReactionRemove 替代")]
         public bool SetChannelMessageReaction(SetChannelMessageReactionInput input)
         {
             var result = BaseRequest("/api/v1/channel/message/reaction", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 置频道消息反应新增
+        /// </summary>
+        /// <param name="input"></param>
+        public bool SetChannelMessageReactionAdd(SetChannelMessageReactionAddInput input)
+        {
+            var result = BaseRequest("/api/v1/channel/message/reaction/add", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 置频道消息反应移除
+        /// </summary>
+        /// <param name="input"></param>
+        public bool SetChannelMessageReactionRemove(SetChannelMessageReactionRemoveInput input)
+        {
+            var result = BaseRequest("/api/v1/channel/message/reaction/remove", input);
 
             return result;
         }
@@ -229,6 +256,28 @@ namespace DoDo.Open.Sdk.Services
         public List<GetMemberRoleListOutput> GetMemberRoleList(GetMemberRoleListInput input)
         {
             var result = BaseRequest<GetMemberRoleListInput, List<GetMemberRoleListOutput>>("/api/v1/member/role/list", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取成员邀请信息
+        /// </summary>
+        /// <param name="input"></param>
+        public GetMemberInvitationInfoOutput GetMemberInvitationInfo(GetMemberInvitationInfoInput input)
+        {
+            var result = BaseRequest<GetMemberInvitationInfoInput, GetMemberInvitationInfoOutput>("/api/v1/member/invitation/info", input);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取成员高能链数字藏品信息
+        /// </summary>
+        /// <param name="input"></param>
+        public GetMemberUPowerchainInfoOutput GetMemberUPowerchainInfo(GetMemberUPowerchainInfoInput input)
+        {
+            var result = BaseRequest<GetMemberUPowerchainInfoInput, GetMemberUPowerchainInfoOutput>("/api/v1/member/upowerchain/info", input);
 
             return result;
         }

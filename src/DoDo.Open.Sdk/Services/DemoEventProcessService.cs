@@ -138,18 +138,21 @@ namespace DoDo.Open.Sdk.Services
                     reply += "【群】取群信息\n";
                     reply += "【频道】取频道列表\n";
                     reply += "【频道】取频道信息\n";
-                    reply += "【频道】置频道文本消息发送\n";
-                    reply += "【频道】置频道图片消息发送\n";
-                    reply += "【频道】置频道视频消息发送\n";
-                    reply += "【频道】置频道消息编辑\n";
-                    reply += "【频道】置频道消息撤回\n";
-                    reply += "【频道】置频道消息反应\n";
+                    reply += "【文字频道】置频道文本消息发送\n";
+                    reply += "【文字频道】置频道图片消息发送\n";
+                    reply += "【文字频道】置频道视频消息发送\n";
+                    reply += "【文字频道】置频道消息编辑\n";
+                    reply += "【文字频道】置频道消息撤回\n";
+                    reply += "【文字频道】置频道消息反应新增\n";
+                    reply += "【文字频道】置频道消息反应移除\n";
                     reply += "【身份组】取身份组列表\n";
                     reply += "【身份组】置身份组成员新增 ID\n";
                     reply += "【身份组】置身份组成员移除 ID\n";
                     reply += "【成员】取成员列表\n";
                     reply += "【成员】取成员信息\n";
                     reply += "【成员】取成员身份组列表\n";
+                    reply += "【成员】取成员邀请信息\n";
+                    reply += "【成员】取成员高能链数字藏品信息\n";
                     reply += "【成员】置成员昵称\n";
                     reply += "【成员】置成员禁言\n";
                     reply += "【个人】置个人文本消息发送\n";
@@ -203,6 +206,7 @@ namespace DoDo.Open.Sdk.Services
                                 reply += $"群号：{output.IslandId}\n";
                                 reply += $"群名称：{output.IslandName}\n";
                                 reply += $"成员数：{output.MemberCount}\n";
+                                reply += $"在线成员数：{output.OnlineMemberCount}\n";
                                 reply += $"群头像：{output.CoverUrl}\n";
                                 reply += $"系统公告频道号：{output.SystemChannelId}\n";
                                 reply += $"进群默认频道号：{output.DefaultChannelId}\n";
@@ -233,6 +237,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += $"群名称：{output.IslandName}\n";
                         reply += $"群头像：{output.CoverUrl}\n";
                         reply += $"成员数：{output.MemberCount}\n";
+                        reply += $"在线成员数：{output.OnlineMemberCount}\n";
                         reply += $"群描述：{output.Description}\n";
                         reply += $"系统公告频道号：{output.SystemChannelId}\n";
                         reply += $"进群默认频道号：{output.DefaultChannelId}\n";
@@ -411,27 +416,45 @@ namespace DoDo.Open.Sdk.Services
                     }
 
                 }
-                else if (content.StartsWith("置频道消息反应"))
+                else if (content.StartsWith("置频道消息反应新增"))
                 {
 
-                    var output = _openApiService.SetChannelMessageReaction(new SetChannelMessageReactionInput
+                    var output = _openApiService.SetChannelMessageReactionAdd(new SetChannelMessageReactionAddInput
                     {
-                        ReactionTarget = new MessageModelReactionTarget
-                        {
-                            Type = 0,
-                            Id = eventBody.MessageId
-                        },
+                        MessageId = eventBody.MessageId,
                         ReactionEmoji = new MessageModelEmoji
                         {
                             Type = 1,
                             Id = "128520"
-                        },
-                        ReactionType = 1
+                        }
                     });
 
                     if (output)
                     {
-                        reply += "置频道消息反应成功！";
+                        reply += "置频道消息反应新增成功！";
+                    }
+                    else
+                    {
+                        reply += "调用接口失败！";
+                    }
+
+                }
+                else if (content.StartsWith("置频道消息反应移除"))
+                {
+
+                    var output = _openApiService.SetChannelMessageReactionRemove(new SetChannelMessageReactionRemoveInput
+                    {
+                        MessageId = eventBody.MessageId,
+                        ReactionEmoji = new MessageModelEmoji
+                        {
+                            Type = 1,
+                            Id = "128520"
+                        }
+                    });
+
+                    if (output)
+                    {
+                        reply += "置频道消息反应移除成功！";
                     }
                     else
                     {
@@ -600,6 +623,51 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += "暂无列表数据！";
                         }
+                    }
+                    else
+                    {
+                        reply += "调用接口失败！";
+                    }
+
+                }
+                else if (content.StartsWith("取成员邀请信息"))
+                {
+                    var output = _openApiService.GetMemberInvitationInfo(new GetMemberInvitationInfoInput
+                    {
+                        IslandId = eventBody.IslandId,
+                        DoDoId = eventBody.DodoId
+                    });
+
+                    if (output != null)
+                    {
+                        reply += $"DoDo号：{output.DodoId}\n";
+                        reply += $"在群昵称：{output.NickName}\n";
+                        reply += $"邀请人数：{output.InvitationCount}\n";
+                    }
+                    else
+                    {
+                        reply += "调用接口失败！";
+                    }
+
+                }
+                else if (content.StartsWith("取成员高能链数字藏品信息"))
+                {
+                    var output = _openApiService.GetMemberUPowerchainInfo(new GetMemberUPowerchainInfoInput
+                    {
+                        IslandId = eventBody.IslandId,
+                        DoDoId = eventBody.DodoId,
+                        Issuer = "哔哩哔哩",
+                        Series = "dodo测试1"
+                    });
+
+                    if (output != null)
+                    {
+                        reply += $"DoDo号：{output.DodoId}\n";
+                        reply += $"在群昵称：{output.NickName}\n";
+                        reply += $"个人昵称：{output.PersonalNickName}\n";
+                        reply += $"是否拥有该发行方的NFT：{output.IsHaveIssuer}\n";
+                        reply += $"是否拥有该系列的NFT：{output.IsHaveSeries}\n";
+                        reply += $"拥有的该系列下NFT数量：{output.NftCount}\n";
                     }
                     else
                     {

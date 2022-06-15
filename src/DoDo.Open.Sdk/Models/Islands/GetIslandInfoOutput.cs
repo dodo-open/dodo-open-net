@@ -29,6 +29,12 @@ namespace DoDo.Open.Sdk.Models.Islands
         public int MemberCount { get; set; }
 
         /// <summary>
+        /// 在线成员数
+        /// </summary>
+        [JsonProperty("onlineMemberCount")]
+        public int OnlineMemberCount { get; set; }
+
+        /// <summary>
         /// 群描述
         /// </summary>
         [JsonProperty("description")]
