@@ -29,18 +29,18 @@ namespace DoDo.Open.Sdk.Models.Members
         /// 是否拥有该发行方的NFT，0：否，1：是
         /// </summary>
         [JsonProperty("isHaveIssuer")]
-        public string IsHaveIssuer { get; set; }
+        public int IsHaveIssuer { get; set; }
 
         /// <summary>
         /// 是否拥有该系列的NFT，0：否，1：是
         /// </summary>
         [JsonProperty("isHaveSeries")]
-        public string IsHaveSeries { get; set; }
+        public int IsHaveSeries { get; set; }
 
         /// <summary>
         /// 拥有的该系列下NFT数量
         /// </summary>
         [JsonProperty("nftCount")]
-        public string NftCount { get; set; }
+        public int NftCount { get; set; }
     }
 }

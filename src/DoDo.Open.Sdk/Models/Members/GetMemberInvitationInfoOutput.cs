@@ -23,7 +23,7 @@ namespace DoDo.Open.Sdk.Models.Members
         /// 邀请人数
         /// </summary>
         [JsonProperty("invitationCount")]
-        public string InvitationCount { get; set; }
+        public int InvitationCount { get; set; }
         
     }
 }
