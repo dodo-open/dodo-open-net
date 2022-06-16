@@ -160,6 +160,7 @@ namespace DoDo.Open.Sdk.Services
                     reply += "【个人】置个人视频消息发送\n";
                     reply += "【资源】置资源图片上传\n";
                     reply += "【事件】取WebSocket连接\n";
+                    reply += "【异常】置异常抛出\n";
                 }
                 else if (content.StartsWith("取机器人信息"))
                 {
@@ -807,6 +808,17 @@ namespace DoDo.Open.Sdk.Services
                     else
                     {
                         reply += "调用接口失败！";
+                    }
+                }
+                else if (content.StartsWith("置异常抛出"))
+                {
+                    try
+                    {
+                        _openApiService.GetIslandInfo(new GetIslandInfoInput(),true);
+                    }
+                    catch (Exception e)
+                    {
+                        reply += "触发了异常：" + e.Message;
                     }
                 }
             }
