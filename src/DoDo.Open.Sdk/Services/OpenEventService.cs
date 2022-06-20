@@ -141,12 +141,26 @@ namespace DoDo.Open.Sdk.Services
                                     {
                                         Task.Factory.StartNew(() =>
                                         {
-                                            _eventProcessService.ReceivedInternal(json);
+                                            try
+                                            {
+                                                _eventProcessService.ReceivedInternal(json);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                try
+                                                {
+                                                    _eventProcessService.Exception(ex.Message);
+                                                }
+                                                catch (Exception)
+                                                {
+                                                    // ignored
+                                                }
+                                            }
                                         });
                                     }
                                     else
                                     {
-                                        _eventProcessService.Received(json);
+                                        _eventProcessService.ReceivedInternal(json);
                                     }
                                 }
                             }
