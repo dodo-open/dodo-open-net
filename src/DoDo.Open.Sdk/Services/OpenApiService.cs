@@ -473,7 +473,7 @@ namespace DoDo.Open.Sdk.Services
 
                 Console.WriteLine($"返回参数：{response.Content}\n");
 
-                if (response.Data.Status > 0)
+                if (response.Data.Status != 0)
                 {
                     if (isThrowException)
                     {
