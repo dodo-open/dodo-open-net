@@ -17,7 +17,7 @@ var openEventService = new OpenEventService(openApiService, eventProcessService,
     IsReconnect = true,
     IsAsync = true
 });
-//接收事件消息
+//开始接收事件消息
 await openEventService.ReceiveAsync();
 
 Console.ReadKey();
