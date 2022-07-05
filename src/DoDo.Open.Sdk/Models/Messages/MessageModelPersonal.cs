@@ -10,7 +10,7 @@ namespace DoDo.Open.Sdk.Models.Messages
     public class MessageModelPersonal
     {
         /// <summary>
-        /// 个人昵称
+        /// DoDo昵称
         /// </summary>
         [JsonProperty("nickName")]
         public string NickName { get; set; }

@@ -26,5 +26,17 @@ namespace DoDo.Open.Sdk.Models.Members
         /// </summary>
         [JsonProperty("roleColor")]
         public string RoleColor { get; set; }
+
+        /// <summary>
+        /// 位置
+        /// </summary>
+        [JsonProperty("position")]
+        public int Position { get; set; }
+
+        /// <summary>
+        /// 权限值
+        /// </summary>
+        [JsonProperty("permission")]
+        public string Permission { get; set; }
     }
 }

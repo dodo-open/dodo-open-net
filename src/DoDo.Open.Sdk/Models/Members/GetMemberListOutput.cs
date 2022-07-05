@@ -25,13 +25,13 @@ namespace DoDo.Open.Sdk.Models.Members
         public string DodoId { get; set; }
 
         /// <summary>
-        /// 在群昵称
+        /// 群昵称
         /// </summary>
         [JsonProperty("nickName")]
         public string NickName { get; set; }
 
         /// <summary>
-        /// 个人昵称
+        /// DoDo昵称
         /// </summary>
         [JsonProperty("personalNickName")]
         public string PersonalNickName { get; set; }

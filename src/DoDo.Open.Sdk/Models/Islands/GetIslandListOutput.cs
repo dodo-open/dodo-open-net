@@ -23,25 +23,25 @@ namespace DoDo.Open.Sdk.Models.Islands
         public string CoverUrl { get; set; }
 
         /// <summary>
-        /// 成员数
+        /// 群总人数
         /// </summary>
         [JsonProperty("memberCount")]
         public int MemberCount { get; set; }
 
         /// <summary>
-        /// 在线成员数
+        /// 群在线人数
         /// </summary>
         [JsonProperty("onlineMemberCount")]
         public int OnlineMemberCount { get; set; }
 
         /// <summary>
-        /// 系统公告频道号
+        /// 系统消息频道号
         /// </summary>
         [JsonProperty("systemChannelId")]
         public string SystemChannelId { get; set; }
 
         /// <summary>
-        /// 进群默认频道号
+        /// 默认访问频道号
         /// </summary>
         [JsonProperty("defaultChannelId")]
         public string DefaultChannelId { get; set; }
