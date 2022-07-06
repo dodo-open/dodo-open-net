@@ -10,13 +10,13 @@ namespace DoDo.Open.Sdk.Models.Messages
     public class MessageModelMember
     {
         /// <summary>
-        /// 在群昵称
+        /// 群昵称
         /// </summary>
         [JsonProperty("nickName")]
         public string NickName { get; set; }
 
         /// <summary>
-        /// 在群等级
+        /// 等级
         /// </summary>
         [JsonProperty("level")]
         public int Level { get; set; }

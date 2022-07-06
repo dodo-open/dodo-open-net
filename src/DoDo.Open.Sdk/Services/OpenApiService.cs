@@ -87,7 +87,18 @@ namespace DoDo.Open.Sdk.Services
 
             return result;
         }
-        
+
+        /// <summary>
+        /// 取群等级排行榜
+        /// </summary>
+        /// <param name="input"></param>
+        public List<GetIslandLevelRankListOutput> GetIslandLevelRankList(GetIslandLevelRankListInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest<GetIslandLevelRankListInput, List<GetIslandLevelRankListOutput>>("/api/v1/island/level/rank/list", input, isThrowException);
+
+            return result;
+        }
+
         #endregion
 
         #region 频道
@@ -273,17 +284,6 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取成员高能链数字藏品信息
-        /// </summary>
-        /// <param name="input"></param>
-        public GetMemberUPowerchainInfoOutput GetMemberUPowerchainInfo(GetMemberUPowerchainInfoInput input, bool isThrowException = false)
-        {
-            var result = BaseRequest<GetMemberUPowerchainInfoInput, GetMemberUPowerchainInfoOutput>("/api/v1/member/upowerchain/info", input, isThrowException);
-
-            return result;
-        }
-
-        /// <summary>
         /// 置成员昵称
         /// </summary>
         /// <param name="input"></param>
@@ -301,6 +301,32 @@ namespace DoDo.Open.Sdk.Services
         public bool SetMemberBan(SetMemberBanInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/member/ban/set", input, isThrowException);
+
+            return result;
+        }
+
+        #endregion
+
+        #region 数字藏品
+
+        /// <summary>
+        /// 取成员高能链数字藏品信息
+        /// </summary>
+        /// <param name="input"></param>
+        public GetMemberUPowerchainInfoOutput GetMemberUPowerchainInfo(GetMemberUPowerchainInfoInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest<GetMemberUPowerchainInfoInput, GetMemberUPowerchainInfoOutput>("/api/v1/member/upowerchain/info", input, isThrowException);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取成员数字藏品状态
+        /// </summary>
+        /// <param name="input"></param>
+        public GetMemberNftStatusOutput GetMemberNftStatus(GetMemberNftStatusInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest<GetMemberNftStatusInput, GetMemberNftStatusOutput>("/api/v1/member/nft/status", input, isThrowException);
 
             return result;
         }

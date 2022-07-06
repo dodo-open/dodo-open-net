@@ -20,7 +20,7 @@ namespace DoDo.Open.Sdk.Models.Messages
         public string DodoId { get; set; }
 
         /// <summary>
-        /// 被回复者在群昵称
+        /// 被回复者群昵称
         /// </summary>
         [JsonProperty("nickName")]
         public string NickName { get; set; }
