@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.Channels;
+
+public record SetChannelMessageSendOutput
 {
-    public class SetChannelMessageSendOutput
-    {
-        /// <summary>
-        /// 消息ID
-        /// </summary>
-        [JsonProperty("messageId")]
-        public string MessageId { get; set; }
-    }
+    /// <summary>
+    ///     消息ID
+    /// </summary>
+    [JsonPropertyName("messageId")]
+    public string MessageId { get; set; }
 }

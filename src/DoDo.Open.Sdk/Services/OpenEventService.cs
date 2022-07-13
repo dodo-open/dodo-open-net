@@ -6,107 +6,84 @@ using System.Threading.Tasks;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.WebSockets;
 
-namespace DoDo.Open.Sdk.Services
+namespace DoDo.Open.Sdk.Services;
+
+/// <summary>
+///     开放事件服务
+/// </summary>
+public class OpenEventService
 {
-    /// <summary>
-    /// 开放事件服务
-    /// </summary>
-    public class OpenEventService
+    private readonly EventProcessService _eventProcessService;
+    private readonly OpenApiService _openApiService;
+    private readonly OpenEventOptions _openEventOptions;
+    private ClientWebSocket _clientWebSocket;
+
+    public OpenEventService(OpenApiService openApiService, EventProcessService eventProcessService,
+        OpenEventOptions openEventOptions)
     {
-        private ClientWebSocket _clientWebSocket;
-        private readonly OpenApiService _openApiService;
-        private readonly EventProcessService _eventProcessService;
-        private readonly OpenEventOptions _openEventOptions;
+        _openApiService = openApiService;
+        _eventProcessService = eventProcessService;
+        _openEventOptions = openEventOptions;
+    }
 
-        public OpenEventService(OpenApiService openApiService, EventProcessService eventProcessService, OpenEventOptions openEventOptions)
+    /// <summary>
+    ///     接收事件消息
+    /// </summary>
+    /// <returns></returns>
+    public async Task ReceiveAsync()
+    {
+        try
         {
-            _openApiService = openApiService;
-            _eventProcessService = eventProcessService;
-            _openEventOptions = openEventOptions;
-        }
+            GetWebSocketConnectionOutput getWebSocketConnectionOutput = null;
 
-        /// <summary>
-        /// 接收事件消息
-        /// </summary>
-        /// <returns></returns>
-        public async Task ReceiveAsync()
-        {
-            try
+            for (var i = 0; i < 3; i++)
             {
-                GetWebSocketConnectionOutput getWebSocketConnectionOutput = null;
-
-                for (var i = 0; i < 3; i++)
-                {
-                    getWebSocketConnectionOutput = _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput());
-
-                    if (getWebSocketConnectionOutput == null)
-                    {
-                        Thread.Sleep(3000 * i);
-                        continue;
-                    }
-
-                    break;
-                }
+                getWebSocketConnectionOutput = await
+                    _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput());
 
                 if (getWebSocketConnectionOutput == null)
                 {
-                    try
-                    {
-                        _eventProcessService.Disconnected("获取WebSocket连接失败");
-                    }
-                    catch (Exception ex)
-                    {
-                        try
-                        {
-                            _eventProcessService.Exception(ex.Message);
-                        }
-                        catch (Exception)
-                        {
-                            // ignored
-                        }
-                    }
-
-                    return;
+                    await Task.Delay(3000 * i);
+                    continue;
                 }
 
-                Console.WriteLine($"开始连接：{getWebSocketConnectionOutput.Endpoint}");
+                break;
+            }
 
-
-                for (var i = 0; i < 3; i++)
+            if (getWebSocketConnectionOutput == null)
+            {
+                try
+                {
+                    _eventProcessService.Disconnected("获取WebSocket连接失败");
+                }
+                catch (Exception ex)
                 {
                     try
                     {
-                        _clientWebSocket = new ClientWebSocket();
-                        await _clientWebSocket.ConnectAsync(new Uri(getWebSocketConnectionOutput.Endpoint), CancellationToken.None);
-                        try
-                        {
-                            _eventProcessService.Connected("连接成功");
-                        }
-                        catch (Exception ex)
-                        {
-                            try
-                            {
-                                _eventProcessService.Exception(ex.Message);
-                            }
-                            catch (Exception)
-                            {
-                                // ignored
-                            }
-                        }
+                        _eventProcessService.Exception(ex.Message);
                     }
                     catch (Exception)
                     {
-                        Thread.Sleep(3000 * i);
-                        continue;
+                        // ignored
                     }
-                    break;
                 }
 
-                if (_clientWebSocket.State != WebSocketState.Open)
+                return;
+            }
+
+            Console.WriteLine($"开始连接：{getWebSocketConnectionOutput.Endpoint}");
+
+
+            for (var i = 0; i < 3; i++)
+            {
+                try
                 {
+                    _clientWebSocket = new ClientWebSocket();
+                    await _clientWebSocket.ConnectAsync(new Uri(getWebSocketConnectionOutput.Endpoint),
+                        CancellationToken.None);
                     try
                     {
-                        _eventProcessService.Disconnected("WebSocket连接失败");
+                        _eventProcessService.Connected("连接成功");
                     }
                     catch (Exception ex)
                     {
@@ -119,118 +96,57 @@ namespace DoDo.Open.Sdk.Services
                             // ignored
                         }
                     }
-
-                    return;
+                }
+                catch (Exception)
+                {
+                    await Task.Delay(3000 * i);
+                    continue;
                 }
 
-                while (_clientWebSocket.CloseStatus != WebSocketCloseStatus.NormalClosure)
+                break;
+            }
+
+            if (_clientWebSocket.State != WebSocketState.Open)
+            {
+                try
+                {
+                    _eventProcessService.Disconnected("WebSocket连接失败");
+                }
+                catch (Exception ex)
                 {
                     try
                     {
-                        var buffer = new ArraySegment<byte>(new byte[20480]);
-                        var receive = await _clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
-
-                        if (buffer.Array != null)
-                        {
-                            try
-                            {
-                                var json = Encoding.UTF8.GetString(buffer.Array, 0, receive.Count);
-                                if (!string.IsNullOrWhiteSpace(json))
-                                {
-                                    if (_openEventOptions.IsAsync)
-                                    {
-                                        Task.Factory.StartNew(() =>
-                                        {
-                                            try
-                                            {
-                                                _eventProcessService.ReceivedInternal(json);
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                try
-                                                {
-                                                    _eventProcessService.Exception(ex.Message);
-                                                }
-                                                catch (Exception)
-                                                {
-                                                    // ignored
-                                                }
-                                            }
-                                        });
-                                    }
-                                    else
-                                    {
-                                        _eventProcessService.ReceivedInternal(json);
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                try
-                                {
-                                    _eventProcessService.Exception(ex.Message);
-                                }
-                                catch (Exception)
-                                {
-                                    // ignored
-                                }
-                            }
-                        }
+                        _eventProcessService.Exception(ex.Message);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
+                        // ignored
+                    }
+                }
+
+                return;
+            }
+
+            while (_clientWebSocket.CloseStatus != WebSocketCloseStatus.NormalClosure)
+                try
+                {
+                    var buffer = new ArraySegment<byte>(new byte[20480]);
+                    var receive = await _clientWebSocket.ReceiveAsync(buffer, CancellationToken.None);
+
+                    if (buffer.Array != null)
                         try
                         {
-                            _eventProcessService.Disconnected(e.Message);
-                        }
-                        catch (Exception ex)
-                        {
-                            try
+                            var json = Encoding.UTF8.GetString(buffer.Array, 0, receive.Count);
+                            if (string.IsNullOrWhiteSpace(json))
                             {
-                                _eventProcessService.Exception(ex.Message);
+                                continue;
                             }
-                            catch (Exception)
-                            {
-                                // ignored
-                            }
-                        }
-
-                        if (_openEventOptions.IsReconnect)
-                        {
-                            var reconnectCount = 0;
-
-                            while (_clientWebSocket.CloseStatus != WebSocketCloseStatus.NormalClosure)
-                            {
-                                try
-                                {
-                                    if (_clientWebSocket.State != WebSocketState.Open)
-                                    {
-                                        _clientWebSocket = new ClientWebSocket();
-                                        await _clientWebSocket.ConnectAsync(new Uri(getWebSocketConnectionOutput.Endpoint), CancellationToken.None);
-                                        try
-                                        {
-                                            _eventProcessService.Connected("连接成功");
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            try
-                                            {
-                                                _eventProcessService.Exception(ex.Message);
-                                            }
-                                            catch (Exception)
-                                            {
-                                                // ignored
-                                            }
-                                        }
-
-                                    }
-                                    break;
-                                }
-                                catch (Exception)
+                            if (_openEventOptions.IsAsync)
+                                await Task.Factory.StartNew(() =>
                                 {
                                     try
                                     {
-                                        _eventProcessService.Reconnected("断线重连中");
+                                        _eventProcessService.ReceivedInternal(json);
                                     }
                                     catch (Exception ex)
                                     {
@@ -243,27 +159,29 @@ namespace DoDo.Open.Sdk.Services
                                             // ignored
                                         }
                                     }
-                                    if (reconnectCount < 300)
-                                    {
-                                        reconnectCount += 5;
-                                    }
-                                    Thread.Sleep(1000 * reconnectCount);
-                                }
+                                });
+                            else
+                            {
+                                _eventProcessService.ReceivedInternal(json);
                             }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            return;
+                            try
+                            {
+                                _eventProcessService.Exception(ex.Message);
+                            }
+                            catch (Exception)
+                            {
+                                // ignored
+                            }
                         }
-
-                    }
                 }
-
-                if (_clientWebSocket.CloseStatus == WebSocketCloseStatus.NormalClosure)
+                catch (Exception e)
                 {
                     try
                     {
-                        _eventProcessService.Disconnected("停止接收");
+                        _eventProcessService.Disconnected(e.Message);
                     }
                     catch (Exception ex)
                     {
@@ -276,31 +194,102 @@ namespace DoDo.Open.Sdk.Services
                             // ignored
                         }
                     }
+
+                    if (_openEventOptions.IsReconnect)
+                    {
+                        var reconnectCount = 0;
+
+                        while (_clientWebSocket.CloseStatus != WebSocketCloseStatus.NormalClosure)
+                            try
+                            {
+                                if (_clientWebSocket.State != WebSocketState.Open)
+                                {
+                                    _clientWebSocket = new ClientWebSocket();
+                                    await _clientWebSocket.ConnectAsync(new Uri(getWebSocketConnectionOutput.Endpoint),
+                                        CancellationToken.None);
+                                    try
+                                    {
+                                        _eventProcessService.Connected("连接成功");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        try
+                                        {
+                                            _eventProcessService.Exception(ex.Message);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            // ignored
+                                        }
+                                    }
+                                }
+
+                                break;
+                            }
+                            catch (Exception)
+                            {
+                                try
+                                {
+                                    _eventProcessService.Reconnected("断线重连中");
+                                }
+                                catch (Exception ex)
+                                {
+                                    try
+                                    {
+                                        _eventProcessService.Exception(ex.Message);
+                                    }
+                                    catch (Exception)
+                                    {
+                                        // ignored
+                                    }
+                                }
+
+                                if (reconnectCount < 300) reconnectCount += 5;
+                                await Task.Delay(1000 * reconnectCount);
+                            }
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
+
+            if (_clientWebSocket.CloseStatus == WebSocketCloseStatus.NormalClosure)
                 try
                 {
-                    _eventProcessService.Exception(ex.Message);
+                    _eventProcessService.Disconnected("停止接收");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // ignored
+                    try
+                    {
+                        _eventProcessService.Exception(ex.Message);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
                 }
-            }
         }
-
-        /// <summary>
-        /// 停止接收事件消息
-        /// </summary>
-        public async Task StopReceiveAsync()
+        catch (Exception ex)
         {
-            if (_clientWebSocket != null && _clientWebSocket.State != WebSocketState.Closed)
+            try
             {
-                await _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+                _eventProcessService.Exception(ex.Message);
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
+    }
 
+    /// <summary>
+    ///     停止接收事件消息
+    /// </summary>
+    public async Task StopReceiveAsync()
+    {
+        if (_clientWebSocket != null && _clientWebSocket.State != WebSocketState.Closed)
+            await _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
     }
 }

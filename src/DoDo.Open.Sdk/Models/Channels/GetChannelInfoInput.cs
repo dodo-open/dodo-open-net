@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.Channels;
+
+public record GetChannelInfoInput
 {
-    public class GetChannelInfoInput
-    {
-        /// <summary>
-        /// 频道号
-        /// </summary>
-        [JsonProperty("channelId")]
-        public string ChannelId { get; set; }
-    }
+    /// <summary>
+    ///     频道号
+    /// </summary>
+    [JsonPropertyName("channelId")]
+    public string ChannelId { get; set; }
 }

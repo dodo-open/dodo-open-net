@@ -1,6 +1,5 @@
-﻿namespace DoDo.Open.Sdk.Models.Islands
+﻿namespace DoDo.Open.Sdk.Models.Islands;
+
+public record GetIslandListInput
 {
-    public class GetIslandListInput
-    {
-    }
 }

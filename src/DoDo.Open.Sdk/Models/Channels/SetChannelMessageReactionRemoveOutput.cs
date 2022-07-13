@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace DoDo.Open.Sdk.Models.Channels;
 
-namespace DoDo.Open.Sdk.Models.Channels
+public record SetChannelMessageReactionRemoveOutput
 {
-    public class SetChannelMessageReactionRemoveOutput
-    {
-    }
 }
