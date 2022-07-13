@@ -21,10 +21,19 @@ public record SetChannelMessageSendInput<T>
         get
         {
             if (MessageBody is MessageBodyPicture)
+            {
                 return MessageTypeConst.Picture;
+            }
+
             if (MessageBody is MessageBodyVideo)
+            {
                 return MessageTypeConst.Video;
-            if (MessageBody is MessageBodyFile) return MessageTypeConst.File;
+            }
+
+            if (MessageBody is MessageBodyFile)
+            {
+                return MessageTypeConst.File;
+            }
 
             return MessageTypeConst.Text;
         }

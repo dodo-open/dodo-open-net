@@ -1,4 +1,4 @@
-﻿namespace DoDo.Open.Sdk.Models;
+﻿namespace DoDo.Open.Sdk.Options;
 
 public record OpenEventOptions
 {

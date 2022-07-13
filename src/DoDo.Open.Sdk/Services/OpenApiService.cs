@@ -16,32 +16,39 @@ using DoDo.Open.Sdk.Models.Personals;
 using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.Roles;
 using DoDo.Open.Sdk.Models.WebSockets;
+using DoDo.Open.Sdk.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace DoDo.Open.Sdk.Services;
 
-/// <summary>
-///     开放接口服务
-/// </summary>
-public class OpenApiService
+/// <inheritdoc />
+public class OpenApiService : IOpenApiService
 {
     private readonly HttpClient _httpClient;
-    private readonly OpenApiOptions _openApiOptions;
+    private readonly ILogger<OpenApiService> _logger;
+    private readonly IOptions<OpenApiOptions> _openApiOptions;
 
-    public OpenApiService(OpenApiOptions openApiOptions)
+    /// <summary>
+    ///     <see cref="OpenApiService" /> 的构造函数
+    /// </summary>
+    /// <param name="openApiOptions">
+    ///     <see cref="OpenApiOptions" />
+    /// </param>
+    /// <param name="logger"></param>
+    public OpenApiService(IOptions<OpenApiOptions> openApiOptions, ILogger<OpenApiService> logger = null)
     {
         _openApiOptions = openApiOptions;
+        _logger = logger;
         _httpClient = new HttpClient();
-        _httpClient.BaseAddress = new Uri(_openApiOptions.BaseApi);
+        _httpClient.BaseAddress = new Uri(_openApiOptions.Value.BaseApi);
         _httpClient.DefaultRequestHeaders.Add("Authorization",
-            $"Bot {_openApiOptions.ClientId}.{_openApiOptions.Token}");
+            $"Bot {_openApiOptions.Value.ClientId}.{_openApiOptions.Value.Token}");
     }
 
     #region 个人
 
-    /// <summary>
-    ///     置个人消息发送
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<SetPersonalMessageSendOutput> SetPersonalMessageSend<T>(SetPersonalMessageSendInput<T> input)
         where T : MessageBodyBase
     {
@@ -56,10 +63,7 @@ public class OpenApiService
 
     #region 资源
 
-    /// <summary>
-    ///     置资源图片上传
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<SetResourcePictureUploadOutput> SetResourcePictureUpload(SetResourceUploadInput input)
     {
         var result = await
@@ -73,10 +77,7 @@ public class OpenApiService
 
     #region 事件
 
-    /// <summary>
-    ///     取WebSocket连接
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetWebSocketConnectionOutput> GetWebSocketConnection(GetWebSocketConnectionInput input)
     {
         var result = await
@@ -90,19 +91,7 @@ public class OpenApiService
 
     #region 机器人
 
-    /// <summary>
-    ///     取机器人配置
-    /// </summary>
-    /// <returns></returns>
-    public OpenApiOptions GetBotOptions()
-    {
-        return _openApiOptions;
-    }
-
-    /// <summary>
-    ///     取机器人信息
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetBotInfoOutput> GetBotInfo(GetBotInfoInput input)
     {
         var result = await BaseRequest<GetBotInfoInput, GetBotInfoOutput>("/api/v1/bot/info", input);
@@ -110,10 +99,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置机器人群退出
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetBotIslandLeave(SetBotIslandLeaveInput input)
     {
         var result = await BaseRequest("/api/v1/bot/island/leave", input);
@@ -125,10 +111,7 @@ public class OpenApiService
 
     #region 群
 
-    /// <summary>
-    ///     取群列表
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<List<GetIslandListOutput>> GetIslandList(GetIslandListInput input)
     {
         var result = await
@@ -137,10 +120,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     取群信息
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetIslandInfoOutput> GetIslandInfo(GetIslandInfoInput input)
     {
         var result = await
@@ -149,10 +129,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     取群等级排行榜
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<List<GetIslandLevelRankListOutput>> GetIslandLevelRankList(GetIslandLevelRankListInput input)
     {
         var result = await
@@ -166,10 +143,7 @@ public class OpenApiService
 
     #region 频道
 
-    /// <summary>
-    ///     取频道列表
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<List<GetChannelListOutput>> GetChannelList(GetChannelListInput input)
     {
         var result = await
@@ -178,10 +152,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     取频道信息
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetChannelInfoOutput> GetChannelInfo(GetChannelInfoInput input)
     {
         var result = await
@@ -194,10 +165,7 @@ public class OpenApiService
 
     #region 文字频道
 
-    /// <summary>
-    ///     置频道消息发送
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<SetChannelMessageSendOutput> SetChannelMessageSend<T>(SetChannelMessageSendInput<T> input)
         where T : MessageBodyBase
     {
@@ -208,10 +176,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置频道消息编辑
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetChannelMessageEdit<T>(SetChannelMessageEditInput<T> input)
         where T : MessageBodyBase
     {
@@ -220,10 +185,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置频道消息撤回
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetChannelMessageWithdraw(SetChannelMessageWithdrawInput input)
     {
         var result = await BaseRequest("/api/v1/channel/message/withdraw", input);
@@ -231,10 +193,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置频道消息反应
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     [Obsolete("该方法已弃用，请使用 SetChannelMessageReactionAdd 和 SetChannelMessageReactionRemove 替代")]
     public async Task<bool> SetChannelMessageReaction(SetChannelMessageReactionInput input)
     {
@@ -243,10 +202,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置频道消息反应新增
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetChannelMessageReactionAdd(SetChannelMessageReactionAddInput input)
     {
         var result = await BaseRequest("/api/v1/channel/message/reaction/add", input);
@@ -254,10 +210,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置频道消息反应移除
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetChannelMessageReactionRemove(SetChannelMessageReactionRemoveInput input)
     {
         var result = await BaseRequest("/api/v1/channel/message/reaction/remove", input);
@@ -269,10 +222,7 @@ public class OpenApiService
 
     #region 身份组
 
-    /// <summary>
-    ///     取身份组列表
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<List<GetRoleListOutput>> GetRoleList(GetRoleListInput input)
     {
         var result = await
@@ -281,10 +231,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置身份组成员新增
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetRoleMemberAdd(SetRoleMemberAddInput input)
     {
         var result = await BaseRequest("/api/v1/role/member/add", input);
@@ -292,10 +239,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置身份组成员移除
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetRoleMemberRemove(SetRoleMemberRemoveInput input)
     {
         var result = await BaseRequest("/api/v1/role/member/remove", input);
@@ -307,10 +251,7 @@ public class OpenApiService
 
     #region 成员
 
-    /// <summary>
-    ///     取成员列表
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetMemberListOutput> GetMemberList(GetMemberListInput input)
     {
         var result = await
@@ -319,10 +260,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     取成员信息
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetMemberInfoOutput> GetMemberInfo(GetMemberInfoInput input)
     {
         var result = await
@@ -331,10 +269,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     取成员身份组列表
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<List<GetMemberRoleListOutput>> GetMemberRoleList(GetMemberRoleListInput input)
     {
         var result = await
@@ -343,10 +278,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     取成员邀请信息
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetMemberInvitationInfoOutput> GetMemberInvitationInfo(GetMemberInvitationInfoInput input)
     {
         var result = await
@@ -356,10 +288,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置成员昵称
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetMemberNick(SetMemberNickInput input)
     {
         var result = await BaseRequest("/api/v1/member/nick/set", input);
@@ -367,10 +296,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     置成员禁言
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<bool> SetMemberBan(SetMemberBanInput input)
     {
         var result = await BaseRequest("/api/v1/member/ban/set", input);
@@ -382,10 +308,7 @@ public class OpenApiService
 
     #region 数字藏品
 
-    /// <summary>
-    ///     取成员高能链数字藏品信息
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetMemberUPowerchainInfoOutput> GetMemberUPowerchainInfo(GetMemberUPowerchainInfoInput input)
     {
         var result = await
@@ -395,10 +318,7 @@ public class OpenApiService
         return result;
     }
 
-    /// <summary>
-    ///     取成员数字藏品状态
-    /// </summary>
-    /// <param name="input"></param>
+    /// <inheritdoc />
     public async Task<GetMemberNftStatusOutput> GetMemberNftStatus(GetMemberNftStatusInput input)
     {
         var result = await
@@ -412,16 +332,18 @@ public class OpenApiService
     #region 基础调用
 
     /// <summary>
-    ///     基础调用（什么也不带）
+    ///     基础调用
     /// </summary>
     /// <param name="resource">接口路径</param>
-    /// <returns>返回结果</returns>
-    public async Task<bool> BaseRequest(string resource)
+    /// <returns></returns>
+    private async Task<bool> BaseRequest(string resource)
     {
         var result = await BaseRequest<object, object>(resource, HttpMethod.Post, new object());
 
         if (result == default)
+        {
             return default;
+        }
 
         return result.Status == 0;
     }
@@ -432,13 +354,15 @@ public class OpenApiService
     /// <typeparam name="TOutput">返回参数类型</typeparam>
     /// <param name="resource">接口路径</param>
     /// <returns>返回结果</returns>
-    public async Task<TOutput> BaseRequest<TOutput>(string resource)
+    private async Task<TOutput> BaseRequest<TOutput>(string resource)
         where TOutput : new()
     {
         var result = await BaseRequest<object, TOutput>(resource, HttpMethod.Post, new object());
 
         if (result == default)
+        {
             return default;
+        }
 
         return result.Status == 0 ? result.Data : default;
     }
@@ -450,13 +374,15 @@ public class OpenApiService
     /// <param name="resource">接口路径</param>
     /// <param name="input">请求数据</param>
     /// <returns>返回结果</returns>
-    public async Task<bool> BaseRequest<TInput>(string resource, TInput input)
+    private async Task<bool> BaseRequest<TInput>(string resource, TInput input)
         where TInput : new()
     {
         var result = await BaseRequest<TInput, object>(resource, HttpMethod.Post, input);
 
         if (result == default)
+        {
             return default;
+        }
 
         return result.Status == 0;
     }
@@ -469,14 +395,16 @@ public class OpenApiService
     /// <param name="resource">接口路径</param>
     /// <param name="input">请求数据</param>
     /// <returns>返回结果</returns>
-    public async Task<TOutput> BaseRequest<TInput, TOutput>(string resource, TInput input)
+    private async Task<TOutput> BaseRequest<TInput, TOutput>(string resource, TInput input)
         where TInput : new()
         where TOutput : new()
     {
         var result = await BaseRequest<TInput, TOutput>(resource, HttpMethod.Post, input);
 
         if (result == default)
+        {
             return default;
+        }
 
         return result.Status == 0 ? result.Data : default;
     }
@@ -490,7 +418,7 @@ public class OpenApiService
     /// <param name="method">请求方式</param>
     /// <param name="input">请求数据</param>
     /// <returns>返回结果</returns>
-    public async Task<OpenApiBaseOutput<TOutput>> BaseRequest<TInput, TOutput>(string resource, HttpMethod method,
+    private async Task<OpenApiBaseOutput<TOutput>> BaseRequest<TInput, TOutput>(string resource, HttpMethod method,
         TInput input)
         where TInput : new()
         where TOutput : new()
@@ -528,20 +456,28 @@ public class OpenApiService
 
         request.Content = content;
 
-        Console.WriteLine($"请求接口：{resource}");
-        Console.WriteLine($"请求参数：{JsonSerializer.Serialize(input)}");
+        _logger.LogTrace("API Request: To {DoDoApiRequestPath}, Data: {DoDoApiRequestData}", request, input);
 
         var response = await _httpClient.SendAsync(request);
-        if (response.IsSuccessStatusCode is false) throw new HttpRequestException($"Failed, {response.StatusCode}");
+        if (response.IsSuccessStatusCode is false)
+        {
+            throw new HttpRequestException($"Failed, {response.StatusCode}");
+        }
 
         var body = await response.Content.ReadAsStreamAsync();
         var data = await JsonSerializer.DeserializeAsync<OpenApiBaseOutput<TOutput>>(body);
 
-        Console.WriteLine($"返回参数：{response.Content}\n");
+        _logger.LogTrace("API Response: {DoDoApiResponse}", data);
 
-        if (data is null) throw new HttpRequestException($"Failed, data is null, {response.StatusCode}");
+        if (data is null)
+        {
+            throw new HttpRequestException($"Failed, data is null, {response.StatusCode}");
+        }
 
-        if (data.Status != 0) throw new Exception(data.Message);
+        if (data.Status != 0)
+        {
+            throw new Exception(data.Message);
+        }
 
         return data;
     }
