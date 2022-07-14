@@ -54,62 +54,45 @@ namespace DoDo.Open.Sdk.Services
         public override void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
         {
             var eventBody = input.Data.EventBody;
+            var reply = "";
 
             if (eventBody.MessageBody is MessageBodyText messageBodyText)
             {
                 var messageBody = messageBodyText;
 
-                _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
-                {
-                    DoDoId = eventBody.DodoId,
-                    MessageBody = new MessageBodyText
-                    {
-                        Content = "触发个人消息事件-文本消息"
-                    }
-                });
-
-                _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
-                {
-                    DoDoId = eventBody.DodoId,
-                    MessageBody = messageBody
-                });
+                reply += "触发私信事件-文字消息\n";
+                reply += "内容：" + messageBody.Content;
             }
             else if (eventBody.MessageBody is MessageBodyPicture messageBodyPicture)
             {
                 var messageBody = messageBodyPicture;
 
-                _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
-                {
-                    DoDoId = eventBody.DodoId,
-                    MessageBody = new MessageBodyText
-                    {
-                        Content = "触发个人消息事件-图片消息"
-                    }
-                });
-
-                _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyPicture>
-                {
-                    DoDoId = eventBody.DodoId,
-                    MessageBody = messageBody
-                });
+                reply += "触发私信事件-图片消息\n";
+                reply += $"图片链接：{messageBody.Url}\n";
+                reply += $"图片宽度：{messageBody.Width}\n";
+                reply += $"图片高度：{messageBody.Height}\n";
+                reply += $"是否原图：{messageBody.IsOriginal}\n";
             }
             else if (eventBody.MessageBody is MessageBodyVideo messageBodyVideo)
             {
                 var messageBody = messageBodyVideo;
 
+                reply += "触发私信事件-视频消息\n";
+                reply += $"视频链接：{messageBody.Url}\n";
+                reply += $"封面链接：{messageBody.CoverUrl}\n";
+                reply += $"视频时长：{messageBody.Duration}\n";
+                reply += $"视频大小：{messageBody.Size}\n";
+            }
+
+            if (reply != "")
+            {
                 _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
                 {
                     DoDoId = eventBody.DodoId,
                     MessageBody = new MessageBodyText
                     {
-                        Content = "触发个人消息事件-视频消息"
+                        Content = reply
                     }
-                });
-
-                _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyVideo>
-                {
-                    DoDoId = eventBody.DodoId,
-                    MessageBody = messageBody
                 });
             }
         }
@@ -134,39 +117,37 @@ namespace DoDo.Open.Sdk.Services
                     {
                         reply += $"<@!{eventBody.DodoId}>\n\n";
                         reply += "**菜单来咯！**\n\n";
-                        reply += "【机器人】取机器人信息\n";
-                        reply += "【机器人】置机器人群退出\n";
-                        reply += "【群】取群列表\n";
-                        reply += "【群】取群信息\n";
-                        reply += "【群】取群等级排行榜\n";
-                        reply += "【频道】取频道列表\n";
+                        reply += "【机器人】获取机器人信息\n";
+                        reply += "【机器人】机器人退群\n";
+                        reply += "【群】获取群列表\n";
+                        reply += "【群】获取群信息\n";
+                        reply += "【群】获取群等级排行榜\n";
+                        reply += "【频道】获取频道列表\n";
                         reply += "【频道】取频道信息\n";
-                        reply += "【文字频道】置频道文本消息发送\n";
-                        reply += "【文字频道】置频道图片消息发送\n";
-                        reply += "【文字频道】置频道视频消息发送\n";
-                        reply += "【文字频道】置频道消息编辑\n";
-                        reply += "【文字频道】置频道消息撤回\n";
-                        reply += "【文字频道】置频道消息反应新增\n";
-                        reply += "【文字频道】置频道消息反应移除\n";
-                        reply += "【身份组】取身份组列表\n";
-                        reply += "【身份组】置身份组成员新增 ID\n";
-                        reply += "【身份组】置身份组成员移除 ID\n";
-                        reply += "【成员】取成员列表\n";
-                        reply += "【成员】取成员信息\n";
-                        reply += "【成员】取成员身份组列表\n";
-                        reply += "【成员】取成员邀请信息\n";
-                        reply += "【成员】置成员昵称\n";
-                        reply += "【成员】置成员禁言\n";
-                        reply += "【数字藏品】取成员数字藏品状态\n";
-                        reply += "【数字藏品】取成员高能链数字藏品信息\n";
-                        reply += "【个人】置个人文本消息发送\n";
-                        reply += "【个人】置个人图片消息发送\n";
-                        reply += "【个人】置个人视频消息发送\n";
-                        reply += "【资源】置资源图片上传\n";
-                        reply += "【事件】取WebSocket连接\n";
-                        reply += "【异常】置异常抛出\n";
+                        reply += "【文字频道】发送文字消息\n";
+                        reply += "【文字频道】发送图片消息\n";
+                        reply += "【文字频道】发送视频消息\n";
+                        reply += "【文字频道】编辑消息\n";
+                        reply += "【文字频道】撤回消息\n";
+                        reply += "【文字频道】添加表情反应\n";
+                        reply += "【文字频道】取消表情反应\n";
+                        reply += "【身份组】获取身份组列表\n";
+                        reply += "【身份组】赋予成员身份组 ID\n";
+                        reply += "【身份组】取消成员身份组 ID\n";
+                        reply += "【成员】获取成员列表\n";
+                        reply += "【成员】获取成员信息\n";
+                        reply += "【成员】获取成员身份组列表\n";
+                        reply += "【成员】获取成员邀请信息\n";
+                        reply += "【成员】编辑成员群昵称\n";
+                        reply += "【成员】禁言成员\n";
+                        reply += "【数字藏品】获取成员数字藏品判断\n";
+                        reply += "【私信】发送文字私信\n";
+                        reply += "【私信】发送图片私信\n";
+                        reply += "【私信】发送视频私信\n";
+                        reply += "【资源】上传资源图片\n";
+                        reply += "【事件】获取WebSocket连接\n";
                     }
-                    else if (content.StartsWith("取机器人信息"))
+                    else if (content.StartsWith("获取机器人信息"))
                     {
                         var output = _openApiService.GetBotInfo(new GetBotInfoInput(), true);
 
@@ -182,7 +163,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置机器人群退出"))
+                    else if (content.StartsWith("机器人退群"))
                     {
                         var output = _openApiService.SetBotIslandLeave(new SetBotIslandLeaveInput
                         {
@@ -191,14 +172,14 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置机器人群退出成功！";
+                            reply += "机器人退群成功！";
                         }
                         else
                         {
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("取群列表"))
+                    else if (content.StartsWith("获取群列表"))
                     {
                         var outputList = _openApiService.GetIslandList(new GetIslandListInput(), true);
 
@@ -229,7 +210,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取群信息"))
+                    else if (content.StartsWith("获取群信息"))
                     {
                         var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
                         {
@@ -252,7 +233,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("取群等级排行榜"))
+                    else if (content.StartsWith("获取群等级排行榜"))
                     {
                         var outputList = _openApiService.GetIslandLevelRankList(new GetIslandLevelRankListInput
                         {
@@ -283,7 +264,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取频道列表"))
+                    else if (content.StartsWith("获取频道列表"))
                     {
                         var outputList = _openApiService.GetChannelList(new GetChannelListInput
                         {
@@ -338,14 +319,14 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置频道文本消息发送"))
+                    else if (content.StartsWith("发送文字消息"))
                     {
                         var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
                         {
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文本消息"
+                                Content = "测试文字消息"
                             }
                         }, true);
 
@@ -358,7 +339,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置频道图片消息发送"))
+                    else if (content.StartsWith("发送图片消息"))
                     {
                         var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyPicture>
                         {
@@ -381,7 +362,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置频道视频消息发送"))
+                    else if (content.StartsWith("发送视频消息"))
                     {
                         var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyVideo>
                         {
@@ -404,14 +385,14 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置频道消息编辑"))
+                    else if (content.StartsWith("编辑消息"))
                     {
                         var outputMessage = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
                         {
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文本消息"
+                                Content = "测试文字消息"
                             }
                         }, true);
 
@@ -420,20 +401,20 @@ namespace DoDo.Open.Sdk.Services
                             MessageId = outputMessage.MessageId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "修改后的文本"
+                                Content = "修改后的文字"
                             }
                         }, true);
 
                         if (output)
                         {
-                            reply += "置频道消息编辑成功！";
+                            reply += "编辑消息成功！";
                         }
                         else
                         {
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置频道消息撤回"))
+                    else if (content.StartsWith("撤回消息"))
                     {
                         Thread.Sleep(3000);
                         var output = _openApiService.SetChannelMessageWithdraw(new SetChannelMessageWithdrawInput
@@ -444,7 +425,7 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置频道消息撤回成功！";
+                            reply += "撤回消息成功！";
                         }
                         else
                         {
@@ -452,7 +433,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("置频道消息反应新增"))
+                    else if (content.StartsWith("添加表情反应"))
                     {
 
                         var output = _openApiService.SetChannelMessageReactionAdd(new SetChannelMessageReactionAddInput
@@ -467,7 +448,7 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置频道消息反应新增成功！";
+                            reply += "添加表情反应成功！";
                         }
                         else
                         {
@@ -475,7 +456,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("置频道消息反应移除"))
+                    else if (content.StartsWith("取消表情反应"))
                     {
 
                         var output = _openApiService.SetChannelMessageReactionRemove(new SetChannelMessageReactionRemoveInput
@@ -490,7 +471,7 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置频道消息反应移除成功！";
+                            reply += "取消表情反应成功！";
                         }
                         else
                         {
@@ -498,7 +479,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取身份组列表"))
+                    else if (content.StartsWith("获取身份组列表"))
                     {
                         var outputList = _openApiService.GetRoleList(new GetRoleListInput
                         {
@@ -530,7 +511,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("置身份组成员新增"))
+                    else if (content.StartsWith("赋予成员身份组"))
                     {
                         var regex = Regex.Match(content, @"(\d+?)$");
 
@@ -543,7 +524,7 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置身份组成员新增成功！";
+                            reply += "赋予成员身份组成功！";
                         }
                         else
                         {
@@ -551,7 +532,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("置身份组成员移除"))
+                    else if (content.StartsWith("取消成员身份组"))
                     {
                         var regex = Regex.Match(content, @"(\d+?)$");
                         var output = _openApiService.SetRoleMemberRemove(new SetRoleMemberRemoveInput
@@ -563,7 +544,7 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置身份组成员移除成功！";
+                            reply += "取消成员身份组成功！";
                         }
                         else
                         {
@@ -571,7 +552,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取成员列表"))
+                    else if (content.StartsWith("获取成员列表"))
                     {
                         var outputList = _openApiService.GetMemberList(new GetMemberListInput
                         {
@@ -609,7 +590,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("取成员信息"))
+                    else if (content.StartsWith("获取成员信息"))
                     {
                         var output = _openApiService.GetMemberInfo(new GetMemberInfoInput
                         {
@@ -637,7 +618,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取成员身份组列表"))
+                    else if (content.StartsWith("获取成员身份组列表"))
                     {
                         var outputList = _openApiService.GetMemberRoleList(new GetMemberRoleListInput
                         {
@@ -670,7 +651,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取成员邀请信息"))
+                    else if (content.StartsWith("获取成员邀请信息"))
                     {
                         var output = _openApiService.GetMemberInvitationInfo(new GetMemberInvitationInfoInput
                         {
@@ -690,7 +671,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("置成员昵称"))
+                    else if (content.StartsWith("编辑成员群昵称"))
                     {
                         var output = _openApiService.SetMemberNick(new SetMemberNickInput
                         {
@@ -701,14 +682,14 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置成员昵称成功！";
+                            reply += "编辑成员群昵称成功！";
                         }
                         else
                         {
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置成员禁言"))
+                    else if (content.StartsWith("禁言成员"))
                     {
                         var output = _openApiService.SetMemberBan(new SetMemberBanInput
                         {
@@ -720,14 +701,14 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output)
                         {
-                            reply += "置成员禁言成功！";
+                            reply += "禁言成员成功！";
                         }
                         else
                         {
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("取成员数字藏品状态"))
+                    else if (content.StartsWith("获取成员数字藏品判断"))
                     {
                         var output = _openApiService.GetMemberNftStatus(new GetMemberNftStatusInput
                         {
@@ -750,39 +731,14 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取成员高能链数字藏品信息"))
-                    {
-                        var output = _openApiService.GetMemberUPowerchainInfo(new GetMemberUPowerchainInfoInput
-                        {
-                            IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId,
-                            Issuer = "哔哩哔哩",
-                            Series = "dodo测试1"
-                        }, true);
-
-                        if (output != null)
-                        {
-                            reply += $"DoDo号：{output.DodoId}\n";
-                            reply += $"群昵称：{output.NickName}\n";
-                            reply += $"DoDo昵称：{output.PersonalNickName}\n";
-                            reply += $"是否拥有该发行方的NFT：{output.IsHaveIssuer}\n";
-                            reply += $"是否拥有该系列的NFT：{output.IsHaveSeries}\n";
-                            reply += $"拥有的该系列下NFT数量：{output.NftCount}\n";
-                        }
-                        else
-                        {
-                            reply += "调用接口失败！";
-                        }
-
-                    }
-                    else if (content.StartsWith("置个人文本消息发送"))
+                    else if (content.StartsWith("发送文字私信"))
                     {
                         var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
                         {
                             DoDoId = eventBody.DodoId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文本消息"
+                                Content = "测试文字消息"
                             }
                         }, true);
 
@@ -795,7 +751,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置个人图片消息发送"))
+                    else if (content.StartsWith("发送图片私信"))
                     {
                         var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyPicture>
                         {
@@ -818,7 +774,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置个人视频消息发送"))
+                    else if (content.StartsWith("发送视频私信"))
                     {
                         var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyVideo>
                         {
@@ -841,7 +797,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置资源图片上传"))
+                    else if (content.StartsWith("上传资源图片"))
                     {
                         var output = _openApiService.SetResourcePictureUpload(new SetResourceUploadInput
                         {
@@ -859,7 +815,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("取WebSocket连接"))
+                    else if (content.StartsWith("获取WebSocket连接"))
                     {
                         var output = _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput(), true);
 
@@ -872,10 +828,6 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("置异常抛出"))
-                    {
-                        _openApiService.GetIslandInfo(new GetIslandInfoInput(), true);
-                    }
                 }
                 catch (Exception e)
                 {
@@ -887,7 +839,7 @@ namespace DoDo.Open.Sdk.Services
             {
                 var messageBody = messageBodyPicture;
 
-                reply += "触发频道消息事件-图片消息\n";
+                reply += "触发消息事件-图片消息\n";
                 reply += $"图片链接：{messageBody.Url}\n";
                 reply += $"图片宽度：{messageBody.Width}\n";
                 reply += $"图片高度：{messageBody.Height}\n";
@@ -897,7 +849,7 @@ namespace DoDo.Open.Sdk.Services
             {
                 var messageBody = messageBodyVideo;
 
-                reply += "触发频道消息事件-视频消息\n";
+                reply += "触发消息事件-视频消息\n";
                 reply += $"视频链接：{messageBody.Url}\n";
                 reply += $"封面链接：{messageBody.CoverUrl}\n";
                 reply += $"视频时长：{messageBody.Duration}\n";
@@ -907,7 +859,7 @@ namespace DoDo.Open.Sdk.Services
             {
                 var messageBody = messageBodyFile;
 
-                reply += "触发频道消息事件-文件消息\n";
+                reply += "触发消息事件-文件消息\n";
                 reply += $"文件链接：{messageBody.Url}\n";
                 reply += $"文件名称：{messageBody.Name}\n";
                 reply += $"文件大小：{messageBody.Size}\n";
@@ -932,7 +884,7 @@ namespace DoDo.Open.Sdk.Services
 
             var reply = "";
 
-            reply += "触发消息反应事件\n";
+            reply += "触发消息表情反应事件\n";
             reply += $"来源频道号：{eventBody.ChannelId}\n";
             reply += $"来源DoDo号：{eventBody.DodoId}\n";
             reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";

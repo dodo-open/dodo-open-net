@@ -16,13 +16,13 @@ namespace DoDo.Open.Sdk.Models.Messages
         public string NickName { get; set; }
 
         /// <summary>
-        /// 个人头像
+        /// 头像
         /// </summary>
         [JsonProperty("avatarUrl")]
         public string AvatarUrl { get; set; }
 
         /// <summary>
-        /// 个人性别，-1：保密，0：女，1：男
+        /// 性别，-1：保密，0：女，1：男
         /// </summary>
         [JsonProperty("sex")]
         public int Sex { get; set; }

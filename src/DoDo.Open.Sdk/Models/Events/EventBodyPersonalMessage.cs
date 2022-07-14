@@ -30,7 +30,7 @@ namespace DoDo.Open.Sdk.Models.Events
         public string MessageId { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文本消息，2：图片消息，3：视频消息
+        /// 消息类型，1：文字消息，2：图片消息，3：视频消息
         /// </summary>
         [JsonProperty("messageType")]
         public int MessageType { get; set; }

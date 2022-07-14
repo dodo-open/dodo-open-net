@@ -139,7 +139,7 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 个人消息事件
+        /// 私信事件
         /// </summary>
         /// <param name="input"></param>
         public virtual void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
@@ -149,7 +149,7 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 频道消息事件
+        /// 消息事件
         /// </summary>
         /// <param name="input"></param>
         public virtual void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
@@ -159,7 +159,7 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 消息反应事件
+        /// 消息表情反应事件
         /// </summary>
         /// <param name="input"></param>
         public virtual void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)

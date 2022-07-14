@@ -16,7 +16,7 @@ namespace DoDo.Open.Sdk.Models.Events
         public string EventId { get; set; }
 
         /// <summary>
-        /// 事件类型，1001：个人消息事件，2001：频道消息事件
+        /// 事件类型，EventTypeConst.
         /// </summary>
         [JsonProperty("eventType")]
         public string EventType { get; set; }

@@ -9,17 +9,17 @@ namespace DoDo.Open.Sdk.Models.Events
     public class EventTypeConst
     {
         /// <summary>
-        /// 个人消息事件
+        /// 私信事件
         /// </summary>
         public static string PersonalMessage = "1001";
 
         /// <summary>
-        /// 频道消息事件
+        /// 消息事件
         /// </summary>
         public static string ChannelMessage = "2001";
 
         /// <summary>
-        /// 消息反应事件
+        /// 消息表情反应事件
         /// </summary>
         public static string MessageReaction = "3001";
 

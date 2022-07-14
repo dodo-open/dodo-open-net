@@ -31,7 +31,7 @@ namespace DoDo.Open.Sdk.Services
         #region 机器人
 
         /// <summary>
-        /// 取机器人配置
+        /// 获取机器人配置
         /// </summary>
         /// <returns></returns>
         public OpenApiOptions GetBotOptions()
@@ -40,7 +40,7 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取机器人信息
+        /// 获取机器人信息
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
@@ -52,9 +52,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置机器人群退出
+        /// 机器人退群
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetBotIslandLeave(SetBotIslandLeaveInput input, bool isThrowException = false)
         {
             var result = BaseRequest<SetBotIslandLeaveInput>("/api/v1/bot/island/leave", input, isThrowException);
@@ -67,9 +68,10 @@ namespace DoDo.Open.Sdk.Services
         #region 群
 
         /// <summary>
-        /// 取群列表
+        /// 获取群列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public List<GetIslandListOutput> GetIslandList(GetIslandListInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetIslandListInput, List<GetIslandListOutput>>("/api/v1/island/list", input, isThrowException);
@@ -78,9 +80,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取群信息
+        /// 获取群信息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public GetIslandInfoOutput GetIslandInfo(GetIslandInfoInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetIslandInfoInput, GetIslandInfoOutput>("/api/v1/island/info", input, isThrowException);
@@ -89,9 +92,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取群等级排行榜
+        /// 获取群等级排行榜
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public List<GetIslandLevelRankListOutput> GetIslandLevelRankList(GetIslandLevelRankListInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetIslandLevelRankListInput, List<GetIslandLevelRankListOutput>>("/api/v1/island/level/rank/list", input, isThrowException);
@@ -104,9 +108,10 @@ namespace DoDo.Open.Sdk.Services
         #region 频道
 
         /// <summary>
-        /// 取频道列表
+        /// 获取频道列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public List<GetChannelListOutput> GetChannelList(GetChannelListInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetChannelListInput, List<GetChannelListOutput>>("/api/v1/channel/list", input, isThrowException);
@@ -118,21 +123,23 @@ namespace DoDo.Open.Sdk.Services
         /// 取频道信息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public GetChannelInfoOutput GetChannelInfo(GetChannelInfoInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetChannelInfoInput, GetChannelInfoOutput>("/api/v1/channel/info", input, isThrowException);
 
             return result;
         }
-        
+
         #endregion
 
         #region 文字频道
-        
+
         /// <summary>
-        /// 置频道消息发送
+        /// 发送消息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public SetChannelMessageSendOutput SetChannelMessageSend<T>(SetChannelMessageSendInput<T> input, bool isThrowException = false)
         where T : MessageBodyBase
         {
@@ -142,9 +149,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置频道消息编辑
+        /// 编辑消息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetChannelMessageEdit<T>(SetChannelMessageEditInput<T> input, bool isThrowException = false)
             where T : MessageBodyBase
         {
@@ -154,9 +162,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置频道消息撤回
+        /// 撤回消息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetChannelMessageWithdraw(SetChannelMessageWithdrawInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/channel/message/withdraw", input, isThrowException);
@@ -165,9 +174,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置频道消息反应
+        /// 表情反应
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         [Obsolete("该方法已弃用，请使用 SetChannelMessageReactionAdd 和 SetChannelMessageReactionRemove 替代")]
         public bool SetChannelMessageReaction(SetChannelMessageReactionInput input, bool isThrowException = false)
         {
@@ -177,9 +187,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置频道消息反应新增
+        /// 添加表情反应
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetChannelMessageReactionAdd(SetChannelMessageReactionAddInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/channel/message/reaction/add", input, isThrowException);
@@ -188,9 +199,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置频道消息反应移除
+        /// 取消表情反应
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetChannelMessageReactionRemove(SetChannelMessageReactionRemoveInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/channel/message/reaction/remove", input, isThrowException);
@@ -203,9 +215,10 @@ namespace DoDo.Open.Sdk.Services
         #region 身份组
 
         /// <summary>
-        /// 取身份组列表
+        /// 获取身份组列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public List<GetRoleListOutput> GetRoleList(GetRoleListInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetRoleListInput, List<GetRoleListOutput>>("/api/v1/role/list", input, isThrowException);
@@ -214,9 +227,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置身份组成员新增
+        /// 赋予成员身份组
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetRoleMemberAdd(SetRoleMemberAddInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/role/member/add", input, isThrowException);
@@ -225,9 +239,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置身份组成员移除
+        /// 取消成员身份组
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetRoleMemberRemove(SetRoleMemberRemoveInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/role/member/remove", input, isThrowException);
@@ -240,9 +255,10 @@ namespace DoDo.Open.Sdk.Services
         #region 成员
 
         /// <summary>
-        /// 取成员列表
+        /// 获取成员列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public GetMemberListOutput GetMemberList(GetMemberListInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetMemberListInput, GetMemberListOutput>("/api/v1/member/list", input, isThrowException);
@@ -251,9 +267,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取成员信息
+        /// 获取成员信息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public GetMemberInfoOutput GetMemberInfo(GetMemberInfoInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetMemberInfoInput, GetMemberInfoOutput>("/api/v1/member/info", input, isThrowException);
@@ -262,9 +279,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取成员身份组列表
+        /// 获取成员身份组列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public List<GetMemberRoleListOutput> GetMemberRoleList(GetMemberRoleListInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetMemberRoleListInput, List<GetMemberRoleListOutput>>("/api/v1/member/role/list", input, isThrowException);
@@ -273,9 +291,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取成员邀请信息
+        /// 获取成员邀请信息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public GetMemberInvitationInfoOutput GetMemberInvitationInfo(GetMemberInvitationInfoInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetMemberInvitationInfoInput, GetMemberInvitationInfoOutput>("/api/v1/member/invitation/info", input, isThrowException);
@@ -284,9 +303,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置成员昵称
+        /// 编辑成员群昵称
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetMemberNick(SetMemberNickInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/member/nick/set", input, isThrowException);
@@ -295,9 +315,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 置成员禁言
+        /// 禁言成员
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public bool SetMemberBan(SetMemberBanInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/member/ban/set", input, isThrowException);
@@ -310,9 +331,11 @@ namespace DoDo.Open.Sdk.Services
         #region 数字藏品
 
         /// <summary>
-        /// 取成员高能链数字藏品信息
+        /// 获取成员高能链数字藏品信息
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        [Obsolete("该方法已弃用，请使用 GetMemberNftStatus 替代")]
         public GetMemberUPowerchainInfoOutput GetMemberUPowerchainInfo(GetMemberUPowerchainInfoInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetMemberUPowerchainInfoInput, GetMemberUPowerchainInfoOutput>("/api/v1/member/upowerchain/info", input, isThrowException);
@@ -321,9 +344,10 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取成员数字藏品状态
+        /// 获取成员数字藏品判断
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public GetMemberNftStatusOutput GetMemberNftStatus(GetMemberNftStatusInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetMemberNftStatusInput, GetMemberNftStatusOutput>("/api/v1/member/nft/status", input, isThrowException);
@@ -333,12 +357,13 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
-        #region 个人
+        #region 私信
 
         /// <summary>
-        /// 置个人消息发送
+        /// 发送私信
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public SetPersonalMessageSendOutput SetPersonalMessageSend<T>(SetPersonalMessageSendInput<T> input, bool isThrowException = false)
             where T : MessageBodyBase
         {
@@ -352,9 +377,10 @@ namespace DoDo.Open.Sdk.Services
         #region 资源
 
         /// <summary>
-        /// 置资源图片上传
+        /// 上传资源图片
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public SetResourcePictureUploadOutput SetResourcePictureUpload(SetResourceUploadInput input, bool isThrowException = false)
         {
             var result = BaseRequest<SetResourceUploadInput, SetResourcePictureUploadOutput>("/api/v1/resource/picture/upload", input, isThrowException);
@@ -367,9 +393,10 @@ namespace DoDo.Open.Sdk.Services
         #region 事件
 
         /// <summary>
-        /// 取WebSocket连接
+        /// 获取WebSocket连接
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
         public GetWebSocketConnectionOutput GetWebSocketConnection(GetWebSocketConnectionInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetWebSocketConnectionInput, GetWebSocketConnectionOutput>("/api/v1/websocket/connection", input, isThrowException);
