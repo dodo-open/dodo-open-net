@@ -10,7 +10,7 @@ namespace DoDo.Open.Sdk.Models.Personals
         /// DoDo号
         /// </summary>
         [JsonProperty("dodoId")]
-        public string DoDoId { get; set; }
+        public string DodoId { get; set; }
 
         /// <summary>
         /// 消息类型，1：文字消息，2：图片消息，3：视频消息，5：文件消息

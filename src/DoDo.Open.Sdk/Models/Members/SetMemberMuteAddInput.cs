@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetMemberInfoInput
+    public class SetMemberMuteAddInput
     {
         /// <summary>
         /// 群号
@@ -20,5 +18,17 @@ namespace DoDo.Open.Sdk.Models.Members
         /// </summary>
         [JsonProperty("dodoId")]
         public string DodoId { get; set; }
+
+        /// <summary>
+        /// 禁言时长（秒），最长7天
+        /// </summary>
+        [JsonProperty("duration")]
+        public int Duration { get; set; }
+
+        /// <summary>
+        /// 禁言理由
+        /// </summary>
+        [JsonProperty("reason")]
+        public string Reason { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace DoDo.Open.Sdk.Models.Members
         /// DoDo号
         /// </summary>
         [JsonProperty("dodoId")]
-        public string DoDoId { get; set; }
+        public string DodoId { get; set; }
 
         /// <summary>
         /// 禁言时长（秒），最长7天
@@ -28,7 +28,7 @@ namespace DoDo.Open.Sdk.Models.Members
         public int Duration { get; set; }
 
         /// <summary>
-        /// 禁言原因
+        /// 禁言理由
         /// </summary>
         [JsonProperty("reason")]
         public string Reason { get; set; }

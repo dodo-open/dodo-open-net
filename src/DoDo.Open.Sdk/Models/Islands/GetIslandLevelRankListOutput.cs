@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace DoDo.Open.Sdk.Models.Members
+namespace DoDo.Open.Sdk.Models.Islands
 {
     public class GetIslandLevelRankListOutput
     {

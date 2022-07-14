@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetMemberInfoInput
+    public class SetMemberNickNameEditInput
     {
         /// <summary>
         /// 群号
@@ -20,5 +18,11 @@ namespace DoDo.Open.Sdk.Models.Members
         /// </summary>
         [JsonProperty("dodoId")]
         public string DodoId { get; set; }
+
+        /// <summary>
+        /// 群昵称
+        /// </summary>
+        [JsonProperty("nickName")]
+        public string NickName { get; set; }
     }
 }

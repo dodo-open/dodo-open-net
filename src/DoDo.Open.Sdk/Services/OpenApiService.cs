@@ -103,6 +103,30 @@ namespace DoDo.Open.Sdk.Services
             return result;
         }
 
+        /// <summary>
+        /// 获取群禁言名单
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetIslandMuteListOutput GetIslandMuteList(GetIslandMuteListInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest<GetIslandMuteListInput, GetIslandMuteListOutput>("/api/v1/island/mute/list", input, isThrowException);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取群封禁名单
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetIslandBanListOutput GetIslandBanList(GetIslandBanListInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest<GetIslandBanListInput, GetIslandBanListOutput>("/api/v1/island/ban/list", input, isThrowException);
+
+            return result;
+        }
+
         #endregion
 
         #region 频道
@@ -307,7 +331,20 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
+        [Obsolete("该方法已弃用，请使用 SetMemberNickNameEdit 替代")]
         public bool SetMemberNick(SetMemberNickInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest("/api/v1/member/nick/set", input, isThrowException);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 编辑成员群昵称
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetMemberNickNameEdit(SetMemberNickNameEditInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/member/nick/set", input, isThrowException);
 
@@ -319,9 +356,58 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
+        [Obsolete("该方法已弃用，请使用 SetMemberMuteAdd 替代")]
         public bool SetMemberBan(SetMemberBanInput input, bool isThrowException = false)
         {
             var result = BaseRequest("/api/v1/member/ban/set", input, isThrowException);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 禁言成员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetMemberMuteAdd(SetMemberMuteAddInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest("/api/v1/member/ban/set", input, isThrowException);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取消成员禁言
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetMemberMuteRemove(SetMemberMuteRemoveInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest("/api/v1/member/mute/remove", input, isThrowException);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 永久封禁成员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetMemberBanAdd(SetMemberBanAddInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest("/api/v1/member/ban/add", input, isThrowException);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取消成员永久封禁
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetMemberBanRemove(SetMemberBanRemoveInput input, bool isThrowException = false)
+        {
+            var result = BaseRequest("/api/v1/member/ban/remove", input, isThrowException);
 
             return result;
         }

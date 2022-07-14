@@ -35,13 +35,13 @@ namespace DoDo.Open.Sdk.Models.Islands
         public int OnlineMemberCount { get; set; }
 
         /// <summary>
-        /// 系统消息频道号
+        /// 系统消息频道ID
         /// </summary>
         [JsonProperty("systemChannelId")]
         public string SystemChannelId { get; set; }
 
         /// <summary>
-        /// 默认访问频道号
+        /// 默认访问频道ID
         /// </summary>
         [JsonProperty("defaultChannelId")]
         public string DefaultChannelId { get; set; }

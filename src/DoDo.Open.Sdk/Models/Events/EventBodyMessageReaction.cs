@@ -17,7 +17,7 @@ namespace DoDo.Open.Sdk.Models.Events
         public string IslandId { get; set; }
 
         /// <summary>
-        /// 来源频道号
+        /// 来源频道ID
         /// </summary>
         [JsonProperty("channelId")]
         public string ChannelId { get; set; }

@@ -5,7 +5,7 @@ namespace DoDo.Open.Sdk.Models.Channels
     public class GetChannelListOutput
     {
         /// <summary>
-        /// 频道号
+        /// 频道ID
         /// </summary>
         [JsonProperty("channelId")]
         public string ChannelId { get; set; }

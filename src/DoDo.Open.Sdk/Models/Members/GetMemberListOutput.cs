@@ -5,6 +5,11 @@ namespace DoDo.Open.Sdk.Models.Members
 {
     public class GetMemberListOutput
     {
+        public GetMemberListOutput()
+        {
+            List = new List<GetMemberListItem>();
+        }
+
         /// <summary>
         /// 最大ID值
         /// </summary>

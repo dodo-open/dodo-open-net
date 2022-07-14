@@ -19,7 +19,7 @@ namespace DoDo.Open.Sdk.Models.Roles
         /// DoDo号
         /// </summary>
         [JsonProperty("dodoId")]
-        public string DoDoId { get; set; }
+        public string DodoId { get; set; }
 
         /// <summary>
         /// 身份组ID

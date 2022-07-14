@@ -88,7 +88,7 @@ namespace DoDo.Open.Sdk.Services
             {
                 _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
                 {
-                    DoDoId = eventBody.DodoId,
+                    DodoId = eventBody.DodoId,
                     MessageBody = new MessageBodyText
                     {
                         Content = reply
@@ -122,6 +122,8 @@ namespace DoDo.Open.Sdk.Services
                         reply += "【群】获取群列表\n";
                         reply += "【群】获取群信息\n";
                         reply += "【群】获取群等级排行榜\n";
+                        reply += "【群】获取群禁言名单\n";
+                        reply += "【群】获取群封禁名单\n";
                         reply += "【频道】获取频道列表\n";
                         reply += "【频道】取频道信息\n";
                         reply += "【文字频道】发送文字消息\n";
@@ -140,6 +142,9 @@ namespace DoDo.Open.Sdk.Services
                         reply += "【成员】获取成员邀请信息\n";
                         reply += "【成员】编辑成员群昵称\n";
                         reply += "【成员】禁言成员\n";
+                        reply += "【成员】取消成员禁言\n";
+                        reply += "【成员】永久封禁成员\n";
+                        reply += "【成员】取消成员永久封禁\n";
                         reply += "【数字藏品】获取成员数字藏品判断\n";
                         reply += "【私信】发送文字私信\n";
                         reply += "【私信】发送图片私信\n";
@@ -147,6 +152,9 @@ namespace DoDo.Open.Sdk.Services
                         reply += "【资源】上传资源图片\n";
                         reply += "【事件】获取WebSocket连接\n";
                     }
+                    
+                    #region 机器人
+
                     else if (content.StartsWith("获取机器人信息"))
                     {
                         var output = _openApiService.GetBotInfo(new GetBotInfoInput(), true);
@@ -179,6 +187,11 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
+
+                    #endregion
+
+                    #region 群
+
                     else if (content.StartsWith("获取群列表"))
                     {
                         var outputList = _openApiService.GetIslandList(new GetIslandListInput(), true);
@@ -194,8 +207,8 @@ namespace DoDo.Open.Sdk.Services
                                     reply += $"群总人数：{output.MemberCount}\n";
                                     reply += $"群在线人数：{output.OnlineMemberCount}\n";
                                     reply += $"群头像：{output.CoverUrl}\n";
-                                    reply += $"系统消息频道号：{output.SystemChannelId}\n";
-                                    reply += $"默认访问频道号：{output.DefaultChannelId}\n";
+                                    reply += $"系统消息频道ID：{output.SystemChannelId}\n";
+                                    reply += $"默认访问频道ID：{output.DefaultChannelId}\n";
                                     reply += "\n";
                                 }
                             }
@@ -225,8 +238,8 @@ namespace DoDo.Open.Sdk.Services
                             reply += $"群总人数：{output.MemberCount}\n";
                             reply += $"群在线人数：{output.OnlineMemberCount}\n";
                             reply += $"群描述：{output.Description}\n";
-                            reply += $"系统消息频道号：{output.SystemChannelId}\n";
-                            reply += $"默认访问频道号：{output.DefaultChannelId}\n";
+                            reply += $"系统消息频道ID：{output.SystemChannelId}\n";
+                            reply += $"默认访问频道ID：{output.DefaultChannelId}\n";
                         }
                         else
                         {
@@ -264,6 +277,69 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
+                    else if (content.StartsWith("获取群禁言名单"))
+                    {
+                        var outputList = _openApiService.GetIslandMuteList(new GetIslandMuteListInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            PageSize = 3,
+                            MaxId = 0
+                        }, true);
+
+                        if (outputList != null)
+                        {
+                            if (outputList.List.Count > 0)
+                            {
+                                foreach (var output in outputList.List)
+                                {
+                                    reply += $"DoDo号：{output.DodoId}\n";
+                                    reply += "\n";
+                                }
+                            }
+                            else
+                            {
+                                reply += "暂无列表数据！";
+                            }
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("获取群封禁名单"))
+                    {
+                        var outputList = _openApiService.GetIslandBanList(new GetIslandBanListInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            PageSize = 3,
+                            MaxId = 0
+                        }, true);
+
+                        if (outputList != null)
+                        {
+                            if (outputList.List.Count > 0)
+                            {
+                                foreach (var output in outputList.List)
+                                {
+                                    reply += $"DoDo号：{output.DodoId}\n";
+                                    reply += "\n";
+                                }
+                            }
+                            else
+                            {
+                                reply += "暂无列表数据！";
+                            }
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+
+                    #endregion
+
+                    #region 频道
+
                     else if (content.StartsWith("获取频道列表"))
                     {
                         var outputList = _openApiService.GetChannelList(new GetChannelListInput
@@ -277,7 +353,7 @@ namespace DoDo.Open.Sdk.Services
                             {
                                 foreach (var output in outputList)
                                 {
-                                    reply += $"频道号：{output.ChannelId}\n";
+                                    reply += $"频道ID：{output.ChannelId}\n";
                                     reply += $"频道名称：{output.ChannelName}\n";
                                     reply += $"频道类型：{output.ChannelType}\n";
                                     reply += $"默认频道标识：{output.DefaultFlag}\n";
@@ -306,7 +382,7 @@ namespace DoDo.Open.Sdk.Services
 
                         if (output != null)
                         {
-                            reply += $"频道号：{output.ChannelId}\n";
+                            reply += $"频道ID：{output.ChannelId}\n";
                             reply += $"频道名称：{output.ChannelName}\n";
                             reply += $"频道类型：{output.ChannelType}\n";
                             reply += $"默认频道标识：{output.DefaultFlag}\n";
@@ -319,6 +395,11 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
+
+                    #endregion
+
+                    #region 文字频道
+
                     else if (content.StartsWith("发送文字消息"))
                     {
                         var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
@@ -479,6 +560,11 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
+
+                    #endregion
+
+                    #region 身份组
+
                     else if (content.StartsWith("获取身份组列表"))
                     {
                         var outputList = _openApiService.GetRoleList(new GetRoleListInput
@@ -518,7 +604,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = _openApiService.SetRoleMemberAdd(new SetRoleMemberAddInput
                         {
                             IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId,
+                            DodoId = eventBody.DodoId,
                             RoleId = regex.Value
                         }, true);
 
@@ -538,7 +624,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = _openApiService.SetRoleMemberRemove(new SetRoleMemberRemoveInput
                         {
                             IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId,
+                            DodoId = eventBody.DodoId,
                             RoleId = regex.Value
                         }, true);
 
@@ -552,6 +638,11 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
+
+                    #endregion
+
+                    #region 成员
+
                     else if (content.StartsWith("获取成员列表"))
                     {
                         var outputList = _openApiService.GetMemberList(new GetMemberListInput
@@ -561,7 +652,7 @@ namespace DoDo.Open.Sdk.Services
                             MaxId = 0
                         }, true);
 
-                        if (outputList?.List != null)
+                        if (outputList != null)
                         {
                             if (outputList.List.Count > 0)
                             {
@@ -595,7 +686,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = _openApiService.GetMemberInfo(new GetMemberInfoInput
                         {
                             IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId
+                            DodoId = eventBody.DodoId
                         }, true);
 
                         if (output != null)
@@ -656,7 +747,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = _openApiService.GetMemberInvitationInfo(new GetMemberInvitationInfoInput
                         {
                             IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId
+                            DodoId = eventBody.DodoId
                         }, true);
 
                         if (output != null)
@@ -673,11 +764,11 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("编辑成员群昵称"))
                     {
-                        var output = _openApiService.SetMemberNick(new SetMemberNickInput
+                        var output = _openApiService.SetMemberNickNameEdit(new SetMemberNickNameEditInput
                         {
                             IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId,
-                            NickName = "昵称修改测试"
+                            DodoId = eventBody.DodoId,
+                            NickName = "群昵称编辑测试"
                         }, true);
 
                         if (output)
@@ -691,10 +782,10 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("禁言成员"))
                     {
-                        var output = _openApiService.SetMemberBan(new SetMemberBanInput
+                        var output = _openApiService.SetMemberMuteAdd(new SetMemberMuteAddInput
                         {
                             IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId,
+                            DodoId = eventBody.DodoId,
                             Duration = 30,
                             Reason = "禁言测试"
                         }, true);
@@ -708,12 +799,70 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
+                    else if (content.StartsWith("取消成员禁言"))
+                    {
+                        var output = _openApiService.SetMemberMuteRemove(new SetMemberMuteRemoveInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            DodoId = eventBody.DodoId
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "取消成员禁言成功！";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("永久封禁成员"))
+                    {
+                        var output = _openApiService.SetMemberBanAdd(new SetMemberBanAddInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            DodoId = eventBody.DodoId,
+                            NoticeChannelId = eventBody.ChannelId,
+                            Reason = "封禁测试"
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "永久封禁成员成功！";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("取消成员永久封禁"))
+                    {
+                        var output = _openApiService.SetMemberBanRemove(new SetMemberBanRemoveInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            DodoId = eventBody.DodoId
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "取消成员永久封禁成功！";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+
+                    #endregion
+
+                    #region 数字藏品
+
                     else if (content.StartsWith("获取成员数字藏品判断"))
                     {
                         var output = _openApiService.GetMemberNftStatus(new GetMemberNftStatusInput
                         {
                             IslandId = eventBody.IslandId,
-                            DoDoId = eventBody.DodoId,
+                            DodoId = eventBody.DodoId,
                             Platform = "upower",
                             Issuer = "哔哩哔哩",
                             Series = "dodo测试1"
@@ -731,11 +880,16 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
+
+                    #endregion
+
+                    #region 私信
+
                     else if (content.StartsWith("发送文字私信"))
                     {
                         var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
                         {
-                            DoDoId = eventBody.DodoId,
+                            DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyText
                             {
                                 Content = "测试文字消息"
@@ -755,7 +909,7 @@ namespace DoDo.Open.Sdk.Services
                     {
                         var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyPicture>
                         {
-                            DoDoId = eventBody.DodoId,
+                            DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyPicture
                             {
                                 Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
@@ -778,7 +932,7 @@ namespace DoDo.Open.Sdk.Services
                     {
                         var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyVideo>
                         {
-                            DoDoId = eventBody.DodoId,
+                            DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyVideo
                             {
                                 Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
@@ -797,6 +951,11 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
+
+                    #endregion
+
+                    #region 资源
+
                     else if (content.StartsWith("上传资源图片"))
                     {
                         var output = _openApiService.SetResourcePictureUpload(new SetResourceUploadInput
@@ -815,6 +974,11 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
+
+                    #endregion
+
+                    #region 事件
+
                     else if (content.StartsWith("获取WebSocket连接"))
                     {
                         var output = _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput(), true);
@@ -827,7 +991,10 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += "调用接口失败！";
                         }
-                    }
+                    } 
+
+                    #endregion
+
                 }
                 catch (Exception e)
                 {
@@ -885,7 +1052,7 @@ namespace DoDo.Open.Sdk.Services
             var reply = "";
 
             reply += "触发消息表情反应事件\n";
-            reply += $"来源频道号：{eventBody.ChannelId}\n";
+            reply += $"来源频道ID：{eventBody.ChannelId}\n";
             reply += $"来源DoDo号：{eventBody.DodoId}\n";
             reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
             reply += $"反应对象ID：{eventBody.ReactionTarget.Id}\n";

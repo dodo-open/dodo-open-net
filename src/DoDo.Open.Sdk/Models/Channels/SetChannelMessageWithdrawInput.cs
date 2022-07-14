@@ -16,7 +16,7 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string MessageId { get; set; }
 
         /// <summary>
-        /// 撤回原因
+        /// 撤回理由
         /// </summary>
         [JsonProperty("reason")]
         public string Reason { get; set; }

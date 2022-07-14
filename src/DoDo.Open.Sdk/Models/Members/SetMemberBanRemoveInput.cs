@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetMemberInfoInput
+    public class SetMemberBanRemoveInput
     {
         /// <summary>
         /// 群号

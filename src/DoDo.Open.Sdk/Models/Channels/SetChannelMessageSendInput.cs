@@ -7,7 +7,7 @@ namespace DoDo.Open.Sdk.Models.Channels
     where T : MessageBodyBase
     {
         /// <summary>
-        /// 频道号
+        /// 频道ID
         /// </summary>
         [JsonProperty("channelId")]
         public string ChannelId { get; set; }

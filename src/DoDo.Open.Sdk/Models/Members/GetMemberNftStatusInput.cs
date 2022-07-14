@@ -17,7 +17,7 @@ namespace DoDo.Open.Sdk.Models.Members
         /// DoDo号
         /// </summary>
         [JsonProperty("dodoId")]
-        public string DoDoId { get; set; }
+        public string DodoId { get; set; }
 
         /// <summary>
         /// 数藏平台，upower：高能链，ubanquan：优版权，metamask：Opensea
