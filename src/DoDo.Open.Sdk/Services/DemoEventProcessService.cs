@@ -28,27 +28,28 @@ namespace DoDo.Open.Sdk.Services
 
         public override void Connected(string message)
         {
-            Console.WriteLine($"{message}\n");
+            Console.WriteLine($"Connected: {message}\n");
+            _openApiService.GetBotInfo(new GetBotInfoInput());
         }
 
         public override void Disconnected(string message)
         {
-            Console.WriteLine($"{message}\n");
+            Console.WriteLine($"Disconnected: {message}\n");
         }
 
         public override void Reconnected(string message)
         {
-            Console.WriteLine($"{message}\n");
+            Console.WriteLine($"Reconnected: {message}\n");
         }
 
         public override void Exception(string message)
         {
-            Console.WriteLine($"{message}\n");
+            Console.WriteLine($"Exception: {message}\n");
         }
 
         public override void Received(string message)
         {
-            Console.WriteLine($"接收事件：{message}\n");
+            Console.WriteLine($"Received: {message}\n");
         }
 
         public override void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
@@ -109,7 +110,7 @@ namespace DoDo.Open.Sdk.Services
 
                 var content = messageBody.Content;
 
-                Console.WriteLine($"\n【{content}】");
+                Console.WriteLine($"Command: {content}\n");
 
                 try
                 {

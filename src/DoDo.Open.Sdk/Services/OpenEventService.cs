@@ -52,7 +52,7 @@ namespace DoDo.Open.Sdk.Services
                 {
                     try
                     {
-                        _eventProcessService.Disconnected("获获取WebSocket连接失败");
+                        _eventProcessService.Disconnected("获取WebSocket连接失败");
                     }
                     catch (Exception ex)
                     {
@@ -68,9 +68,6 @@ namespace DoDo.Open.Sdk.Services
 
                     return;
                 }
-
-                Console.WriteLine($"开始连接：{getWebSocketConnectionOutput.Endpoint}");
-
 
                 for (var i = 0; i < 3; i++)
                 {

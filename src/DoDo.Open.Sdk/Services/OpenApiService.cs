@@ -44,7 +44,7 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
-        public GetBotInfoOutput GetBotInfo(GetBotInfoInput input,bool isThrowException = false)
+        public GetBotInfoOutput GetBotInfo(GetBotInfoInput input, bool isThrowException = false)
         {
             var result = BaseRequest<GetBotInfoInput, GetBotInfoOutput>("/api/v1/bot/info", input, isThrowException);
 
@@ -539,7 +539,7 @@ namespace DoDo.Open.Sdk.Services
         public bool BaseRequest<TInput>(string resource, TInput input, bool isThrowException)
             where TInput : new()
         {
-            var result = BaseRequest<TInput, object>(resource, Method.POST, input,isThrowException);
+            var result = BaseRequest<TInput, object>(resource, Method.POST, input, isThrowException);
 
             if (result == default)
                 return default;
@@ -560,7 +560,7 @@ namespace DoDo.Open.Sdk.Services
             where TInput : new()
             where TOutput : new()
         {
-            var result = BaseRequest<TInput, TOutput>(resource, Method.POST, input,isThrowException);
+            var result = BaseRequest<TInput, TOutput>(resource, Method.POST, input, isThrowException);
 
             if (result == default)
                 return default;
@@ -604,13 +604,15 @@ namespace DoDo.Open.Sdk.Services
                 {
                     request.AddJsonBody(JsonConvert.SerializeObject(input));
                 }
-                
-                Console.WriteLine($"请求接口：{resource}");
-                Console.WriteLine($"请求参数：{JsonConvert.SerializeObject(input)}");
 
                 var response = client.Execute<OpenApiBaseOutput<TOutput>>(request, method);
 
-                Console.WriteLine($"返回参数：{response.Content}\n");
+                _openApiOptions.Callback?.Invoke(new OpenApiCallback
+                {
+                    Resource = resource,
+                    Request = JsonConvert.SerializeObject(input),
+                    Response = response.Content
+                });
 
                 if (response.Data.Status != 0)
                 {

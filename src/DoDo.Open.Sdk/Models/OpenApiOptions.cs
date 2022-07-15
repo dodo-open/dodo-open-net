@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace DoDo.Open.Sdk.Models
 {
@@ -18,5 +19,10 @@ namespace DoDo.Open.Sdk.Models
         /// 机器人鉴权Token
         /// </summary>
         public string Token { get; set; }
+
+        /// <summary>
+        /// 接口回调，可用于日志记录，可以为空
+        /// </summary>
+        public Action<OpenApiCallback> Callback { get; set; }
     }
 }
