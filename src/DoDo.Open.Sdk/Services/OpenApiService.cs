@@ -873,7 +873,8 @@ namespace DoDo.Open.Sdk.Services
 
                 var jsonSerializerOptions = new JsonSerializerOptions
                 {
-                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 };
 
                 if (input is SetResourceUploadInput uploadResourceInput)

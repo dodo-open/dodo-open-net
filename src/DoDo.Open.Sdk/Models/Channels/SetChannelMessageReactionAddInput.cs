@@ -1,6 +1,4 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
-using System.Text.Json.Serialization;
-
 namespace DoDo.Open.Sdk.Models.Channels
 {
     public class SetChannelMessageReactionAddInput
@@ -8,13 +6,11 @@ namespace DoDo.Open.Sdk.Models.Channels
         /// <summary>
         /// 消息ID
         /// </summary>
-        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         /// 反应表情
         /// </summary>
-        [JsonPropertyName("emoji")]
-        public MessageModelEmoji ReactionEmoji { get; set; }
+        public MessageModelEmoji Emoji { get; set; }
     }
 }

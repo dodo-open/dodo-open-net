@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using DoDo.Open.Sdk.Models.Events;
 using DoDo.Open.Sdk.Models.Messages;
 
@@ -41,87 +43,93 @@ namespace DoDo.Open.Sdk.Services
         {
             Received(message);
 
-            var eventSubjectResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBase>>(message);
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            var eventSubjectResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBase>>(message, jsonSerializerOptions);
             if (eventSubjectResult == null) return;
 
             if (eventSubjectResult.Type == EventSubjectDataTypeConst.Business)
             {
-                var eventSubjectDataResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyBase>>>(message);
+                var eventSubjectDataResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyBase>>>(message, jsonSerializerOptions);
                 if (eventSubjectDataResult == null) return;
 
                 if (eventSubjectDataResult.Data.EventType == EventTypeConst.PersonalMessage)
                 {
-                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyBase>>>>(message);
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyBase>>>>(message, jsonSerializerOptions);
                     if (eventBodyResult == null) return;
 
                     var eventBody = eventBodyResult.Data.EventBody;
 
                     if (eventBody.MessageType == MessageTypeConst.Text)
                     {
-                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyText>>>>(message);
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyText>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         PersonalMessageEvent(messageResult);
                     }
                     else if (eventBody.MessageType == MessageTypeConst.Picture)
                     {
-                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyPicture>>>>(message);
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyPicture>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         PersonalMessageEvent(messageResult);
                     }
                     else if (eventBody.MessageType == MessageTypeConst.Video)
                     {
-                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyVideo>>>>(message);
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyVideo>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         PersonalMessageEvent(messageResult);
                     }
                 }
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelMessage)
                 {
-                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyBase>>>>(message);
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyBase>>>>(message, jsonSerializerOptions);
                     if (eventBodyResult == null) return;
 
                     var eventBody = eventBodyResult.Data.EventBody;
 
                     if (eventBody.MessageType == MessageTypeConst.Text)
                     {
-                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyText>>>>(message);
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyText>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
                     else if (eventBody.MessageType == MessageTypeConst.Picture)
                     {
-                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyPicture>>>>(message);
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyPicture>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
                     else if (eventBody.MessageType == MessageTypeConst.Video)
                     {
-                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyVideo>>>>(message);
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyVideo>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
                     else if (eventBody.MessageType == MessageTypeConst.File)
                     {
-                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyFile>>>>(message);
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyFile>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
                 }
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MessageReaction)
                 {
-                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>>>(message);
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>>>(message, jsonSerializerOptions);
                     if (eventBodyResult == null) return;
                     MessageReactionEvent(eventBodyResult);
                 }
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberJoin)
                 {
-                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>>>(message);
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>>>(message, jsonSerializerOptions);
                     if (eventBodyResult == null) return;
                     MemberJoinEvent(eventBodyResult);
                 }
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberLeave)
                 {
-                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>>>(message);
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>>>(message, jsonSerializerOptions);
                     if (eventBodyResult == null) return;
                     MemberLeaveEvent(eventBodyResult);
                 }
