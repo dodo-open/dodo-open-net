@@ -235,8 +235,8 @@ namespace DoDo.Open.Sdk.Services
                                     reply += $"群总人数：{output.MemberCount}\n";
                                     reply += $"群在线人数：{output.OnlineMemberCount}\n";
                                     reply += $"群头像：{output.CoverUrl}\n";
-                                    reply += $"系统消息频道ID：{output.SystemChannelId}\n";
                                     reply += $"默认访问频道ID：{output.DefaultChannelId}\n";
+                                    reply += $"系统消息频道ID：{output.SystemChannelId}\n";
                                     reply += "\n";
                                 }
                             }
@@ -266,8 +266,8 @@ namespace DoDo.Open.Sdk.Services
                             reply += $"群总人数：{output.MemberCount}\n";
                             reply += $"群在线人数：{output.OnlineMemberCount}\n";
                             reply += $"群描述：{output.Description}\n";
-                            reply += $"系统消息频道ID：{output.SystemChannelId}\n";
                             reply += $"默认访问频道ID：{output.DefaultChannelId}\n";
+                            reply += $"系统消息频道ID：{output.SystemChannelId}\n";
                         }
                         else
                         {
@@ -548,7 +548,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = await _openApiService.SetChannelMessageReactionAddAsync(new SetChannelMessageReactionAddInput
                         {
                             MessageId = eventBody.MessageId,
-                            ReactionEmoji = new MessageModelEmoji
+                            Emoji = new MessageModelEmoji
                             {
                                 Type = 1,
                                 Id = "128520"
@@ -571,7 +571,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = await _openApiService.SetChannelMessageReactionRemoveAsync(new SetChannelMessageReactionRemoveInput
                         {
                             MessageId = eventBody.MessageId,
-                            ReactionEmoji = new MessageModelEmoji
+                            Emoji = new MessageModelEmoji
                             {
                                 Type = 1,
                                 Id = "128520"

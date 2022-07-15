@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
 namespace DoDo.Open.Sdk.Models.Islands
 {
     public class GetIslandMuteListOutput
@@ -26,7 +24,6 @@ namespace DoDo.Open.Sdk.Models.Islands
         /// <summary>
         /// DoDo号
         /// </summary>
-        [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
     }
 }
