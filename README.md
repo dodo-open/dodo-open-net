@@ -20,21 +20,19 @@
 
 </div>
 
-## 快速上手
-
-### 项目介绍
+## 项目介绍
 
 - 项目内包含完整的SDK源码以及SDK调用实例，请放心使用！
 
 - 您既可以下载SDK源码，项目内引用，亦可以通过Nuget包的方式引用，请参考下方 [示例项目](#示例项目)
 
-### 开发工具
+## 开发工具
 
 [Visual Studio 2022](https://visualstudio.microsoft.com/zh-hans/vs/)
 
 - 安装时，请勾选ASP.NET和Web开发组件，其他组件按需安装
 
-### 示例项目
+## 示例项目
 
 [DoDo.Open.Client](https://github.com/dodo-open/dodo-open-net/tree/main/src/DoDo.Open.Client)
 
@@ -75,7 +73,7 @@ await openEventService.ReceiveAsync();
 
 ```
 
-### 核心代码
+## 核心代码
 
 #### [OpenApiService](https://github.com/dodo-open/dodo-open-net/blob/main/src/DoDo.Open.Sdk/Services/OpenApiService.cs)
 
