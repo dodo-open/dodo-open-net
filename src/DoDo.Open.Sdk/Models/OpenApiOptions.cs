@@ -21,8 +21,8 @@ namespace DoDo.Open.Sdk.Models
         public string Token { get; set; }
 
         /// <summary>
-        /// 接口回调，可用于日志记录，可以为空
+        /// 日志回调，可为空
         /// </summary>
-        public Action<OpenApiCallback> Callback { get; set; }
+        public Action<string> Log { get; set; }
     }
 }

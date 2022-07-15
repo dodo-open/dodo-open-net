@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
+using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
 using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.Events;
@@ -20,36 +22,37 @@ namespace DoDo.Open.Sdk.Services
     public class DemoEventProcessService : EventProcessService
     {
         private readonly OpenApiService _openApiService;
+        private readonly OpenApiOptions _openApiOptions;
 
         public DemoEventProcessService(OpenApiService openApiService)
         {
             _openApiService = openApiService;
+            _openApiOptions = openApiService.GetBotOptions();
         }
 
         public override void Connected(string message)
         {
-            Console.WriteLine($"Connected: {message}\n");
-            _openApiService.GetBotInfo(new GetBotInfoInput());
+            _openApiOptions.Log?.Invoke($"Connected: {message}");
         }
 
         public override void Disconnected(string message)
         {
-            Console.WriteLine($"Disconnected: {message}\n");
+            _openApiOptions.Log?.Invoke($"Disconnected: {message}");
         }
 
         public override void Reconnected(string message)
         {
-            Console.WriteLine($"Reconnected: {message}\n");
+            _openApiOptions.Log?.Invoke($"Reconnected: {message}");
         }
 
         public override void Exception(string message)
         {
-            Console.WriteLine($"Exception: {message}\n");
+            _openApiOptions.Log?.Invoke($"Exception: {message}");
         }
 
         public override void Received(string message)
         {
-            Console.WriteLine($"Received: {message}\n");
+            _openApiOptions.Log?.Invoke($"Received: {message}");
         }
 
         public override void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
@@ -98,7 +101,7 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
-        public override void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
+        public override async void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
         {
             var eventBody = input.Data.EventBody;
 
@@ -110,55 +113,80 @@ namespace DoDo.Open.Sdk.Services
 
                 var content = messageBody.Content;
 
-                Console.WriteLine($"Command: {content}\n");
+                _openApiOptions.Log?.Invoke($"Command: {content}");
 
                 try
                 {
                     if (content.StartsWith("菜单"))
                     {
-                        reply += $"<@!{eventBody.DodoId}>\n\n";
-                        reply += "**菜单来咯！**\n\n";
-                        reply += "【机器人】获取机器人信息\n";
-                        reply += "【机器人】机器人退群\n";
-                        reply += "【群】获取群列表\n";
-                        reply += "【群】获取群信息\n";
-                        reply += "【群】获取群等级排行榜\n";
-                        reply += "【群】获取群禁言名单\n";
-                        reply += "【群】获取群封禁名单\n";
-                        reply += "【频道】获取频道列表\n";
-                        reply += "【频道】取频道信息\n";
-                        reply += "【文字频道】发送文字消息\n";
-                        reply += "【文字频道】发送图片消息\n";
-                        reply += "【文字频道】发送视频消息\n";
-                        reply += "【文字频道】编辑消息\n";
-                        reply += "【文字频道】撤回消息\n";
-                        reply += "【文字频道】添加表情反应\n";
-                        reply += "【文字频道】取消表情反应\n";
-                        reply += "【身份组】获取身份组列表\n";
-                        reply += "【身份组】赋予成员身份组 ID\n";
-                        reply += "【身份组】取消成员身份组 ID\n";
-                        reply += "【成员】获取成员列表\n";
-                        reply += "【成员】获取成员信息\n";
-                        reply += "【成员】获取成员身份组列表\n";
-                        reply += "【成员】获取成员邀请信息\n";
-                        reply += "【成员】编辑成员群昵称\n";
-                        reply += "【成员】禁言成员\n";
-                        reply += "【成员】取消成员禁言\n";
-                        reply += "【成员】永久封禁成员\n";
-                        reply += "【成员】取消成员永久封禁\n";
-                        reply += "【数字藏品】获取成员数字藏品判断\n";
-                        reply += "【私信】发送文字私信\n";
-                        reply += "【私信】发送图片私信\n";
-                        reply += "【私信】发送视频私信\n";
-                        reply += "【资源】上传资源图片\n";
-                        reply += "【事件】获取WebSocket连接\n";
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**菜单来咯！**\n";
+                        reply += "\n**机器人**\n";
+                        reply += "获取机器人配置\n";
+                        reply += "获取机器人信息\n";
+                        reply += "机器人退群\n";
+                        reply += "\n**群**\n";
+                        reply += "获取群列表\n";
+                        reply += "获取群信息\n";
+                        reply += "获取群等级排行榜\n";
+                        reply += "获取群禁言名单\n";
+                        reply += "获取群封禁名单\n";
+                        reply += "\n**频道**\n";
+                        reply += "获取频道列表\n";
+                        reply += "取频道信息\n";
+                        reply += "\n**文字频道**\n";
+                        reply += "发送文字消息\n";
+                        reply += "发送图片消息\n";
+                        reply += "发送视频消息\n";
+                        reply += "编辑消息\n";
+                        reply += "撤回消息\n";
+                        reply += "添加表情反应\n";
+                        reply += "取消表情反应\n";
+                        reply += "\n**身份组**\n";
+                        reply += "获取身份组列表\n";
+                        reply += "赋予成员身份组 ID\n";
+                        reply += "取消成员身份组 ID\n";
+                        reply += "\n**成员**\n";
+                        reply += "获取成员列表\n";
+                        reply += "获取成员信息\n";
+                        reply += "获取成员身份组列表\n";
+                        reply += "获取成员邀请信息\n";
+                        reply += "编辑成员群昵称\n";
+                        reply += "禁言成员\n";
+                        reply += "取消成员禁言\n";
+                        reply += "永久封禁成员\n";
+                        reply += "取消成员永久封禁\n";
+                        reply += "\n**数字藏品**\n";
+                        reply += "获取成员数字藏品判断\n";
+                        reply += "\n**私信**\n";
+                        reply += "发送文字私信\n";
+                        reply += "发送图片私信\n";
+                        reply += "发送视频私信\n";
+                        reply += "\n**资源**\n";
+                        reply += "上传资源图片\n";
+                        reply += "\n**事件**\n";
+                        reply += "获取WebSocket连接\n";
                     }
-                    
+
                     #region 机器人
 
+                    else if (content.StartsWith("获取机器人配置"))
+                    {
+                        var output = _openApiService.GetBotOptions();
+
+                        if (output != null)
+                        {
+                            reply += $"接口地址：{output.BaseApi}\n";
+                            reply += $"机器人唯一标识：{output.ClientId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
                     else if (content.StartsWith("获取机器人信息"))
                     {
-                        var output = _openApiService.GetBotInfo(new GetBotInfoInput(), true);
+                        var output = await _openApiService.GetBotInfoAsync(new GetBotInfoInput(), true);
 
                         if (output != null)
                         {
@@ -174,7 +202,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("机器人退群"))
                     {
-                        var output = _openApiService.SetBotIslandLeave(new SetBotIslandLeaveInput
+                        var output = await _openApiService.SetBotIslandLeaveAsync(new SetBotIslandLeaveInput
                         {
                             IslandId = eventBody.IslandId
                         }, true);
@@ -195,7 +223,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("获取群列表"))
                     {
-                        var outputList = _openApiService.GetIslandList(new GetIslandListInput(), true);
+                        var outputList = await _openApiService.GetIslandListAsync(new GetIslandListInput(), true);
 
                         if (outputList != null)
                         {
@@ -226,7 +254,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("获取群信息"))
                     {
-                        var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
+                        var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                         {
                             IslandId = eventBody.IslandId
                         }, true);
@@ -249,7 +277,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("获取群等级排行榜"))
                     {
-                        var outputList = _openApiService.GetIslandLevelRankList(new GetIslandLevelRankListInput
+                        var outputList = await _openApiService.GetIslandLevelRankListAsync(new GetIslandLevelRankListInput
                         {
                             IslandId = eventBody.IslandId
                         }, true);
@@ -280,7 +308,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("获取群禁言名单"))
                     {
-                        var outputList = _openApiService.GetIslandMuteList(new GetIslandMuteListInput
+                        var outputList = await _openApiService.GetIslandMuteListAsync(new GetIslandMuteListInput
                         {
                             IslandId = eventBody.IslandId,
                             PageSize = 3,
@@ -309,7 +337,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("获取群封禁名单"))
                     {
-                        var outputList = _openApiService.GetIslandBanList(new GetIslandBanListInput
+                        var outputList = await _openApiService.GetIslandBanListAsync(new GetIslandBanListInput
                         {
                             IslandId = eventBody.IslandId,
                             PageSize = 3,
@@ -343,7 +371,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("获取频道列表"))
                     {
-                        var outputList = _openApiService.GetChannelList(new GetChannelListInput
+                        var outputList = await _openApiService.GetChannelListAsync(new GetChannelListInput
                         {
                             IslandId = eventBody.IslandId
                         }, true);
@@ -376,7 +404,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("取频道信息"))
                     {
-                        var output = _openApiService.GetChannelInfo(new GetChannelInfoInput
+                        var output = await _openApiService.GetChannelInfoAsync(new GetChannelInfoInput
                         {
                             ChannelId = eventBody.ChannelId
                         }, true);
@@ -403,7 +431,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("发送文字消息"))
                     {
-                        var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
                         {
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyText
@@ -423,7 +451,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("发送图片消息"))
                     {
-                        var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyPicture>
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyPicture>
                         {
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyPicture
@@ -446,7 +474,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("发送视频消息"))
                     {
-                        var output = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyVideo>
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyVideo>
                         {
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyVideo
@@ -469,7 +497,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("编辑消息"))
                     {
-                        var outputMessage = _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+                        var outputMessage = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
                         {
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyText
@@ -478,7 +506,7 @@ namespace DoDo.Open.Sdk.Services
                             }
                         }, true);
 
-                        var output = _openApiService.SetChannelMessageEdit(new SetChannelMessageEditInput<MessageBodyText>
+                        var output = await _openApiService.SetChannelMessageEditAsync(new SetChannelMessageEditInput<MessageBodyText>
                         {
                             MessageId = outputMessage.MessageId,
                             MessageBody = new MessageBodyText
@@ -499,7 +527,7 @@ namespace DoDo.Open.Sdk.Services
                     else if (content.StartsWith("撤回消息"))
                     {
                         Thread.Sleep(3000);
-                        var output = _openApiService.SetChannelMessageWithdraw(new SetChannelMessageWithdrawInput
+                        var output = await _openApiService.SetChannelMessageWithdrawAsync(new SetChannelMessageWithdrawInput
                         {
                             MessageId = eventBody.MessageId,
                             Reason = "撤回测试"
@@ -518,7 +546,7 @@ namespace DoDo.Open.Sdk.Services
                     else if (content.StartsWith("添加表情反应"))
                     {
 
-                        var output = _openApiService.SetChannelMessageReactionAdd(new SetChannelMessageReactionAddInput
+                        var output = await _openApiService.SetChannelMessageReactionAddAsync(new SetChannelMessageReactionAddInput
                         {
                             MessageId = eventBody.MessageId,
                             ReactionEmoji = new MessageModelEmoji
@@ -541,7 +569,7 @@ namespace DoDo.Open.Sdk.Services
                     else if (content.StartsWith("取消表情反应"))
                     {
 
-                        var output = _openApiService.SetChannelMessageReactionRemove(new SetChannelMessageReactionRemoveInput
+                        var output = await _openApiService.SetChannelMessageReactionRemoveAsync(new SetChannelMessageReactionRemoveInput
                         {
                             MessageId = eventBody.MessageId,
                             ReactionEmoji = new MessageModelEmoji
@@ -568,7 +596,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("获取身份组列表"))
                     {
-                        var outputList = _openApiService.GetRoleList(new GetRoleListInput
+                        var outputList = await _openApiService.GetRoleListAsync(new GetRoleListInput
                         {
                             IslandId = eventBody.IslandId
                         }, true);
@@ -602,7 +630,7 @@ namespace DoDo.Open.Sdk.Services
                     {
                         var regex = Regex.Match(content, @"(\d+?)$");
 
-                        var output = _openApiService.SetRoleMemberAdd(new SetRoleMemberAddInput
+                        var output = await _openApiService.SetRoleMemberAddAsync(new SetRoleMemberAddInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
@@ -622,7 +650,7 @@ namespace DoDo.Open.Sdk.Services
                     else if (content.StartsWith("取消成员身份组"))
                     {
                         var regex = Regex.Match(content, @"(\d+?)$");
-                        var output = _openApiService.SetRoleMemberRemove(new SetRoleMemberRemoveInput
+                        var output = await _openApiService.SetRoleMemberRemoveAsync(new SetRoleMemberRemoveInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
@@ -646,7 +674,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("获取成员列表"))
                     {
-                        var outputList = _openApiService.GetMemberList(new GetMemberListInput
+                        var outputList = await _openApiService.GetMemberListAsync(new GetMemberListInput
                         {
                             IslandId = eventBody.IslandId,
                             PageSize = 3,
@@ -684,7 +712,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("获取成员信息"))
                     {
-                        var output = _openApiService.GetMemberInfo(new GetMemberInfoInput
+                        var output = await _openApiService.GetMemberInfoAsync(new GetMemberInfoInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId
@@ -712,7 +740,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("获取成员身份组列表"))
                     {
-                        var outputList = _openApiService.GetMemberRoleList(new GetMemberRoleListInput
+                        var outputList = await _openApiService.GetMemberRoleListAsync(new GetMemberRoleListInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId
@@ -745,7 +773,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("获取成员邀请信息"))
                     {
-                        var output = _openApiService.GetMemberInvitationInfo(new GetMemberInvitationInfoInput
+                        var output = await _openApiService.GetMemberInvitationInfoAsync(new GetMemberInvitationInfoInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId
@@ -765,7 +793,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("编辑成员群昵称"))
                     {
-                        var output = _openApiService.SetMemberNickNameEdit(new SetMemberNickNameEditInput
+                        var output = await _openApiService.SetMemberNickNameEditAsync(new SetMemberNickNameEditInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
@@ -783,7 +811,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("禁言成员"))
                     {
-                        var output = _openApiService.SetMemberMuteAdd(new SetMemberMuteAddInput
+                        var output = await _openApiService.SetMemberMuteAddAsync(new SetMemberMuteAddInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
@@ -802,7 +830,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("取消成员禁言"))
                     {
-                        var output = _openApiService.SetMemberMuteRemove(new SetMemberMuteRemoveInput
+                        var output = await _openApiService.SetMemberMuteRemoveAsync(new SetMemberMuteRemoveInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId
@@ -819,7 +847,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("永久封禁成员"))
                     {
-                        var output = _openApiService.SetMemberBanAdd(new SetMemberBanAddInput
+                        var output = await _openApiService.SetMemberBanAddAsync(new SetMemberBanAddInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
@@ -838,7 +866,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("取消成员永久封禁"))
                     {
-                        var output = _openApiService.SetMemberBanRemove(new SetMemberBanRemoveInput
+                        var output = await _openApiService.SetMemberBanRemoveAsync(new SetMemberBanRemoveInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId
@@ -860,7 +888,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("获取成员数字藏品判断"))
                     {
-                        var output = _openApiService.GetMemberNftStatus(new GetMemberNftStatusInput
+                        var output = await _openApiService.GetMemberNftStatusAsync(new GetMemberNftStatusInput
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
@@ -888,7 +916,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("发送文字私信"))
                     {
-                        var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyText>
+                        var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyText>
                         {
                             DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyText
@@ -908,7 +936,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("发送图片私信"))
                     {
-                        var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyPicture>
+                        var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyPicture>
                         {
                             DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyPicture
@@ -931,7 +959,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("发送视频私信"))
                     {
-                        var output = _openApiService.SetPersonalMessageSend(new SetPersonalMessageSendInput<MessageBodyVideo>
+                        var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyVideo>
                         {
                             DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyVideo
@@ -959,7 +987,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("上传资源图片"))
                     {
-                        var output = _openApiService.SetResourcePictureUpload(new SetResourceUploadInput
+                        var output = await _openApiService.SetResourcePictureUploadAsync(new SetResourceUploadInput
                         {
                             FilePath = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png"
                         }, true);
@@ -982,7 +1010,7 @@ namespace DoDo.Open.Sdk.Services
 
                     else if (content.StartsWith("获取WebSocket连接"))
                     {
-                        var output = _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput(), true);
+                        var output = await _openApiService.GetWebSocketConnectionAsync(new GetWebSocketConnectionInput(), true);
 
                         if (output != null)
                         {
@@ -992,7 +1020,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += "调用接口失败！";
                         }
-                    } 
+                    }
 
                     #endregion
 
@@ -1000,7 +1028,7 @@ namespace DoDo.Open.Sdk.Services
                 catch (Exception e)
                 {
 
-                    reply ="触发异常：" + e.Message;
+                    reply = "触发异常：" + e.Message;
                 }
             }
             else if (eventBody.MessageBody is MessageBodyPicture messageBodyPicture)
@@ -1035,7 +1063,7 @@ namespace DoDo.Open.Sdk.Services
 
             if (reply != "")
             {
-                _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
                 {
                     ChannelId = eventBody.ChannelId,
                     MessageBody = new MessageBodyText
@@ -1046,7 +1074,7 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
-        public override void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)
+        public override async void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)
         {
             var eventBody = input.Data.EventBody;
 
@@ -1061,7 +1089,7 @@ namespace DoDo.Open.Sdk.Services
             reply += $"反应表情ID：{eventBody.ReactionEmoji.Id}\n";
             reply += $"反应类型：{eventBody.ReactionType}\n";
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
             {
                 ChannelId = eventBody.ChannelId,
                 MessageBody = new MessageBodyText
@@ -1071,7 +1099,7 @@ namespace DoDo.Open.Sdk.Services
             });
         }
 
-        public override void MemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>> input)
+        public override async void MemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>> input)
         {
             var eventBody = input.Data.EventBody;
 
@@ -1081,7 +1109,7 @@ namespace DoDo.Open.Sdk.Services
             reply += $"来源DoDo号：{eventBody.DodoId}\n";
             reply += $"变动时间：{eventBody.ModifyTime}\n";
 
-            var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
+            var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
             {
                 IslandId = eventBody.IslandId
             });
@@ -1089,7 +1117,7 @@ namespace DoDo.Open.Sdk.Services
             if (output == null)
                 return;
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
             {
                 ChannelId = output.SystemChannelId,
                 MessageBody = new MessageBodyText
@@ -1099,7 +1127,7 @@ namespace DoDo.Open.Sdk.Services
             });
         }
 
-        public override void MemberLeaveEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>> input)
+        public override async void MemberLeaveEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberLeave>> input)
         {
             var eventBody = input.Data.EventBody;
 
@@ -1111,7 +1139,7 @@ namespace DoDo.Open.Sdk.Services
             reply += $"操作者DoDo号：{eventBody.OperateDoDoId}\n";
             reply += $"变动时间：{eventBody.ModifyTime}\n";
 
-            var output = _openApiService.GetIslandInfo(new GetIslandInfoInput
+            var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
             {
                 IslandId = eventBody.IslandId
             });
@@ -1119,7 +1147,7 @@ namespace DoDo.Open.Sdk.Services
             if (output == null)
                 return;
 
-            _openApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
             {
                 ChannelId = output.SystemChannelId,
                 MessageBody = new MessageBodyText
