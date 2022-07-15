@@ -22,6 +22,8 @@
 
 </div>
 
+# Net SDK
+
 ## 简介
 
 .Net SDK，维护了DoDo开放平台.Net相关SDK的介绍，包括SDK的下载方式、使用方式、项目结构等。
@@ -67,7 +69,12 @@ var openApiService = new OpenApiService(new OpenApiOptions
 {
     BaseApi = "接口地址",
     ClientId = "机器人唯一标识",
-    Token = "机器人鉴权Token"
+    Token = "机器人鉴权Token",
+    Log = message =>
+    {
+        Console.WriteLine(message);
+        Console.WriteLine();
+    }
 });
 //事件处理服务，可自定义，只要继承EventProcessService抽象类即可
 var eventProcessService = new DemoEventProcessService(openApiService);
@@ -79,8 +86,6 @@ var openEventService = new OpenEventService(openApiService, eventProcessService,
 });
 //开始接收事件消息
 await openEventService.ReceiveAsync();
-
-Console.ReadKey();
 
 ```
 
