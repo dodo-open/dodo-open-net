@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
@@ -12,25 +7,25 @@ namespace DoDo.Open.Sdk.Models.Messages
         /// <summary>
         /// 图片链接
         /// </summary>
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
         /// <summary>
         /// 图片宽度
         /// </summary>
-        [JsonProperty("width")]
+        [JsonPropertyName("width")]
         public int? Width { get; set; }
 
         /// <summary>
         /// 图片高度
         /// </summary>
-        [JsonProperty("height")]
+        [JsonPropertyName("height")]
         public int? Height { get; set; }
 
         /// <summary>
         /// 是否原图，0：压缩图，1：原图
         /// </summary>
-        [JsonProperty("isOriginal")]
+        [JsonPropertyName("isOriginal")]
         public int? IsOriginal { get; set; }
     }
 }

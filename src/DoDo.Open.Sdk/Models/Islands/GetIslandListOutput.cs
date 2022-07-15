@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Islands
 {
@@ -7,43 +7,43 @@ namespace DoDo.Open.Sdk.Models.Islands
         /// <summary>
         /// 群号
         /// </summary>
-        [JsonProperty("islandId")]
+        [JsonPropertyName("islandId")]
         public string IslandId { get; set; }
 
         /// <summary>
         /// 群名称
         /// </summary>
-        [JsonProperty("islandName")]
+        [JsonPropertyName("islandName")]
         public string IslandName { get; set; }
 
         /// <summary>
         /// 群头像
         /// </summary>
-        [JsonProperty("coverUrl")]
+        [JsonPropertyName("coverUrl")]
         public string CoverUrl { get; set; }
 
         /// <summary>
         /// 群总人数
         /// </summary>
-        [JsonProperty("memberCount")]
+        [JsonPropertyName("memberCount")]
         public int MemberCount { get; set; }
 
         /// <summary>
         /// 群在线人数
         /// </summary>
-        [JsonProperty("onlineMemberCount")]
+        [JsonPropertyName("onlineMemberCount")]
         public int OnlineMemberCount { get; set; }
 
         /// <summary>
-        /// 系统消息频道号
+        /// 系统消息频道ID
         /// </summary>
-        [JsonProperty("systemChannelId")]
+        [JsonPropertyName("systemChannelId")]
         public string SystemChannelId { get; set; }
 
         /// <summary>
-        /// 默认访问频道号
+        /// 默认访问频道ID
         /// </summary>
-        [JsonProperty("defaultChannelId")]
+        [JsonPropertyName("defaultChannelId")]
         public string DefaultChannelId { get; set; }
     }
 }

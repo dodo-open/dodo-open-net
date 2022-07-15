@@ -2,7 +2,7 @@
 
 namespace DoDo.Open.Sdk.Models.Members
 {
-    public class SetMemberBanInput
+    public class SetMemberMuteAddInput
     {
         /// <summary>
         /// 群号

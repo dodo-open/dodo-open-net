@@ -1,23 +1,23 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DoDo.Open.Sdk.Models.Messages
+namespace DoDo.Open.Sdk.Models.Members
 {
-    public class MessageModelReference
+    public class SetMemberNickNameEditInput
     {
         /// <summary>
-        /// 被回复消息ID
+        /// 群号
         /// </summary>
-        [JsonPropertyName("messageId")]
-        public string MessageId { get; set; }
+        [JsonPropertyName("islandId")]
+        public string IslandId { get; set; }
 
         /// <summary>
-        /// 被回复者DoDo号
+        /// DoDo号
         /// </summary>
         [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
 
         /// <summary>
-        /// 被回复者群昵称
+        /// 群昵称
         /// </summary>
         [JsonPropertyName("nickName")]
         public string NickName { get; set; }

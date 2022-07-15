@@ -37,7 +37,7 @@ namespace DoDo.Open.Sdk.Services
 
                 for (var i = 0; i < 3; i++)
                 {
-                    getWebSocketConnectionOutput = _openApiService.GetWebSocketConnection(new GetWebSocketConnectionInput());
+                    getWebSocketConnectionOutput = await _openApiService.GetWebSocketConnectionAsync(new GetWebSocketConnectionInput());
 
                     if (getWebSocketConnectionOutput == null)
                     {
@@ -68,9 +68,6 @@ namespace DoDo.Open.Sdk.Services
 
                     return;
                 }
-
-                Console.WriteLine($"开始连接：{getWebSocketConnectionOutput.Endpoint}");
-
 
                 for (var i = 0; i < 3; i++)
                 {

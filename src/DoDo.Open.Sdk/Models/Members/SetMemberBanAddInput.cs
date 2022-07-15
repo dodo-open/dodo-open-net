@@ -2,7 +2,7 @@
 
 namespace DoDo.Open.Sdk.Models.Members
 {
-    public class SetMemberBanInput
+    public class SetMemberBanAddInput
     {
         /// <summary>
         /// 群号
@@ -17,13 +17,13 @@ namespace DoDo.Open.Sdk.Models.Members
         public string DodoId { get; set; }
 
         /// <summary>
-        /// 禁言时长（秒），最长7天
+        /// 通知频道ID
         /// </summary>
-        [JsonPropertyName("duration")]
-        public int Duration { get; set; }
+        [JsonPropertyName("noticeChannelId")]
+        public string NoticeChannelId { get; set; }
 
         /// <summary>
-        /// 禁言理由
+        /// 封禁理由
         /// </summary>
         [JsonPropertyName("reason")]
         public string Reason { get; set; }

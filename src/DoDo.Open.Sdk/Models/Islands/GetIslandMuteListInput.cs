@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DoDo.Open.Sdk.Models.Members
+namespace DoDo.Open.Sdk.Models.Islands
 {
-    public class GetMemberListInput
+    public class GetIslandMuteListInput
     {
         /// <summary>
         /// 群号

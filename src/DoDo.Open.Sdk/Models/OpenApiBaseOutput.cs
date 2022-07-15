@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models
 {
@@ -12,7 +7,7 @@ namespace DoDo.Open.Sdk.Models
         /// <summary>
         /// 返回数据
         /// </summary>
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public T Data { get; set; }
     }
 
@@ -21,13 +16,13 @@ namespace DoDo.Open.Sdk.Models
         /// <summary>
         /// 返回码
         /// </summary>
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public int Status { get; set; }
         
         /// <summary>
         /// 返回信息
         /// </summary>
-        [JsonProperty("message")]
+        [JsonPropertyName("message")]
         public string Message { get; set; }
     }
 }

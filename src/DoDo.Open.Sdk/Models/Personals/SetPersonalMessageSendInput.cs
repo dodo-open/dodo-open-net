@@ -1,5 +1,5 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Personals
 {
@@ -9,13 +9,13 @@ namespace DoDo.Open.Sdk.Models.Personals
         /// <summary>
         /// DoDo号
         /// </summary>
-        [JsonProperty("dodoId")]
-        public string DoDoId { get; set; }
+        [JsonPropertyName("dodoId")]
+        public string DodoId { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息
+        /// 消息类型，1：文字消息，2：图片消息，3：视频消息，5：文件消息
         /// </summary>
-        [JsonProperty("messageType")]
+        [JsonPropertyName("messageType")]
         public int MessageType
         {
             get
@@ -40,7 +40,7 @@ namespace DoDo.Open.Sdk.Models.Personals
         /// <summary>
         /// 消息内容
         /// </summary>
-        [JsonProperty("messageBody")]
+        [JsonPropertyName("messageBody")]
         public T MessageBody { get; set; }
     }
 }

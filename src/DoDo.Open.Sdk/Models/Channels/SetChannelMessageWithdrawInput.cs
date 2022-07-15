@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Channels
 {
@@ -12,13 +7,13 @@ namespace DoDo.Open.Sdk.Models.Channels
         /// <summary>
         /// 消息ID
         /// </summary>
-        [JsonProperty("messageId")]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
-        /// 撤回原因
+        /// 撤回理由
         /// </summary>
-        [JsonProperty("reason")]
+        [JsonPropertyName("reason")]
         public string Reason { get; set; }
     }
 }

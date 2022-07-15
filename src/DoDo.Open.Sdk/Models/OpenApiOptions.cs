@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 
 namespace DoDo.Open.Sdk.Models
 {
@@ -18,5 +18,10 @@ namespace DoDo.Open.Sdk.Models
         /// 机器人鉴权Token
         /// </summary>
         public string Token { get; set; }
+
+        /// <summary>
+        /// 日志回调，可为空
+        /// </summary>
+        public Action<string> Log { get; set; }
     }
 }

@@ -1,43 +1,43 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Channels
 {
     public class GetChannelListOutput
     {
         /// <summary>
-        /// 频道号
+        /// 频道ID
         /// </summary>
-        [JsonProperty("channelId")]
+        [JsonPropertyName("channelId")]
         public string ChannelId { get; set; }
 
         /// <summary>
         /// 频道名称
         /// </summary>
-        [JsonProperty("channelName")]
+        [JsonPropertyName("channelName")]
         public string ChannelName { get; set; }
 
         /// <summary>
         /// 频道类型，1：文字频道，2：语音频道，4：帖子频道，5：链接频道，6：资料频道
         /// </summary>
-        [JsonProperty("channelType")]
+        [JsonPropertyName("channelType")]
         public int ChannelType { get; set; }
 
         /// <summary>
         /// 默认频道标识，0：是，1：否
         /// </summary>
-        [JsonProperty("defaultFlag")]
+        [JsonPropertyName("defaultFlag")]
         public int DefaultFlag { get; set; }
 
         /// <summary>
         /// 分组ID
         /// </summary>
-        [JsonProperty("groupId")]
+        [JsonPropertyName("groupId")]
         public string GroupId { get; set; }
 
         /// <summary>
         /// 分组名称
         /// </summary>
-        [JsonProperty("groupName")]
+        [JsonPropertyName("groupName")]
         public string GroupName { get; set; }
     }
 }

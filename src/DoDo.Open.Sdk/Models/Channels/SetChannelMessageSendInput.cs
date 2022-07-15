@@ -1,5 +1,5 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Channels
 {
@@ -7,15 +7,15 @@ namespace DoDo.Open.Sdk.Models.Channels
     where T : MessageBodyBase
     {
         /// <summary>
-        /// 频道号
+        /// 频道ID
         /// </summary>
-        [JsonProperty("channelId")]
+        [JsonPropertyName("channelId")]
         public string ChannelId { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文本消息，2：图片消息，3：视频消息，5：文件消息
+        /// 消息类型，1：文字消息，2：图片消息，3：视频消息，5：文件消息
         /// </summary>
-        [JsonProperty("messageType")]
+        [JsonPropertyName("messageType")]
         public int MessageType
         {
             get
@@ -40,13 +40,13 @@ namespace DoDo.Open.Sdk.Models.Channels
         /// <summary>
         /// 消息内容
         /// </summary>
-        [JsonProperty("messageBody")]
+        [JsonPropertyName("messageBody")]
         public T MessageBody { get; set; }
 
         /// <summary>
         /// 引用消息ID
         /// </summary>
-        [JsonProperty("referencedMessageId")]
+        [JsonPropertyName("referencedMessageId")]
         public string ReferencedMessageId { get; set; }
     }
 }
