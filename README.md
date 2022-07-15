@@ -21,3 +21,81 @@
   [SDK 文档](https://open.imdodo.com/sdk/net)
 
 </div>
+
+## 简介
+
+.Net SDK，维护了DoDo开放平台.Net相关SDK的介绍，包括SDK的下载方式、使用方式、项目结构等。
+
+## 快速上手
+
+### 项目介绍
+
+本SDK基于最新 C# .NET Standard 开发，支持Windows、MacOS、Linux、Docker，完美跨平台。
+
+### 项目地址
+
+[dodo-open-net](https://github.com/dodo-open/dodo-open-net)
+
+- 项目内包含完整的SDK源码以及SDK调用实例，请放心使用！
+
+- 您既可以下载SDK源码，项目内引用，亦可以通过Nuget包的方式引用，请参考下方 [示例项目](#示例项目)
+
+### 开发工具
+
+[Visual Studio 2022](https://visualstudio.microsoft.com/zh-hans/vs/)
+
+- 安装时，请勾选ASP.NET和Web开发组件，其他组件按需安装
+
+### 示例项目
+
+[DoDo.Open.Client](https://github.com/dodo-open/dodo-open-net/tree/main/src/DoDo.Open.Client)
+
+- 创建一个控制台程序
+- 安装Nuget包 [DoDo.Open.SDK](https://www.nuget.org/packages/DoDo.Open.Sdk/)
+- 入口类Program.cs使用以下代码
+- 启动控制台程序
+- 机器人所在群内发送"菜单"即可查看示例功能
+
+```cs
+
+using System;
+using DoDo.Open.Sdk.Models;
+using DoDo.Open.Sdk.Services;
+
+//接口服务
+var openApiService = new OpenApiService(new OpenApiOptions
+{
+    BaseApi = "接口地址",
+    ClientId = "机器人唯一标识",
+    Token = "机器人鉴权Token"
+});
+//事件处理服务，可自定义，只要继承EventProcessService抽象类即可
+var eventProcessService = new DemoEventProcessService(openApiService);
+//事件服务
+var openEventService = new OpenEventService(openApiService, eventProcessService, new OpenEventOptions
+{
+    IsReconnect = true,
+    IsAsync = true
+});
+//开始接收事件消息
+await openEventService.ReceiveAsync();
+
+Console.ReadKey();
+
+```
+
+### 核心代码
+
+#### [OpenApiService](https://github.com/dodo-open/dodo-open-net/blob/main/src/DoDo.Open.Sdk/Services/OpenApiService.cs)
+
+此类封装了接口相关调用逻辑
+
+#### [OpenEventService](https://github.com/dodo-open/dodo-open-net/blob/main/src/DoDo.Open.Sdk/Services/OpenEventService.cs)
+
+此类封装了事件相关接收逻辑
+
+#### [EventProcessService](https://github.com/dodo-open/dodo-open-net/blob/main/src/DoDo.Open.Sdk/Services/EventProcessService.cs)
+
+此抽象类封装了事件相关处理逻辑，用户只需要创建自己的处理类（例如：[DemoEventProcessService](https://github.com/dodo-open/dodo-open-net/blob/main/src/DoDo.Open.Sdk/Services/DemoEventProcessService.cs)）并继承此抽象类，即可自定义处理逻辑
+
+继承后，必须通过override关键词重写Connected、Disconnected、Reconnected、Exception核心方法，其他事件方法可以选择性重写！
