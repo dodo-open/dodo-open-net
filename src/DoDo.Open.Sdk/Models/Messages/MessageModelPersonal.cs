@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
@@ -12,19 +7,19 @@ namespace DoDo.Open.Sdk.Models.Messages
         /// <summary>
         /// DoDo昵称
         /// </summary>
-        [JsonProperty("nickName")]
+        [JsonPropertyName("nickName")]
         public string NickName { get; set; }
 
         /// <summary>
         /// 头像
         /// </summary>
-        [JsonProperty("avatarUrl")]
+        [JsonPropertyName("avatarUrl")]
         public string AvatarUrl { get; set; }
 
         /// <summary>
         /// 性别，-1：保密，0：女，1：男
         /// </summary>
-        [JsonProperty("sex")]
+        [JsonPropertyName("sex")]
         public int Sex { get; set; }
     }
 }

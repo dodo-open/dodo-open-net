@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Members
 {
@@ -26,61 +26,61 @@ namespace DoDo.Open.Sdk.Models.Members
         /// <summary>
         /// DoDo号
         /// </summary>
-        [JsonProperty("dodoId")]
+        [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
 
         /// <summary>
         /// 群昵称
         /// </summary>
-        [JsonProperty("nickName")]
+        [JsonPropertyName("nickName")]
         public string NickName { get; set; }
 
         /// <summary>
         /// DoDo昵称
         /// </summary>
-        [JsonProperty("personalNickName")]
+        [JsonPropertyName("personalNickName")]
         public string PersonalNickName { get; set; }
 
         /// <summary>
         /// 头像
         /// </summary>
-        [JsonProperty("avatarUrl")]
+        [JsonPropertyName("avatarUrl")]
         public string AvatarUrl { get; set; }
 
         /// <summary>
         /// 加群时间
         /// </summary>
-        [JsonProperty("joinTime")]
+        [JsonPropertyName("joinTime")]
         public string JoinTime { get; set; }
 
         /// <summary>
         /// 性别，-1：保密，0：女，1：男
         /// </summary>
-        [JsonProperty("sex")]
+        [JsonPropertyName("sex")]
         public int Sex { get; set; }
 
         /// <summary>
         /// 等级
         /// </summary>
-        [JsonProperty("level")]
+        [JsonPropertyName("level")]
         public int Level { get; set; }
 
         /// <summary>
         /// 是否机器人
         /// </summary>
-        [JsonProperty("isBot")]
+        [JsonPropertyName("isBot")]
         public int IsBot { get; set; }
 
         /// <summary>
         /// 在线设备
         /// </summary>
-        [JsonProperty("onlineDevice")]
+        [JsonPropertyName("onlineDevice")]
         public int OnlineDevice { get; set; }
 
         /// <summary>
         /// 在线状态
         /// </summary>
-        [JsonProperty("onlineStatus")]
+        [JsonPropertyName("onlineStatus")]
         public int OnlineStatus { get; set; }
     }
 }

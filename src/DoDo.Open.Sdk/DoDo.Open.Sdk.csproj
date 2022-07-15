@@ -14,15 +14,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.Text.Json" Version="6.0.5" />
 		<PackageReference Include="RestSharp" Version="106.15.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="logo.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
 	</ItemGroup>
 
 </Project>

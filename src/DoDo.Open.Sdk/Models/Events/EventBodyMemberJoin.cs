@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
@@ -10,19 +7,19 @@ namespace DoDo.Open.Sdk.Models.Events
         /// <summary>
         /// 来源群号
         /// </summary>
-        [JsonProperty("islandId")]
+        [JsonPropertyName("islandId")]
         public string IslandId { get; set; }
 
         /// <summary>
         /// 来源DoDo号
         /// </summary>
-        [JsonProperty("dodoId")]
+        [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
 
         /// <summary>
         /// 变动时间
         /// </summary>
-        [JsonProperty("modifyTime")]
+        [JsonPropertyName("modifyTime")]
         public string ModifyTime { get; set; }
     }
 }

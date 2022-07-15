@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Messages
 {
@@ -10,19 +7,19 @@ namespace DoDo.Open.Sdk.Models.Messages
         /// <summary>
         /// 被回复消息ID
         /// </summary>
-        [JsonProperty("messageId")]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         /// 被回复者DoDo号
         /// </summary>
-        [JsonProperty("dodoId")]
+        [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
 
         /// <summary>
         /// 被回复者群昵称
         /// </summary>
-        [JsonProperty("nickName")]
+        [JsonPropertyName("nickName")]
         public string NickName { get; set; }
     }
 }

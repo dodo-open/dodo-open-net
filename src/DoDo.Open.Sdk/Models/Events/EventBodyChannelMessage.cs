@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DoDo.Open.Sdk.Models.Messages;
-using Newtonsoft.Json;
+﻿using DoDo.Open.Sdk.Models.Messages;
+using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
@@ -14,55 +9,55 @@ namespace DoDo.Open.Sdk.Models.Events
         /// <summary>
         /// 来源群号
         /// </summary>
-        [JsonProperty("islandId")]
+        [JsonPropertyName("islandId")]
         public string IslandId { get; set; }
 
         /// <summary>
         /// 来源频道ID
         /// </summary>
-        [JsonProperty("channelId")]
+        [JsonPropertyName("channelId")]
         public string ChannelId { get; set; }
 
         /// <summary>
         /// 来源DoDo号
         /// </summary>
-        [JsonProperty("dodoId")]
+        [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
 
         /// <summary>
         /// 个人信息
         /// </summary>
-        [JsonProperty("personal")]
+        [JsonPropertyName("personal")]
         public MessageModelPersonal Personal { get; set; }
 
         /// <summary>
         /// 成员信息
         /// </summary>
-        [JsonProperty("member")]
+        [JsonPropertyName("member")]
         public MessageModelMember Member { get; set; }
 
         /// <summary>
         /// 回复信息
         /// </summary>
-        [JsonProperty("reference")]
+        [JsonPropertyName("reference")]
         public MessageModelReference Reference { get; set; }
 
         /// <summary>
         /// 消息ID
         /// </summary>
-        [JsonProperty("messageId")]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         /// 消息类型，1：文字消息，2：图片消息，3：视频消息，5：文件消息
         /// </summary>
-        [JsonProperty("messageType")]
+        [JsonPropertyName("messageType")]
         public int MessageType { get; set; }
 
         /// <summary>
         /// 消息内容
         /// </summary>
-        [JsonProperty("messageBody")]
+        [JsonPropertyName("messageBody")]
         public T MessageBody { get; set; }
     }
 }

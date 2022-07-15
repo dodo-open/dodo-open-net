@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
@@ -12,7 +15,6 @@ using DoDo.Open.Sdk.Models.Personals;
 using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.Roles;
 using DoDo.Open.Sdk.Models.WebSockets;
-using Newtonsoft.Json;
 using RestSharp;
 
 namespace DoDo.Open.Sdk.Services
@@ -869,6 +871,11 @@ namespace DoDo.Open.Sdk.Services
 
                 request.AddHeader("Authorization", $"Bot {_openApiOptions.ClientId}.{_openApiOptions.Token}");
 
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                };
+
                 if (input is SetResourceUploadInput uploadResourceInput)
                 {
                     if (Regex.IsMatch(uploadResourceInput.FilePath, "(http|https|ftp)://.*?"))
@@ -882,12 +889,12 @@ namespace DoDo.Open.Sdk.Services
                 }
                 else
                 {
-                    request.AddJsonBody(JsonConvert.SerializeObject(input));
+                    request.AddJsonBody(JsonSerializer.Serialize(input, jsonSerializerOptions));
                 }
 
                 var response = await client.ExecuteAsync<OpenApiBaseOutput<TOutput>>(request, method);
 
-                _openApiOptions.Log?.Invoke($"Resource: {resource}\nRequest: {JsonConvert.SerializeObject(input)}\nResponse: {response.Content}");
+                _openApiOptions.Log?.Invoke($"Resource: {resource}\nRequest: {JsonSerializer.Serialize(input, jsonSerializerOptions)}\nResponse: {response.Content}");
 
                 if (response.Data.Status != 0)
                 {

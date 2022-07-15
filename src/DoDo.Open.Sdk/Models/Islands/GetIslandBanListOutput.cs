@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Islands
 {
@@ -28,7 +26,7 @@ namespace DoDo.Open.Sdk.Models.Islands
         /// <summary>
         /// DoDo号
         /// </summary>
-        [JsonProperty("dodoId")]
+        [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
     }
 }

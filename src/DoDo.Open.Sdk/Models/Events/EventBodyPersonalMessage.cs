@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DoDo.Open.Sdk.Models.Messages;
-using Newtonsoft.Json;
+﻿using DoDo.Open.Sdk.Models.Messages;
+using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
@@ -14,31 +9,31 @@ namespace DoDo.Open.Sdk.Models.Events
         /// <summary>
         /// 来源DoDo号
         /// </summary>
-        [JsonProperty("dodoId")]
+        [JsonPropertyName("dodoId")]
         public string DodoId { get; set; }
 
         /// <summary>
         /// 个人信息
         /// </summary>
-        [JsonProperty("personal")]
+        [JsonPropertyName("personal")]
         public MessageModelPersonal Personal { get; set; }
 
         /// <summary>
         /// 消息ID
         /// </summary>
-        [JsonProperty("messageId")]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         /// 消息类型，1：文字消息，2：图片消息，3：视频消息
         /// </summary>
-        [JsonProperty("messageType")]
+        [JsonPropertyName("messageType")]
         public int MessageType { get; set; }
 
         /// <summary>
         /// 消息内容
         /// </summary>
-        [JsonProperty("messageBody")]
+        [JsonPropertyName("messageBody")]
         public T MessageBody { get; set; }
     }
 }

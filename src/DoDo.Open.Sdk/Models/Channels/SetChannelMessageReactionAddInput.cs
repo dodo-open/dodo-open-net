@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DoDo.Open.Sdk.Models.Messages;
-using Newtonsoft.Json;
+﻿using DoDo.Open.Sdk.Models.Messages;
+using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Channels
 {
@@ -11,13 +8,13 @@ namespace DoDo.Open.Sdk.Models.Channels
         /// <summary>
         /// 消息ID
         /// </summary>
-        [JsonProperty("messageId")]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         /// 反应表情
         /// </summary>
-        [JsonProperty("emoji")]
+        [JsonPropertyName("emoji")]
         public MessageModelEmoji ReactionEmoji { get; set; }
     }
 }

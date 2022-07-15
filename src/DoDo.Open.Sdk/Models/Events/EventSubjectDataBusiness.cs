@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
@@ -12,25 +7,25 @@ namespace DoDo.Open.Sdk.Models.Events
         /// <summary>
         /// 事件ID
         /// </summary>
-        [JsonProperty("eventId")]
+        [JsonPropertyName("eventId")]
         public string EventId { get; set; }
 
         /// <summary>
         /// 事件类型，EventTypeConst.
         /// </summary>
-        [JsonProperty("eventType")]
+        [JsonPropertyName("eventType")]
         public string EventType { get; set; }
 
         /// <summary>
         /// 事件内容，事件类型不同，内容也会不同
         /// </summary>
-        [JsonProperty("eventBody")]
+        [JsonPropertyName("eventBody")]
         public T EventBody { get; set; }
 
         /// <summary>
         /// 发送时间戳
         /// </summary>
-        [JsonProperty("timestamp")]
+        [JsonPropertyName("timestamp")]
         public long Timestamp { get; set; }
     }
 }

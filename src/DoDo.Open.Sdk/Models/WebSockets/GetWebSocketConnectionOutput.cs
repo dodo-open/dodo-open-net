@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace DoDo.Open.Sdk.Models.WebSockets
 {
@@ -12,7 +7,7 @@ namespace DoDo.Open.Sdk.Models.WebSockets
         /// <summary>
         /// 连接节点
         /// </summary>
-        [JsonProperty("endpoint")]
+        [JsonPropertyName("endpoint")]
         public string Endpoint { get; set; }
     }
 }
