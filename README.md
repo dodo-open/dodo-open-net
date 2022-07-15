@@ -24,12 +24,6 @@
 
 ### 项目介绍
 
-本SDK基于最新 C# .NET Standard 开发，支持Windows、MacOS、Linux、Docker，完美跨平台。
-
-### 项目地址
-
-[dodo-open-net](https://github.com/dodo-open/dodo-open-net)
-
 - 项目内包含完整的SDK源码以及SDK调用实例，请放心使用！
 
 - 您既可以下载SDK源码，项目内引用，亦可以通过Nuget包的方式引用，请参考下方 [示例项目](#示例项目)
