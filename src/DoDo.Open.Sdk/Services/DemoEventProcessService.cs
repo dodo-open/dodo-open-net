@@ -132,7 +132,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "获取群封禁名单\n";
                         reply += "\n**频道**\n";
                         reply += "获取频道列表\n";
-                        reply += "取频道信息\n";
+                        reply += "获取频道信息\n";
                         reply += "\n**文字频道**\n";
                         reply += "发送文字消息\n";
                         reply += "发送图片消息\n";
@@ -401,7 +401,7 @@ namespace DoDo.Open.Sdk.Services
                         }
 
                     }
-                    else if (content.StartsWith("取频道信息"))
+                    else if (content.StartsWith("获取频道信息"))
                     {
                         var output = await _openApiService.GetChannelInfoAsync(new GetChannelInfoInput
                         {
