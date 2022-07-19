@@ -211,7 +211,7 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取频道信息
+        /// 获取频道信息
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
@@ -221,7 +221,7 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 取频道信息-异步
+        /// 获取频道信息-异步
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
