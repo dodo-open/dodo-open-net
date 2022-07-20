@@ -31,7 +31,6 @@ namespace DoDo.Open.Sdk.Services
 
         public override void Connected(string message)
         {
-            Console.WriteLine("commit test.");
             _openApiOptions.Log?.Invoke($"Connected: {message}");
         }
 
