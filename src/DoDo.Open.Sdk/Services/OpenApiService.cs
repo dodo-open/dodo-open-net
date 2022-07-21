@@ -230,6 +230,66 @@ namespace DoDo.Open.Sdk.Services
             return await BaseRequest<GetChannelInfoInput, GetChannelInfoOutput>("/api/v1/channel/info", input, isThrowException);
         }
 
+        /// <summary>
+        /// 创建频道
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public SetChannelAddOutput SetChannelAdd(SetChannelAddInput input, bool isThrowException = false)
+        {
+            return SetChannelAddAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 创建频道-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<SetChannelAddOutput> SetChannelAddAsync(SetChannelAddInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetChannelAddInput, SetChannelAddOutput>("/api/v1/channel/add", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 编辑频道
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetChannelEdit(SetChannelEditInput input, bool isThrowException = false)
+        {
+            return SetChannelEditAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 编辑频道-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetChannelEditAsync(SetChannelEditInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetChannelEditInput, bool>("/api/v1/channel/edit", input, isThrowException);
+        }
+
+         /// <summary>
+        /// 删除频道
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetChannelRemove(SetChannelRemoveInput input, bool isThrowException = false)
+        {
+            return SetChannelRemoveAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 删除频道-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetChannelRemoveAsync(SetChannelRemoveInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetChannelRemoveInput, bool>("/api/v1/channel/remove", input, isThrowException);
+        }
+
         #endregion
 
         #region 文字频道
@@ -382,6 +442,66 @@ namespace DoDo.Open.Sdk.Services
         public async Task<List<GetRoleListOutput>> GetRoleListAsync(GetRoleListInput input, bool isThrowException = false)
         {
             return await BaseRequest<GetRoleListInput, List<GetRoleListOutput>>("/api/v1/role/list", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 创建身份组
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public SetRoleAddOutput SetRoleAdd(SetRoleAddInput input, bool isThrowException = false)
+        {
+            return SetRoleAddAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 创建身份组-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<SetRoleAddOutput> SetRoleAddAsync(SetRoleAddInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetRoleAddInput, SetRoleAddOutput>("/api/v1/role/add", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 编辑身份组
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetRoleEdit(SetRoleEditInput input, bool isThrowException = false)
+        {
+            return SetRoleEditAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 编辑身份组-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetRoleEditAsync(SetRoleEditInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetRoleEditInput, bool>("/api/v1/role/edit", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 删除身份组
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetRoleRemove(SetRoleRemoveInput input, bool isThrowException = false)
+        {
+            return SetRoleRemoveAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 删除身份组-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetRoleRemoveAsync(SetRoleRemoveInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetRoleRemoveInput, bool>("/api/v1/role/remove", input, isThrowException);
         }
 
         /// <summary>

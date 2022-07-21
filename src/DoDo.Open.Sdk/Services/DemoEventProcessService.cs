@@ -133,6 +133,9 @@ namespace DoDo.Open.Sdk.Services
                         reply += "\n**频道**\n";
                         reply += "获取频道列表\n";
                         reply += "获取频道信息\n";
+                        reply += "创建频道\n";
+                        reply += "编辑频道\n";
+                        reply += "删除频道\n";
                         reply += "\n**文字频道**\n";
                         reply += "发送文字消息\n";
                         reply += "发送图片消息\n";
@@ -143,6 +146,9 @@ namespace DoDo.Open.Sdk.Services
                         reply += "取消表情反应\n";
                         reply += "\n**身份组**\n";
                         reply += "获取身份组列表\n";
+                        reply += "创建身份组\n";
+                        reply += "编辑身份组\n";
+                        reply += "删除身份组\n";
                         reply += "赋予成员身份组 ID\n";
                         reply += "取消成员身份组 ID\n";
                         reply += "\n**成员**\n";
@@ -416,7 +422,59 @@ namespace DoDo.Open.Sdk.Services
                             reply += $"默认频道标识：{output.DefaultFlag}\n";
                             reply += $"分组ID：{output.GroupId}\n";
                             reply += $"分组名称：{output.GroupName}\n";
-                            reply += "\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("创建频道"))
+                    {
+                        var output = await _openApiService.SetChannelAddAsync(new SetChannelAddInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            ChannelName = "测试频道",
+                            ChannelType = 1
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"频道ID：{output.ChannelId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("编辑频道"))
+                    {
+                        var output = await _openApiService.SetChannelEditAsync(new SetChannelEditInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            ChannelId = eventBody.ChannelId,
+                            ChannelName = "编辑后频道"
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "编辑频道成功\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("删除频道"))
+                    {
+                        var output = await _openApiService.SetChannelRemoveAsync(new SetChannelRemoveInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            ChannelId = "10000"
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "编辑频道成功\n";
                         }
                         else
                         {
@@ -624,6 +682,66 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
 
+                    }
+                    else if (content.StartsWith("创建身份组"))
+                    {
+                        var output = await _openApiService.SetRoleAddAsync(new SetRoleAddInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            RoleName = "测试身份组",
+                            RoleColor = "#999999",
+                            Position = 1,
+                            Permission = "8"
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"身份组ID：{output.RoleId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("编辑身份组"))
+                    {
+                        var output = await _openApiService.SetRoleEditAsync(new SetRoleEditInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            RoleId = "10000",
+                            RoleName = "编辑后身份组",
+                            RoleColor = "#999999",
+                            Position = 1,
+                            Permission = "8"
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "编辑身份组成功\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("删除身份组"))
+                    {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
+                        var output = await _openApiService.SetRoleRemoveAsync(new SetRoleRemoveInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            RoleId = regex.Value
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "删除身份组成功\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
                     }
                     else if (content.StartsWith("赋予成员身份组"))
                     {
