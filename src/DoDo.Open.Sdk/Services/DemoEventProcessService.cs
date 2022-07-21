@@ -134,8 +134,8 @@ namespace DoDo.Open.Sdk.Services
                         reply += "获取频道列表\n";
                         reply += "获取频道信息\n";
                         reply += "创建频道\n";
-                        reply += "编辑频道\n";
-                        reply += "删除频道\n";
+                        reply += "编辑频道 ID\n";
+                        reply += "删除频道 ID\n";
                         reply += "\n**文字频道**\n";
                         reply += "发送文字消息\n";
                         reply += "发送图片消息\n";
@@ -147,8 +147,8 @@ namespace DoDo.Open.Sdk.Services
                         reply += "\n**身份组**\n";
                         reply += "获取身份组列表\n";
                         reply += "创建身份组\n";
-                        reply += "编辑身份组\n";
-                        reply += "删除身份组\n";
+                        reply += "编辑身份组 ID\n";
+                        reply += "删除身份组 ID\n";
                         reply += "赋予成员身份组 ID\n";
                         reply += "取消成员身份组 ID\n";
                         reply += "\n**成员**\n";
@@ -433,7 +433,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = await _openApiService.SetChannelAddAsync(new SetChannelAddInput
                         {
                             IslandId = eventBody.IslandId,
-                            ChannelName = "测试频道",
+                            ChannelName = "创建频道测试",
                             ChannelType = 1
                         }, true);
 
@@ -448,11 +448,12 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("编辑频道"))
                     {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
                         var output = await _openApiService.SetChannelEditAsync(new SetChannelEditInput
                         {
-                            IslandId = eventBody.IslandId,
-                            ChannelId = eventBody.ChannelId,
-                            ChannelName = "编辑后频道"
+                            ChannelId = regex.Value,
+                            ChannelName = "编辑频道测试"
                         }, true);
 
                         if (output)
@@ -466,10 +467,11 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("删除频道"))
                     {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
                         var output = await _openApiService.SetChannelRemoveAsync(new SetChannelRemoveInput
                         {
-                            IslandId = eventBody.IslandId,
-                            ChannelId = "10000"
+                            ChannelId = regex.Value
                         }, true);
 
                         if (output)
@@ -493,7 +495,7 @@ namespace DoDo.Open.Sdk.Services
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文字消息"
+                                Content = "发送文字消息测试"
                             }
                         }, true);
 
@@ -688,7 +690,7 @@ namespace DoDo.Open.Sdk.Services
                         var output = await _openApiService.SetRoleAddAsync(new SetRoleAddInput
                         {
                             IslandId = eventBody.IslandId,
-                            RoleName = "测试身份组",
+                            RoleName = "创建身份组测试",
                             RoleColor = "#999999",
                             Position = 1,
                             Permission = "8"
@@ -705,11 +707,12 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("编辑身份组"))
                     {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
                         var output = await _openApiService.SetRoleEditAsync(new SetRoleEditInput
                         {
-                            IslandId = eventBody.IslandId,
-                            RoleId = "10000",
-                            RoleName = "编辑后身份组",
+                            RoleId = regex.Value,
+                            RoleName = "编辑身份组测试",
                             RoleColor = "#999999",
                             Position = 1,
                             Permission = "8"
@@ -730,7 +733,6 @@ namespace DoDo.Open.Sdk.Services
 
                         var output = await _openApiService.SetRoleRemoveAsync(new SetRoleRemoveInput
                         {
-                            IslandId = eventBody.IslandId,
                             RoleId = regex.Value
                         }, true);
 
@@ -914,7 +916,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
-                            NickName = "群昵称编辑测试"
+                            NickName = "编辑成员群昵称测试"
                         }, true);
 
                         if (output)
@@ -1038,7 +1040,7 @@ namespace DoDo.Open.Sdk.Services
                             DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文字消息"
+                                Content = "发送文字私信测试"
                             }
                         }, true);
 
