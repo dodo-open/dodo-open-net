@@ -140,10 +140,10 @@ namespace DoDo.Open.Sdk.Services
                         reply += "发送文字消息\n";
                         reply += "发送图片消息\n";
                         reply += "发送视频消息\n";
-                        reply += "编辑消息\n";
-                        reply += "撤回消息\n";
-                        reply += "添加表情反应\n";
-                        reply += "取消表情反应\n";
+                        reply += "编辑消息 ID\n";
+                        reply += "撤回消息 ID\n";
+                        reply += "添加表情反应 ID\n";
+                        reply += "取消表情反应 ID\n";
                         reply += "\n**身份组**\n";
                         reply += "获取身份组列表\n";
                         reply += "创建身份组\n";
@@ -556,18 +556,11 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("编辑消息"))
                     {
-                        var outputMessage = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
-                        {
-                            ChannelId = eventBody.ChannelId,
-                            MessageBody = new MessageBodyText
-                            {
-                                Content = "测试文字消息"
-                            }
-                        }, true);
+                        var regex = Regex.Match(content, @"(\d+?)$");
 
                         var output = await _openApiService.SetChannelMessageEditAsync(new SetChannelMessageEditInput<MessageBodyText>
                         {
-                            MessageId = outputMessage.MessageId,
+                            MessageId = regex.Value,
                             MessageBody = new MessageBodyText
                             {
                                 Content = "修改后的文字"
@@ -585,11 +578,12 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("撤回消息"))
                     {
-                        Thread.Sleep(3000);
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
                         var output = await _openApiService.SetChannelMessageWithdrawAsync(new SetChannelMessageWithdrawInput
                         {
-                            MessageId = eventBody.MessageId,
-                            Reason = "撤回测试"
+                            MessageId = regex.Value,
+                            Reason = "撤回消息测试"
                         }, true);
 
                         if (output)
@@ -604,6 +598,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("添加表情反应"))
                     {
+                        var regex = Regex.Match(content, @"(\d+?)$");
 
                         var output = await _openApiService.SetChannelMessageReactionAddAsync(new SetChannelMessageReactionAddInput
                         {
@@ -611,7 +606,7 @@ namespace DoDo.Open.Sdk.Services
                             Emoji = new MessageModelEmoji
                             {
                                 Type = 1,
-                                Id = "128520"
+                                Id = regex.Value
                             }
                         }, true);
 
@@ -623,10 +618,10 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += "调用接口失败！";
                         }
-
                     }
                     else if (content.StartsWith("取消表情反应"))
                     {
+                        var regex = Regex.Match(content, @"(\d+?)$");
 
                         var output = await _openApiService.SetChannelMessageReactionRemoveAsync(new SetChannelMessageReactionRemoveInput
                         {
@@ -634,7 +629,7 @@ namespace DoDo.Open.Sdk.Services
                             Emoji = new MessageModelEmoji
                             {
                                 Type = 1,
-                                Id = "128520"
+                                Id = regex.Value
                             }
                         }, true);
 
@@ -646,7 +641,6 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += "调用接口失败！";
                         }
-
                     }
 
                     #endregion
