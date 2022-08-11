@@ -452,6 +452,7 @@ namespace DoDo.Open.Sdk.Services
 
                         var output = await _openApiService.SetChannelEditAsync(new SetChannelEditInput
                         {
+                            IslandId = eventBody.IslandId,
                             ChannelId = regex.Value,
                             ChannelName = "编辑频道测试"
                         }, true);
@@ -471,6 +472,7 @@ namespace DoDo.Open.Sdk.Services
 
                         var output = await _openApiService.SetChannelRemoveAsync(new SetChannelRemoveInput
                         {
+                            IslandId = eventBody.IslandId,
                             ChannelId = regex.Value
                         }, true);
 
@@ -705,6 +707,7 @@ namespace DoDo.Open.Sdk.Services
 
                         var output = await _openApiService.SetRoleEditAsync(new SetRoleEditInput
                         {
+                            IslandId = eventBody.IslandId,
                             RoleId = regex.Value,
                             RoleName = "编辑身份组测试",
                             RoleColor = "#999999",
@@ -727,6 +730,7 @@ namespace DoDo.Open.Sdk.Services
 
                         var output = await _openApiService.SetRoleRemoveAsync(new SetRoleRemoveInput
                         {
+                            IslandId = eventBody.IslandId,
                             RoleId = regex.Value
                         }, true);
 

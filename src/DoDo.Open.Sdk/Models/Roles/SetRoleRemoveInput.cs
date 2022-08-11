@@ -3,6 +3,11 @@
     public class SetRoleRemoveInput
     {
         /// <summary>
+        /// 群号
+        /// </summary>
+        public string IslandId { get; set; }
+
+        /// <summary>
         /// 身份组ID
         /// </summary>
         public string RoleId { get; set; }
