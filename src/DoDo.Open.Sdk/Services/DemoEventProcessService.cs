@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using DoDo.Open.Sdk.Models;
@@ -140,6 +141,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "发送文字消息\n";
                         reply += "发送图片消息\n";
                         reply += "发送视频消息\n";
+                        reply += "发送卡片消息\n";
                         reply += "编辑消息 ID\n";
                         reply += "撤回消息 ID\n";
                         reply += "添加表情反应 ID\n";
@@ -544,6 +546,39 @@ namespace DoDo.Open.Sdk.Services
                                 CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
                                 Duration = 0,
                                 Size = 0
+                            }
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"消息ID：{output.MessageId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("发送卡片消息"))
+                    {
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyCard>
+                        {
+                            ChannelId = eventBody.ChannelId,
+                            MessageBody = new MessageBodyCard
+                            {
+                                Card = JsonSerializer.Deserialize<object>(@"{
+                                            ""type"": ""card"",
+                                            ""components"": [{
+                                                    ""type"": ""section"",
+                                                    ""text"": {
+                                                        ""type"": ""dodo-md"",
+                                                        ""content"": ""卡片文本内容""
+                                                    }
+                                                }
+                                            ],
+                                            ""theme"": ""green"",
+                                            ""title"": ""卡片标题""
+                                        }"),
+                                Content = "附加文本"
                             }
                         }, true);
 
@@ -1168,6 +1203,13 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"视频时长：{messageBody.Duration}\n";
                 reply += $"视频大小：{messageBody.Size}\n";
             }
+            else if (eventBody.MessageBody is MessageBodyShare messageBodyShare)
+            {
+                var messageBody = messageBodyShare;
+
+                reply += "触发消息事件-分享消息\n";
+                reply += $"跳转链接：{messageBody.JumpUrl}\n";
+            }
             else if (eventBody.MessageBody is MessageBodyFile messageBodyFile)
             {
                 var messageBody = messageBodyFile;
@@ -1176,6 +1218,13 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"文件链接：{messageBody.Url}\n";
                 reply += $"文件名称：{messageBody.Name}\n";
                 reply += $"文件大小：{messageBody.Size}\n";
+            }
+            else if (eventBody.MessageBody is MessageBodyCard messageBodyCard)
+            {
+                var messageBody = messageBodyCard;
+
+                reply += "触发消息事件-卡片消息\n";
+                reply += $"{JsonSerializer.Serialize(messageBody)}\n";
             }
 
             if (reply != "")

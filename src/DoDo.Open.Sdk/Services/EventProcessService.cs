@@ -108,9 +108,21 @@ namespace DoDo.Open.Sdk.Services
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
+                    else if (eventBody.MessageType == MessageTypeConst.Share)
+                    {
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyShare>>>>(message, jsonSerializerOptions);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
                     else if (eventBody.MessageType == MessageTypeConst.File)
                     {
                         var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyFile>>>>(message, jsonSerializerOptions);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
+                    else if (eventBody.MessageType == MessageTypeConst.Card)
+                    {
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyCard>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }

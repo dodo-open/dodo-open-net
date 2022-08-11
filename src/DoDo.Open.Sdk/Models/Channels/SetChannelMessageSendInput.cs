@@ -28,6 +28,10 @@ namespace DoDo.Open.Sdk.Models.Channels
                 {
                     return MessageTypeConst.File;
                 }
+                else if (MessageBody is MessageBodyCard)
+                {
+                    return MessageTypeConst.Card;
+                }
 
                 return MessageTypeConst.Text;
             }
