@@ -170,7 +170,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "发送视频消息\n";
                         reply += "发送卡片消息\n";
                         reply += "发送文字频道私信\n";
-                        reply += "发送卡片频道私信\n";
+                        reply += "发送图片频道私信\n";
                         reply += "发送视频频道私信\n";
                         reply += "发送卡片频道私信\n";
                         reply += "编辑消息 ID\n";
