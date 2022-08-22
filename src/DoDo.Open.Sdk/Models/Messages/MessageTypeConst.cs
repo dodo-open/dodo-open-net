@@ -18,8 +18,18 @@
         public static int Video = 3;
 
         /// <summary>
+        /// 分享消息
+        /// </summary>
+        public static int Share = 4;
+
+        /// <summary>
         /// 文件消息
         /// </summary>
         public static int File = 5;
+
+        /// <summary>
+        /// 卡片消息
+        /// </summary>
+        public static int Card = 6;
     }
 }

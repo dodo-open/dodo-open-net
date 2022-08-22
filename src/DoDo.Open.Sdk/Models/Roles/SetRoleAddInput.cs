@@ -1,11 +1,11 @@
 ﻿namespace DoDo.Open.Sdk.Models.Roles
 {
-    public class GetRoleListOutput
+    public class SetRoleAddInput
     {
         /// <summary>
-        /// 身份组ID
+        /// 群号
         /// </summary>
-        public string RoleId { get; set; }
+        public string IslandId { get; set; }
 
         /// <summary>
         /// 身份组名称

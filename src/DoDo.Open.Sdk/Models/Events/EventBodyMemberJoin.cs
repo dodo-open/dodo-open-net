@@ -1,6 +1,6 @@
 ﻿namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventBodyMemberJoin
+    public class EventBodyMemberJoin : EventBodyBase
     {
         /// <summary>
         /// 来源群号

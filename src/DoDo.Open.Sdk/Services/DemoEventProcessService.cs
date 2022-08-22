@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading;
+using System.Text.Unicode;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
 using DoDo.Open.Sdk.Models.Channels;
@@ -116,36 +119,84 @@ namespace DoDo.Open.Sdk.Services
 
                 try
                 {
+                    #region 菜单
+
                     if (content.StartsWith("菜单"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
-                        reply += "\n**菜单来咯！**\n";
-                        reply += "\n**机器人**\n";
+                        reply += "\n**菜单来咯！**\n\n";
+                        reply += "**机器人**\n";
+                        reply += "**群**\n";
+                        reply += "**频道**\n";
+                        reply += "**文字频道**\n";
+                        reply += "**身份组**\n";
+                        reply += "**成员**\n";
+                        reply += "**数字藏品**\n";
+                        reply += "**私信**\n";
+                        reply += "**资源**\n";
+                        reply += "**事件**\n";
+                    }
+                    else if (content.StartsWith("机器人"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**机器人**\n\n";
                         reply += "获取机器人配置\n";
                         reply += "获取机器人信息\n";
                         reply += "机器人退群\n";
-                        reply += "\n**群**\n";
+                    }
+                    else if (content.StartsWith("群"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**群**\n\n";
                         reply += "获取群列表\n";
                         reply += "获取群信息\n";
                         reply += "获取群等级排行榜\n";
                         reply += "获取群禁言名单\n";
                         reply += "获取群封禁名单\n";
-                        reply += "\n**频道**\n";
+                    }
+                    else if (content.StartsWith("频道"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+
+                        reply += "\n**频道**\n\n";
                         reply += "获取频道列表\n";
                         reply += "获取频道信息\n";
-                        reply += "\n**文字频道**\n";
+                        reply += "创建频道\n";
+                        reply += "编辑频道 ID\n";
+                        reply += "删除频道 ID\n";
+                    }
+                    else if (content.StartsWith("文字频道"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**文字频道**\n\n";
                         reply += "发送文字消息\n";
                         reply += "发送图片消息\n";
                         reply += "发送视频消息\n";
-                        reply += "编辑消息\n";
-                        reply += "撤回消息\n";
-                        reply += "添加表情反应\n";
-                        reply += "取消表情反应\n";
-                        reply += "\n**身份组**\n";
+                        reply += "发送卡片消息\n";
+                        reply += "发送文字频道私信\n";
+                        reply += "发送图片频道私信\n";
+                        reply += "发送视频频道私信\n";
+                        reply += "发送卡片频道私信\n";
+                        reply += "编辑消息 ID\n";
+                        reply += "撤回消息 ID\n";
+                        reply += "添加表情反应 ID\n";
+                        reply += "取消表情反应 ID\n";
+                    }
+                    else if (content.StartsWith("身份组"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**身份组**\n\n";
                         reply += "获取身份组列表\n";
+                        reply += "创建身份组\n";
+                        reply += "编辑身份组 ID\n";
+                        reply += "删除身份组 ID\n";
                         reply += "赋予成员身份组 ID\n";
                         reply += "取消成员身份组 ID\n";
-                        reply += "\n**成员**\n";
+                    }
+                    else if (content.StartsWith("成员"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**成员**\n\n";
                         reply += "获取成员列表\n";
                         reply += "获取成员信息\n";
                         reply += "获取成员身份组列表\n";
@@ -155,17 +206,35 @@ namespace DoDo.Open.Sdk.Services
                         reply += "取消成员禁言\n";
                         reply += "永久封禁成员\n";
                         reply += "取消成员永久封禁\n";
-                        reply += "\n**数字藏品**\n";
+                    }
+                    else if (content.StartsWith("数字藏品"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**数字藏品**\n\n";
                         reply += "获取成员数字藏品判断\n";
-                        reply += "\n**私信**\n";
+                    }
+                    else if (content.StartsWith("私信"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**私信**\n\n";
                         reply += "发送文字私信\n";
                         reply += "发送图片私信\n";
                         reply += "发送视频私信\n";
-                        reply += "\n**资源**\n";
+                    }
+                    else if (content.StartsWith("资源"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**资源**\n\n";
                         reply += "上传资源图片\n";
-                        reply += "\n**事件**\n";
+                    }
+                    else if (content.StartsWith("事件"))
+                    {
+                        reply += $"<@!{eventBody.DodoId}>\n";
+                        reply += "\n**事件**\n\n";
                         reply += "获取WebSocket连接\n";
                     }
+
+                    #endregion
 
                     #region 机器人
 
@@ -416,7 +485,63 @@ namespace DoDo.Open.Sdk.Services
                             reply += $"默认频道标识：{output.DefaultFlag}\n";
                             reply += $"分组ID：{output.GroupId}\n";
                             reply += $"分组名称：{output.GroupName}\n";
-                            reply += "\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("创建频道"))
+                    {
+                        var output = await _openApiService.SetChannelAddAsync(new SetChannelAddInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            ChannelName = "创建频道测试",
+                            ChannelType = 1
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"频道ID：{output.ChannelId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("编辑频道"))
+                    {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
+                        var output = await _openApiService.SetChannelEditAsync(new SetChannelEditInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            ChannelId = regex.Value,
+                            ChannelName = "编辑频道测试"
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "编辑频道成功\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("删除频道"))
+                    {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
+                        var output = await _openApiService.SetChannelRemoveAsync(new SetChannelRemoveInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            ChannelId = regex.Value
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "编辑频道成功\n";
                         }
                         else
                         {
@@ -435,7 +560,7 @@ namespace DoDo.Open.Sdk.Services
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文字消息"
+                                Content = "发送文字消息测试"
                             }
                         }, true);
 
@@ -456,8 +581,8 @@ namespace DoDo.Open.Sdk.Services
                             MessageBody = new MessageBodyPicture
                             {
                                 Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
-                                Width = 500,
-                                Height = 500,
+                                Width = 600,
+                                Height = 600,
                                 IsOriginal = 1
                             }
                         }, true);
@@ -478,8 +603,8 @@ namespace DoDo.Open.Sdk.Services
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyVideo
                             {
-                                Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
-                                CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
+                                Url = "https://video.imdodo.com/dodo/7f0a1979c818fa05cf7bdeae20aad24b.mp4",
+                                CoverUrl = "https://img.imdodo.com/dodo/2493bf9b000b8dc18e77d079ac517bb9.png",
                                 Duration = 0,
                                 Size = 0
                             }
@@ -494,20 +619,176 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
                     }
-                    else if (content.StartsWith("编辑消息"))
+                    else if (content.StartsWith("发送卡片消息"))
                     {
-                        var outputMessage = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyCard>
+                        {
+                            ChannelId = eventBody.ChannelId,
+                            MessageBody = new MessageBodyCard
+                            {
+                                Card = new Card
+                                {
+                                    Type = "card",
+                                    Theme = "grey",
+                                    Title = "卡片消息",
+                                    Components = new List<object>
+                                    {
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""header"",
+                                                                                ""text"": {
+                                                                                    ""type"": ""dodo-md"",
+                                                                                    ""content"": ""发送卡片消息测试""
+                                                                                }
+                                                                            }"),
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""image-group"",
+                                                                                ""elements"": [{
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png""
+                                                                                    }, {
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png""
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                            ")
+                                    }
+                                }
+                            }
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"消息ID：{output.MessageId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("发送文字频道私信"))
+                    {
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
                         {
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文字消息"
-                            }
+                                Content = "发送文字频道私信测试"
+                            },
+                            DodoId = eventBody.DodoId
                         }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"消息ID：{output.MessageId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("发送图片频道私信"))
+                    {
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyPicture>
+                        {
+                            ChannelId = eventBody.ChannelId,
+                            MessageBody = new MessageBodyPicture
+                            {
+                                Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
+                                Width = 500,
+                                Height = 500,
+                                IsOriginal = 1
+                            },
+                            DodoId = eventBody.DodoId
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"消息ID：{output.MessageId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("发送视频频道私信"))
+                    {
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyVideo>
+                        {
+                            ChannelId = eventBody.ChannelId,
+                            MessageBody = new MessageBodyVideo
+                            {
+                                Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
+                                CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
+                                Duration = 0,
+                                Size = 0
+                            },
+                            DodoId = eventBody.DodoId
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"消息ID：{output.MessageId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("发送卡片频道私信"))
+                    {
+                        var output = await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyCard>
+                        {
+                            ChannelId = eventBody.ChannelId,
+                            MessageBody = new MessageBodyCard
+                            {
+                                Card = new Card
+                                {
+                                    Type = "card",
+                                    Theme = "grey",
+                                    Title = "卡片消息",
+                                    Components = new List<object>
+                                    {
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""header"",
+                                                                                ""text"": {
+                                                                                    ""type"": ""dodo-md"",
+                                                                                    ""content"": ""发送卡片消息测试""
+                                                                                }
+                                                                            }"),
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""image-group"",
+                                                                                ""elements"": [{
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png""
+                                                                                    }, {
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png""
+                                                                                    }
+                                                                                ]
+                                                                            }")
+                                    }
+                                }
+                            },
+                            DodoId = eventBody.DodoId
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"消息ID：{output.MessageId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("编辑消息"))
+                    {
+                        var regex = Regex.Match(content, @"(\d+?)$");
 
                         var output = await _openApiService.SetChannelMessageEditAsync(new SetChannelMessageEditInput<MessageBodyText>
                         {
-                            MessageId = outputMessage.MessageId,
+                            MessageId = regex.Value,
                             MessageBody = new MessageBodyText
                             {
                                 Content = "修改后的文字"
@@ -525,11 +806,12 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("撤回消息"))
                     {
-                        Thread.Sleep(3000);
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
                         var output = await _openApiService.SetChannelMessageWithdrawAsync(new SetChannelMessageWithdrawInput
                         {
-                            MessageId = eventBody.MessageId,
-                            Reason = "撤回测试"
+                            MessageId = regex.Value,
+                            Reason = "撤回消息测试"
                         }, true);
 
                         if (output)
@@ -544,6 +826,7 @@ namespace DoDo.Open.Sdk.Services
                     }
                     else if (content.StartsWith("添加表情反应"))
                     {
+                        var regex = Regex.Match(content, @"(\d+?)$");
 
                         var output = await _openApiService.SetChannelMessageReactionAddAsync(new SetChannelMessageReactionAddInput
                         {
@@ -551,7 +834,7 @@ namespace DoDo.Open.Sdk.Services
                             Emoji = new MessageModelEmoji
                             {
                                 Type = 1,
-                                Id = "128520"
+                                Id = regex.Value
                             }
                         }, true);
 
@@ -563,10 +846,10 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += "调用接口失败！";
                         }
-
                     }
                     else if (content.StartsWith("取消表情反应"))
                     {
+                        var regex = Regex.Match(content, @"(\d+?)$");
 
                         var output = await _openApiService.SetChannelMessageReactionRemoveAsync(new SetChannelMessageReactionRemoveInput
                         {
@@ -574,7 +857,7 @@ namespace DoDo.Open.Sdk.Services
                             Emoji = new MessageModelEmoji
                             {
                                 Type = 1,
-                                Id = "128520"
+                                Id = regex.Value
                             }
                         }, true);
 
@@ -586,7 +869,6 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += "调用接口失败！";
                         }
-
                     }
 
                     #endregion
@@ -624,6 +906,68 @@ namespace DoDo.Open.Sdk.Services
                             reply += "调用接口失败！";
                         }
 
+                    }
+                    else if (content.StartsWith("创建身份组"))
+                    {
+                        var output = await _openApiService.SetRoleAddAsync(new SetRoleAddInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            RoleName = "创建身份组测试",
+                            RoleColor = "#999999",
+                            Position = 1,
+                            Permission = "8"
+                        }, true);
+
+                        if (output != null)
+                        {
+                            reply += $"身份组ID：{output.RoleId}\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("编辑身份组"))
+                    {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
+                        var output = await _openApiService.SetRoleEditAsync(new SetRoleEditInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            RoleId = regex.Value,
+                            RoleName = "编辑身份组测试",
+                            RoleColor = "#999999",
+                            Position = 1,
+                            Permission = "8"
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "编辑身份组成功\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
+                    }
+                    else if (content.StartsWith("删除身份组"))
+                    {
+                        var regex = Regex.Match(content, @"(\d+?)$");
+
+                        var output = await _openApiService.SetRoleRemoveAsync(new SetRoleRemoveInput
+                        {
+                            IslandId = eventBody.IslandId,
+                            RoleId = regex.Value
+                        }, true);
+
+                        if (output)
+                        {
+                            reply += "删除身份组成功\n";
+                        }
+                        else
+                        {
+                            reply += "调用接口失败！";
+                        }
                     }
                     else if (content.StartsWith("赋予成员身份组"))
                     {
@@ -796,7 +1140,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             IslandId = eventBody.IslandId,
                             DodoId = eventBody.DodoId,
-                            NickName = "群昵称编辑测试"
+                            NickName = "编辑成员群昵称测试"
                         }, true);
 
                         if (output)
@@ -920,7 +1264,7 @@ namespace DoDo.Open.Sdk.Services
                             DodoId = eventBody.DodoId,
                             MessageBody = new MessageBodyText
                             {
-                                Content = "测试文字消息"
+                                Content = "发送文字私信测试"
                             }
                         }, true);
 
@@ -1050,6 +1394,13 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"视频时长：{messageBody.Duration}\n";
                 reply += $"视频大小：{messageBody.Size}\n";
             }
+            else if (eventBody.MessageBody is MessageBodyShare messageBodyShare)
+            {
+                var messageBody = messageBodyShare;
+
+                reply += "触发消息事件-分享消息\n";
+                reply += $"跳转链接：{messageBody.JumpUrl}\n";
+            }
             else if (eventBody.MessageBody is MessageBodyFile messageBodyFile)
             {
                 var messageBody = messageBodyFile;
@@ -1058,6 +1409,13 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"文件链接：{messageBody.Url}\n";
                 reply += $"文件名称：{messageBody.Name}\n";
                 reply += $"文件大小：{messageBody.Size}\n";
+            }
+            else if (eventBody.MessageBody is MessageBodyCard messageBodyCard)
+            {
+                var messageBody = messageBodyCard;
+
+                reply += "触发消息事件-卡片消息\n";
+                reply += $"{JsonSerializer.Serialize(messageBody)}\n";
             }
 
             if (reply != "")
@@ -1079,7 +1437,7 @@ namespace DoDo.Open.Sdk.Services
 
             var reply = "";
 
-            reply += "触发消息表情反应事件\n";
+            reply += "触发卡片消息按钮事件\n";
             reply += $"来源频道ID：{eventBody.ChannelId}\n";
             reply += $"来源DoDo号：{eventBody.DodoId}\n";
             reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
@@ -1087,6 +1445,84 @@ namespace DoDo.Open.Sdk.Services
             reply += $"反应表情类型：{eventBody.ReactionEmoji.Type}\n";
             reply += $"反应表情ID：{eventBody.ReactionEmoji.Id}\n";
             reply += $"反应类型：{eventBody.ReactionType}\n";
+
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override async void CardMessageButtonClickEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageButtonClick>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            reply += "触发卡片消息按钮事件\n";
+            reply += $"来源频道ID：{eventBody.ChannelId}\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
+            reply += $"Value：{eventBody.Value}\n";
+
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override async void CardMessageFormSubmitEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageFormSubmit>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            reply += "触发卡片消息表单回传事件\n";
+            reply += $"来源频道ID：{eventBody.ChannelId}\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
+            reply += $"表单数据：{JsonSerializer.Serialize(eventBody.FormData,jsonSerializerOptions)}\n";
+
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override async void CardMessageListSubmitEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageListSubmit>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            reply += "触发卡片消息列表回传事件\n";
+            reply += $"来源频道ID：{eventBody.ChannelId}\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
+            reply += $"列表数据：{JsonSerializer.Serialize(eventBody.ListData, jsonSerializerOptions)}\n";
 
             await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
             {

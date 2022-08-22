@@ -108,9 +108,21 @@ namespace DoDo.Open.Sdk.Services
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
+                    else if (eventBody.MessageType == MessageTypeConst.Share)
+                    {
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyShare>>>>(message, jsonSerializerOptions);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
                     else if (eventBody.MessageType == MessageTypeConst.File)
                     {
                         var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyFile>>>>(message, jsonSerializerOptions);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
+                    else if (eventBody.MessageType == MessageTypeConst.Card)
+                    {
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyCard>>>>(message, jsonSerializerOptions);
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
@@ -120,6 +132,24 @@ namespace DoDo.Open.Sdk.Services
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>>>(message, jsonSerializerOptions);
                     if (eventBodyResult == null) return;
                     MessageReactionEvent(eventBodyResult);
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.CardMessageButtonClick)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageButtonClick>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    CardMessageButtonClickEvent(eventBodyResult);
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.CardMessageFormSubmit)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageFormSubmit>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    CardMessageFormSubmitEvent(eventBodyResult);
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.CardMessageListSubmit)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageListSubmit>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    CardMessageListSubmitEvent(eventBodyResult);
                 }
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberJoin)
                 {
@@ -170,6 +200,33 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         public virtual void MessageReactionEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMessageReaction>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 卡片消息按钮事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void CardMessageButtonClickEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageButtonClick>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 卡片消息表单回传事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void CardMessageFormSubmitEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageFormSubmit>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 卡片消息列表回传事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void CardMessageListSubmitEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageListSubmit>> input)
         {
 
         }
