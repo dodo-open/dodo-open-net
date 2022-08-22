@@ -581,8 +581,8 @@ namespace DoDo.Open.Sdk.Services
                             MessageBody = new MessageBodyPicture
                             {
                                 Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
-                                Width = 500,
-                                Height = 500,
+                                Width = 600,
+                                Height = 600,
                                 IsOriginal = 1
                             }
                         }, true);
@@ -603,8 +603,8 @@ namespace DoDo.Open.Sdk.Services
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyVideo
                             {
-                                Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
-                                CoverUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
+                                Url = "https://video.imdodo.com/dodo/7f0a1979c818fa05cf7bdeae20aad24b.mp4",
+                                CoverUrl = "https://img.imdodo.com/dodo/2493bf9b000b8dc18e77d079ac517bb9.png",
                                 Duration = 0,
                                 Size = 0
                             }
