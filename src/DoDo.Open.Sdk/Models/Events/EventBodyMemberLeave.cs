@@ -1,7 +1,7 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventBodyMemberLeave
+    public class EventBodyMemberLeave : EventBodyBase
     {
         /// <summary>
         /// 来源群号

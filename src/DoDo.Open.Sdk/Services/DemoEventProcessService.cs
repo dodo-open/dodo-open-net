@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading;
+using System.Text.Unicode;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
 using DoDo.Open.Sdk.Models.Channels;
@@ -117,6 +119,8 @@ namespace DoDo.Open.Sdk.Services
 
                 try
                 {
+                    #region 菜单
+
                     if (content.StartsWith("菜单"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
@@ -153,7 +157,7 @@ namespace DoDo.Open.Sdk.Services
                     else if (content.StartsWith("频道"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
-                       
+
                         reply += "\n**频道**\n\n";
                         reply += "获取频道列表\n";
                         reply += "获取频道信息\n";
@@ -161,7 +165,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "编辑频道 ID\n";
                         reply += "删除频道 ID\n";
                     }
-                    if (content.StartsWith("文字频道"))
+                    else if (content.StartsWith("文字频道"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
                         reply += "\n**文字频道**\n\n";
@@ -178,7 +182,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "添加表情反应 ID\n";
                         reply += "取消表情反应 ID\n";
                     }
-                    if (content.StartsWith("身份组"))
+                    else if (content.StartsWith("身份组"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
                         reply += "\n**身份组**\n\n";
@@ -189,7 +193,7 @@ namespace DoDo.Open.Sdk.Services
                         reply += "赋予成员身份组 ID\n";
                         reply += "取消成员身份组 ID\n";
                     }
-                    if (content.StartsWith("成员"))
+                    else if (content.StartsWith("成员"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
                         reply += "\n**成员**\n\n";
@@ -203,13 +207,13 @@ namespace DoDo.Open.Sdk.Services
                         reply += "永久封禁成员\n";
                         reply += "取消成员永久封禁\n";
                     }
-                    if (content.StartsWith("数字藏品"))
+                    else if (content.StartsWith("数字藏品"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
                         reply += "\n**数字藏品**\n\n";
                         reply += "获取成员数字藏品判断\n";
                     }
-                    if (content.StartsWith("私信"))
+                    else if (content.StartsWith("私信"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
                         reply += "\n**私信**\n\n";
@@ -217,18 +221,20 @@ namespace DoDo.Open.Sdk.Services
                         reply += "发送图片私信\n";
                         reply += "发送视频私信\n";
                     }
-                    if (content.StartsWith("资源"))
+                    else if (content.StartsWith("资源"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
                         reply += "\n**资源**\n\n";
                         reply += "上传资源图片\n";
                     }
-                    if (content.StartsWith("事件"))
+                    else if (content.StartsWith("事件"))
                     {
                         reply += $"<@!{eventBody.DodoId}>\n";
                         reply += "\n**事件**\n\n";
                         reply += "获取WebSocket连接\n";
                     }
+
+                    #endregion
 
                     #region 机器人
 
@@ -620,19 +626,34 @@ namespace DoDo.Open.Sdk.Services
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyCard
                             {
-                                Card = JsonSerializer.Deserialize<object>(@"{
-                                            ""type"": ""card"",
-                                            ""components"": [{
-                                                    ""type"": ""section"",
-                                                    ""text"": {
-                                                        ""type"": ""dodo-md"",
-                                                        ""content"": ""发送卡片消息测试""
-                                                    }
-                                                }
-                                            ],
-                                            ""theme"": ""green"",
-                                            ""title"": ""卡片标题""
-                                        }")
+                                Card = new Card
+                                {
+                                    Type = "card",
+                                    Theme = "grey",
+                                    Title = "卡片消息",
+                                    Components = new List<object>
+                                    {
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""header"",
+                                                                                ""text"": {
+                                                                                    ""type"": ""dodo-md"",
+                                                                                    ""content"": ""发送卡片消息测试""
+                                                                                }
+                                                                            }"),
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""image-group"",
+                                                                                ""elements"": [{
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png""
+                                                                                    }, {
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png""
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                            ")
+                                    }
+                                }
                             }
                         }, true);
 
@@ -721,19 +742,33 @@ namespace DoDo.Open.Sdk.Services
                             ChannelId = eventBody.ChannelId,
                             MessageBody = new MessageBodyCard
                             {
-                                Card = JsonSerializer.Deserialize<object>(@"{
-                                            ""type"": ""card"",
-                                            ""components"": [{
-                                                    ""type"": ""section"",
-                                                    ""text"": {
-                                                        ""type"": ""dodo-md"",
-                                                        ""content"": ""发送卡片频道私信测试""
-                                                    }
-                                                }
-                                            ],
-                                            ""theme"": ""green"",
-                                            ""title"": ""卡片标题""
-                                        }")
+                                Card = new Card
+                                {
+                                    Type = "card",
+                                    Theme = "grey",
+                                    Title = "卡片消息",
+                                    Components = new List<object>
+                                    {
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""header"",
+                                                                                ""text"": {
+                                                                                    ""type"": ""dodo-md"",
+                                                                                    ""content"": ""发送卡片消息测试""
+                                                                                }
+                                                                            }"),
+                                        JsonSerializer.Deserialize<object>(@"{
+                                                                                ""type"": ""image-group"",
+                                                                                ""elements"": [{
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png""
+                                                                                    }, {
+                                                                                        ""type"": ""image"",
+                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png""
+                                                                                    }
+                                                                                ]
+                                                                            }")
+                                    }
+                                }
                             },
                             DodoId = eventBody.DodoId
                         }, true);
@@ -1402,7 +1437,7 @@ namespace DoDo.Open.Sdk.Services
 
             var reply = "";
 
-            reply += "触发消息表情反应事件\n";
+            reply += "触发卡片消息按钮事件\n";
             reply += $"来源频道ID：{eventBody.ChannelId}\n";
             reply += $"来源DoDo号：{eventBody.DodoId}\n";
             reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
@@ -1410,6 +1445,84 @@ namespace DoDo.Open.Sdk.Services
             reply += $"反应表情类型：{eventBody.ReactionEmoji.Type}\n";
             reply += $"反应表情ID：{eventBody.ReactionEmoji.Id}\n";
             reply += $"反应类型：{eventBody.ReactionType}\n";
+
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override async void CardMessageButtonClickEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageButtonClick>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            reply += "触发卡片消息按钮事件\n";
+            reply += $"来源频道ID：{eventBody.ChannelId}\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
+            reply += $"Value：{eventBody.Value}\n";
+
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override async void CardMessageFormSubmitEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageFormSubmit>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            reply += "触发卡片消息表单回传事件\n";
+            reply += $"来源频道ID：{eventBody.ChannelId}\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
+            reply += $"表单数据：{JsonSerializer.Serialize(eventBody.FormData,jsonSerializerOptions)}\n";
+
+            await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = eventBody.ChannelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = reply
+                }
+            });
+        }
+
+        public override async void CardMessageListSubmitEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageListSubmit>> input)
+        {
+            var eventBody = input.Data.EventBody;
+
+            var reply = "";
+
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            reply += "触发卡片消息列表回传事件\n";
+            reply += $"来源频道ID：{eventBody.ChannelId}\n";
+            reply += $"来源DoDo号：{eventBody.DodoId}\n";
+            reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
+            reply += $"列表数据：{JsonSerializer.Serialize(eventBody.ListData, jsonSerializerOptions)}\n";
 
             await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
             {

@@ -1,7 +1,7 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventBodyMessageReaction
+    public class EventBodyMessageReaction : EventBodyBase
     {
         /// <summary>
         /// 来源群号
@@ -17,6 +17,11 @@ namespace DoDo.Open.Sdk.Models.Events
         /// 来源DoDo号
         /// </summary>
         public string DodoId { get; set; }
+
+        /// <summary>
+        /// 来源消息ID
+        /// </summary>
+        public string MessageId { get; set; }
 
         /// <summary>
         /// 反应对象
