@@ -753,7 +753,7 @@ namespace DoDo.Open.Sdk.Services
                                                                                 ""type"": ""header"",
                                                                                 ""text"": {
                                                                                     ""type"": ""dodo-md"",
-                                                                                    ""content"": ""发送卡片消息测试""
+                                                                                    ""content"": ""发送卡片频道私信测试""
                                                                                 }
                                                                             }"),
                                         JsonSerializer.Deserialize<object>(@"{
