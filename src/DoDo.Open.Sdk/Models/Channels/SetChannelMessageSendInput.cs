@@ -10,7 +10,7 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string ChannelId { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文字消息，2：图片消息，3：视频消息，5：文件消息
+        /// 消息类型，1：文字消息，2：图片消息，3：视频消息，5：文件消息，6：卡片消息
         /// </summary>
         public int MessageType
         {
