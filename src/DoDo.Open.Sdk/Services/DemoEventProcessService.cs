@@ -4,6 +4,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Text.Unicode;
+using System.Xml.Linq;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
 using DoDo.Open.Sdk.Models.Channels;
@@ -15,6 +16,7 @@ using DoDo.Open.Sdk.Models.Personals;
 using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.Roles;
 using DoDo.Open.Sdk.Models.WebSockets;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DoDo.Open.Sdk.Services
 {
@@ -633,25 +635,32 @@ namespace DoDo.Open.Sdk.Services
                                     Title = "卡片消息",
                                     Components = new List<object>
                                     {
-                                        JsonSerializer.Deserialize<object>(@"{
-                                                                                ""type"": ""header"",
-                                                                                ""text"": {
-                                                                                    ""type"": ""dodo-md"",
-                                                                                    ""content"": ""发送卡片消息测试""
-                                                                                }
-                                                                            }"),
-                                        JsonSerializer.Deserialize<object>(@"{
-                                                                                ""type"": ""image-group"",
-                                                                                ""elements"": [{
-                                                                                        ""type"": ""image"",
-                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png""
-                                                                                    }, {
-                                                                                        ""type"": ""image"",
-                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png""
-                                                                                    }
-                                                                                ]
-                                                                            }
-                                                                            ")
+                                       new
+                                       {
+                                           type = "header",
+                                           text = new
+                                           {
+                                               type = "dodo-md",
+                                               content = "发送卡片消息测试"
+                                           }
+                                       },
+                                       new
+                                       {
+                                           type = "image-group",
+                                           elements = new List<object>()
+                                           {
+                                               new
+                                               {
+                                                   type = "image",
+                                                   src = "https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png"
+                                               },
+                                               new
+                                               {
+                                                   type = "image",
+                                                   src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
+                                               }
+                                           }
+                                       }
                                     }
                                 }
                             }
@@ -749,24 +758,32 @@ namespace DoDo.Open.Sdk.Services
                                     Title = "卡片消息",
                                     Components = new List<object>
                                     {
-                                        JsonSerializer.Deserialize<object>(@"{
-                                                                                ""type"": ""header"",
-                                                                                ""text"": {
-                                                                                    ""type"": ""dodo-md"",
-                                                                                    ""content"": ""发送卡片频道私信测试""
-                                                                                }
-                                                                            }"),
-                                        JsonSerializer.Deserialize<object>(@"{
-                                                                                ""type"": ""image-group"",
-                                                                                ""elements"": [{
-                                                                                        ""type"": ""image"",
-                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png""
-                                                                                    }, {
-                                                                                        ""type"": ""image"",
-                                                                                        ""src"": ""https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png""
-                                                                                    }
-                                                                                ]
-                                                                            }")
+                                        new
+                                        {
+                                            type = "header",
+                                            text = new
+                                            {
+                                                type = "dodo-md",
+                                                content = "发送卡片频道私信测试"
+                                            }
+                                        },
+                                        new
+                                        {
+                                            type = "image-group",
+                                            elements = new List<object>()
+                                            {
+                                                new
+                                                {
+                                                    type = "image",
+                                                    src = "https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png"
+                                                },
+                                                new
+                                                {
+                                                    type = "image",
+                                                    src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             },
