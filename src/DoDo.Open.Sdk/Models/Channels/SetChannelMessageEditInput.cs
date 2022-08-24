@@ -10,9 +10,20 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string MessageId { get; set; }
 
         /// <summary>
-        /// 消息类型，1：文字消息，目前仅支持编辑文字消息
+        /// 消息类型，1：文字消息，6：卡片消息
         /// </summary>
-        public int MessageType => MessageTypeConst.Text;
+        public int MessageType
+        {
+            get
+            {
+                if (MessageBody is MessageBodyCard)
+                {
+                    return MessageTypeConst.Card;
+                }
+
+                return MessageTypeConst.Text;
+            }
+        }
 
         /// <summary>
         /// 消息内容
