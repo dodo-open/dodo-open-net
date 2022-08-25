@@ -10,11 +10,6 @@ namespace DoDo.Open.Sdk.Models.Events
         public MessageModelReference Reference { get; set; }
 
         /// <summary>
-        /// 消息ID
-        /// </summary>
-        public string MessageId { get; set; }
-
-        /// <summary>
         /// 消息类型，1：文字消息，2：图片消息，3：视频消息，4：分享消息，5：文件消息，6：卡片消息
         /// </summary>
         public int MessageType { get; set; }

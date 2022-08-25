@@ -23,6 +23,11 @@ namespace DoDo.Open.Sdk.Models.Events
         public string DodoId { get; set; }
 
         /// <summary>
+        /// 消息ID
+        /// </summary>
+        public string MessageId { get; set; }
+
+        /// <summary>
         /// 个人信息
         /// </summary>
         public MessageModelPersonal Personal { get; set; }
