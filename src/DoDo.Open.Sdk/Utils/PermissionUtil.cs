@@ -14,9 +14,16 @@ namespace DoDo.Open.Sdk.Utils
         /// <returns></returns>
         public static string CalculationPermission(params Permission[] permissions)
         {
-            var calculationPermission = permissions.Aggregate(0, (current, permission) => current | (int) permission);
+            try
+            {
+                var calculationPermission = permissions.Aggregate(0, (current, permission) => current | (int)permission);
 
-            return Convert.ToString(calculationPermission,16).ToLower();
+                return Convert.ToString(calculationPermission, 16).ToLower();
+            }
+            catch (Exception)
+            {
+                return "0";
+            }
         }
 
         /// <summary>
@@ -27,9 +34,16 @@ namespace DoDo.Open.Sdk.Utils
         /// <returns></returns>
         public static bool CheckPermission(string targetPermission, params Permission[] permissions)
         {
-            var calculationPermission = Convert.ToInt32(targetPermission, 16);
+            try
+            {
+                var calculationPermission = Convert.ToInt32(targetPermission, 16);
 
-            return (calculationPermission & (int)Permission.Administrator) == (int)Permission.Administrator || permissions.All(permission => (calculationPermission & (int) permission) == (int) permission);
+                return (calculationPermission & (int)Permission.Administrator) == (int)Permission.Administrator || permissions.All(permission => (calculationPermission & (int)permission) == (int)permission);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
