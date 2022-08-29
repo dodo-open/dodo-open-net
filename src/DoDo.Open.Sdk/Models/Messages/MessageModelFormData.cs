@@ -14,6 +14,6 @@ namespace DoDo.Open.Sdk.Models.Messages
         /// <summary>
         /// Value
         /// </summary>
-        public string value { get; set; }
+        public string Value { get; set; }
     }
 }
