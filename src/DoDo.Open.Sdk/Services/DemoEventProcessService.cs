@@ -11,10 +11,12 @@ using DoDo.Open.Sdk.Models.Events;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
+using DoDo.Open.Sdk.Models.Permissions;
 using DoDo.Open.Sdk.Models.Personals;
 using DoDo.Open.Sdk.Models.Resources;
 using DoDo.Open.Sdk.Models.Roles;
 using DoDo.Open.Sdk.Models.WebSockets;
+using DoDo.Open.Sdk.Utils;
 
 namespace DoDo.Open.Sdk.Services
 {
@@ -996,7 +998,7 @@ namespace DoDo.Open.Sdk.Services
                                 RoleName = "创建身份组测试",
                                 RoleColor = "#999999",
                                 Position = 1,
-                                Permission = "8"
+                                Permission = PermissionUtil.CalculationPermission(Permission.Administrator)
                             }, true);
 
                             if (output != null)
