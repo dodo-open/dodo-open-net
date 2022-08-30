@@ -638,7 +638,7 @@ namespace DoDo.Open.Sdk.Services
                                 ChannelId = eventBody.ChannelId,
                                 MessageBody = new MessageBodyCard
                                 {
-                                    Card = new Card
+                                    Card = new MessageModelCard
                                     {
                                         Type = "card",
                                         Theme = "grey",
@@ -761,7 +761,7 @@ namespace DoDo.Open.Sdk.Services
                                 ChannelId = eventBody.ChannelId,
                                 MessageBody = new MessageBodyCard
                                 {
-                                    Card = new Card
+                                    Card = new MessageModelCard
                                     {
                                         Type = "card",
                                         Theme = "grey",
@@ -840,7 +840,7 @@ namespace DoDo.Open.Sdk.Services
                                 MessageId = regex.Value,
                                 MessageBody = new MessageBodyCard
                                 {
-                                    Card = new Card
+                                    Card = new MessageModelCard
                                     {
                                         Type = "card",
                                         Theme = "grey",
