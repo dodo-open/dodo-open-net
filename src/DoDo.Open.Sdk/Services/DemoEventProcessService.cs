@@ -1690,8 +1690,14 @@ namespace DoDo.Open.Sdk.Services
                 {
                     var messageBody = messageBodyCard;
 
+                    var jsonSerializerOptions = new JsonSerializerOptions
+                    {
+                        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    };
+
                     reply += "触发消息事件-卡片消息\n";
-                    reply += $"{JsonSerializer.Serialize(messageBody)}\n";
+                    reply += $"{JsonSerializer.Serialize(messageBody, jsonSerializerOptions)}\n";
                 }
 
                 if (reply != "")
