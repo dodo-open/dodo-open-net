@@ -5,6 +5,11 @@ namespace DoDo.Open.Sdk.Models.Events
     where T : MessageBodyBase
     {
         /// <summary>
+        /// 消息ID
+        /// </summary>
+        public string MessageId { get; set; }
+
+        /// <summary>
         /// 回复信息
         /// </summary>
         public MessageModelReference Reference { get; set; }

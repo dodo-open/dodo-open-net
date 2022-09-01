@@ -8,6 +8,11 @@ namespace DoDo.Open.Sdk.Models.Events
     public class EventBodyCardMessageButtonClick : EventBodyChannelBase
     {
         /// <summary>
+        /// 来源消息ID
+        /// </summary>
+        public string MessageId { get; set; }
+
+        /// <summary>
         /// 交互自定义ID
         /// </summary>
         public string InteractCustomId { get; set; }
