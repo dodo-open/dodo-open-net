@@ -140,6 +140,8 @@ namespace DoDo.Open.Sdk.Services
                             reply += "**群**\n";
                             reply += "**频道**\n";
                             reply += "**文字频道**\n";
+                            reply += "**语音频道**\n";
+                            reply += "**帖子频道**\n";
                             reply += "**身份组**\n";
                             reply += "**成员**\n";
                             reply += "**数字藏品**\n";
@@ -154,6 +156,9 @@ namespace DoDo.Open.Sdk.Services
                             reply += "获取机器人配置\n";
                             reply += "获取机器人信息\n";
                             reply += "机器人退群\n";
+                            reply += "获取机器人邀请列表\n";
+                            reply += "添加成员到机器人邀请列表\n";
+                            reply += "移除成员出机器人邀请列表\n";
                         }
                         else if (content.StartsWith("群"))
                         {
@@ -193,6 +198,21 @@ namespace DoDo.Open.Sdk.Services
                             reply += "撤回消息 ID\n";
                             reply += "添加表情反应 ID\n";
                             reply += "取消表情反应 ID\n";
+                        }
+                        else if (content.StartsWith("语音频道"))
+                        {
+                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += "\n**语音频道**\n\n";
+                            reply += "获取成员语音频道状态\n";
+                            reply += "移动语音频道成员 ID\n";
+                            reply += "管理语音中的成员 ID\n";
+                        }
+                        else if (content.StartsWith("帖子频道"))
+                        {
+                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += "\n**帖子频道**\n\n";
+                            reply += "发布帖子 ID\n";
+                            reply += "删除帖子评论回复 ID ID\n";
                         }
                         else if (content.StartsWith("身份组"))
                         {
@@ -290,6 +310,68 @@ namespace DoDo.Open.Sdk.Services
                             if (output)
                             {
                                 reply += "机器人退群成功！";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取机器人邀请列表"))
+                        {
+                            var outputList = await _openApiService.GetBotInviteListAsync(new GetBotInviteListInput
+                            {
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDo号：{output.DodoId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += $"头像：{output.AvatarUrl}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("添加成员到机器人邀请列表"))
+                        {
+                            var output = await _openApiService.SetBotInviteAddAsync(new SetBotInviteAddInput
+                            {
+                                DodoId = eventBody.DodoId
+                            }, true);
+
+                            if (output)
+                            {
+                                reply += "添加成员到机器人邀请列表成功！";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("移除成员出机器人邀请列表"))
+                        {
+                            var output = await _openApiService.SetBotInviteRemoveAsync(new SetBotInviteRemoveInput
+                            {
+                                 DodoId = eventBody.DodoId
+                            }, true);
+
+                            if (output)
+                            {
+                                reply += "移除成员出机器人邀请列表成功！";
                             }
                             else
                             {
@@ -956,6 +1038,117 @@ namespace DoDo.Open.Sdk.Services
 
                         #endregion
 
+                        #region 语音频道
+
+                        else if (content.StartsWith("获取成员语音频道状态"))
+                        {
+                            var output = await _openApiService.GetChannelVoiceMemberStatusAsync(new GetChannelVoiceMemberStatusInput
+                            {
+                                IslandId = eventBody.IslandId,
+                                DodoId = eventBody.DodoId
+                            }, true);
+
+                            if (output != null)
+                            {
+                                reply += $"所在语音频道ID：{output.ChannelId}\n";
+                                reply += $"扬声器的状态：{output.SpkStatus}\n";
+                                reply += $"麦的状态：{output.MicStatus}\n";
+                                reply += $"麦序模式状态：{output.MicSortStatus}\n";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("移动语音频道成员"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var output = await _openApiService.SetChannelVoiceMemberMoveAsync(new SetChannelVoiceMemberMoveInput
+                            {
+                                IslandId = eventBody.IslandId,
+                                DodoId = eventBody.DodoId,
+                                ChannelId = regex.Value
+                            }, true);
+
+                            if (output)
+                            {
+                                reply += "移动语音频道成员成功！";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("管理语音中的成员"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var output = await _openApiService.SetChannelVoiceMemberEditAsync(new SetChannelVoiceMemberEditInput
+                            {
+                                ChannelId = regex.Value,
+                                DodoId = eventBody.DodoId,
+                                OperateType = 3
+                            }, true);
+
+                            if (output)
+                            {
+                                reply += "管理语音中的成员成功！";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+
+                        #endregion
+
+                        #region 帖子频道
+
+                        else if (content.StartsWith("发布帖子"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var output = await _openApiService.SetChannelArticleAddAsync(new SetChannelArticleAddInput
+                            {
+                                ChannelId = regex.Value,
+                                Title = "发布帖子测试",
+                                Content = "发布帖子测试成功",
+                                ImageUrl = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png"
+                            }, true);
+
+                            if (output != null)
+                            {
+                                reply += $"帖子ID：{output.ArticleId}\n";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("删除帖子评论回复"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?) (\d+?)$");
+                            var regexs = regex.Value.Split(' ');
+                            var output = await _openApiService.SetChannelArticleRemoveAsync(new SetChannelArticleRemoveInput
+                            {
+                                ChannelId = regexs[0],
+                                Type = 1,
+                                Id = regexs[1]
+                            }, true);
+
+                            if (output)
+                            {
+                                reply += "删除帖子评论回复成功！";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+
+                        #endregion
+
                         #region 身份组
 
                         else if (content.StartsWith("获取身份组列表"))
@@ -1527,7 +1720,7 @@ namespace DoDo.Open.Sdk.Services
 
                 var reply = "";
 
-                reply += "触发卡片消息按钮事件\n";
+                reply += "触发消息表情反应事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
                 reply += $"来源DoDo号：{eventBody.DodoId}\n";
                 reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
@@ -1561,6 +1754,7 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "触发卡片消息按钮事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"来源消息ID：{eventBody.MessageId}\n";
                 reply += $"来源DoDo号：{eventBody.DodoId}\n";
                 reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
                 reply += $"Value：{eventBody.Value}\n";
@@ -1596,6 +1790,7 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "触发卡片消息表单回传事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"来源消息ID：{eventBody.MessageId}\n";
                 reply += $"来源DoDo号：{eventBody.DodoId}\n";
                 reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
                 reply += $"表单数据：{JsonSerializer.Serialize(eventBody.FormData, jsonSerializerOptions)}\n";
@@ -1631,6 +1826,7 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "触发卡片消息列表回传事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"来源消息ID：{eventBody.MessageId}\n";
                 reply += $"来源DoDo号：{eventBody.DodoId}\n";
                 reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
                 reply += $"列表数据：{JsonSerializer.Serialize(eventBody.ListData, jsonSerializerOptions)}\n";
@@ -1638,6 +1834,167 @@ namespace DoDo.Open.Sdk.Services
                 await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
                 {
                     ChannelId = eventBody.ChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        public override async void ChannelVoiceMemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberJoin>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                reply += "触发成员加入语音频道事件\n";
+                reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandId = eventBody.IslandId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        public override async void ChannelVoiceMemberLeaveEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberLeave>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                reply += "触发成员退出语音频道事件\n";
+                reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandId = eventBody.IslandId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        public override async void ChannelArticleEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticle>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
+                reply += "帖子发布事件\n";
+                reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"帖子ID：{eventBody.ArticleId}\n";
+                reply += $"标题：{eventBody.Title}\n";
+                reply += $"内容：{eventBody.Content}\n";
+                reply += $"图片列表：{JsonSerializer.Serialize(eventBody.ImageList, jsonSerializerOptions)}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandId = eventBody.IslandId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        public override async void ChannelArticleCommentEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticleComment>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
+                reply += "帖子评论回复事件\n";
+                reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"帖子ID：{eventBody.ArticleId}\n";
+                reply += $"评论ID：{eventBody.CommentId}\n";
+                reply += $"回复ID：{eventBody.ReplyId}\n";
+                reply += $"内容：{eventBody.Content}\n";
+                reply += $"图片列表：{JsonSerializer.Serialize(eventBody.ImageList, jsonSerializerOptions)}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandId = eventBody.IslandId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
                     MessageBody = new MessageBodyText
                     {
                         Content = reply

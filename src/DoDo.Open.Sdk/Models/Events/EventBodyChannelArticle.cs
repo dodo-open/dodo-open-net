@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventBodyChannelArticleEvent : EventBodyChannelBase
+    public class EventBodyChannelArticle : EventBodyChannelBase
     {
         /// <summary>
         /// 帖子ID

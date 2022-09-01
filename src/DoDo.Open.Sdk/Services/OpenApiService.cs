@@ -521,7 +521,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelVoiceMemberMoveAsync(SetChannelVoiceMemberMoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelVoiceMemberMoveInput, bool>("/api/v1/channel/voice/member/move", input, isThrowException);
+            return await BaseRequest("/api/v1/channel/voice/member/move", input, isThrowException);
         }
 
         /// <summary>
@@ -541,7 +541,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelVoiceMemberEditAsync(SetChannelVoiceMemberEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelVoiceMemberEditInput, bool>("/api/v1/channel/voice/member/edit", input, isThrowException);
+            return await BaseRequest("/api/v1/channel/voice/member/edit", input, isThrowException);
         }
 
         #endregion
@@ -585,7 +585,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelArticleRemoveAsync(SetChannelArticleRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelArticleRemoveInput, bool>("/api/v1/channel/article/remove", input, isThrowException);
+            return await BaseRequest("/api/v1/channel/article/remove", input, isThrowException);
         }
         
         #endregion
