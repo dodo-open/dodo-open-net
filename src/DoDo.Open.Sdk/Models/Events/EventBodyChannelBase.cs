@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DoDo.Open.Sdk.Models.Messages;
+﻿using DoDo.Open.Sdk.Models.Messages;
 
 namespace DoDo.Open.Sdk.Models.Events
 {
@@ -21,11 +18,6 @@ namespace DoDo.Open.Sdk.Models.Events
         /// 来源DoDo号
         /// </summary>
         public string DodoId { get; set; }
-
-        /// <summary>
-        /// 消息ID
-        /// </summary>
-        public string MessageId { get; set; }
 
         /// <summary>
         /// 个人信息

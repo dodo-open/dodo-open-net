@@ -1,23 +1,8 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
 namespace DoDo.Open.Sdk.Models.Events
 {
-    public class EventBodyMessageReaction : EventBodyBase
+    public class EventBodyMessageReaction : EventBodyChannelBase
     {
-        /// <summary>
-        /// 来源群号
-        /// </summary>
-        public string IslandId { get; set; }
-
-        /// <summary>
-        /// 来源频道ID
-        /// </summary>
-        public string ChannelId { get; set; }
-
-        /// <summary>
-        /// 来源DoDo号
-        /// </summary>
-        public string DodoId { get; set; }
-
         /// <summary>
         /// 来源消息ID
         /// </summary>

@@ -82,6 +82,66 @@ namespace DoDo.Open.Sdk.Services
             return await BaseRequest("/api/v1/bot/island/leave", input, isThrowException);
         }
 
+        /// <summary>
+        /// 获取机器人邀请列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetBotInviteListOutput GetBotInviteList(GetBotInviteListInput input, bool isThrowException = false)
+        {
+            return GetBotInviteListAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取机器人邀请列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetBotInviteListOutput> GetBotInviteListAsync(GetBotInviteListInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetBotInviteListInput, GetBotInviteListOutput>("/api/v1/bot/invite/list", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 添加成员到机器人邀请列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetBotInviteAdd(SetBotInviteAddInput input, bool isThrowException = false)
+        {
+            return SetBotInviteAddAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 添加成员到机器人邀请列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetBotInviteAddAsync(SetBotInviteAddInput input, bool isThrowException = false)
+        {
+            return await BaseRequest("/api/v1/bot/invite/add", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 移除成员出机器人邀请列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetBotInviteRemove(SetBotInviteRemoveInput input, bool isThrowException = false)
+        {
+            return SetBotInviteRemoveAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 移除成员出机器人邀请列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetBotInviteRemoveAsync(SetBotInviteRemoveInput input, bool isThrowException = false)
+        {
+            return await BaseRequest("/api/v1/bot/invite/remove", input, isThrowException);
+        }
+
         #endregion
 
         #region 群
@@ -270,7 +330,7 @@ namespace DoDo.Open.Sdk.Services
             return await BaseRequest<SetChannelEditInput, bool>("/api/v1/channel/edit", input, isThrowException);
         }
 
-         /// <summary>
+        /// <summary>
         /// 删除频道
         /// </summary>
         /// <param name="input"></param>
@@ -420,6 +480,114 @@ namespace DoDo.Open.Sdk.Services
             return await BaseRequest("/api/v1/channel/message/reaction/remove", input, isThrowException);
         }
 
+        #endregion
+
+        #region 语音频道
+
+        /// <summary>
+        /// 获取成员语音频道状态
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetChannelVoiceMemberStatusOutput GetChannelVoiceMemberStatus(GetChannelVoiceMemberStatusInput input, bool isThrowException = false)
+        {
+            return GetChannelVoiceMemberStatusAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取成员语音频道状态-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetChannelVoiceMemberStatusOutput> GetChannelVoiceMemberStatusAsync(GetChannelVoiceMemberStatusInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetChannelVoiceMemberStatusInput, GetChannelVoiceMemberStatusOutput>("/api/v1/channel/voice/member/status", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 移动语音频道成员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetChannelVoiceMemberMove(SetChannelVoiceMemberMoveInput input, bool isThrowException = false)
+        {
+            return SetChannelVoiceMemberMoveAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 移动语音频道成员-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetChannelVoiceMemberMoveAsync(SetChannelVoiceMemberMoveInput input, bool isThrowException = false)
+        {
+            return await BaseRequest("/api/v1/channel/voice/member/move", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 管理语音中的成员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetChannelVoiceMemberEdit(SetChannelVoiceMemberEditInput input, bool isThrowException = false)
+        {
+            return SetChannelVoiceMemberEditAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 管理语音中的成员-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetChannelVoiceMemberEditAsync(SetChannelVoiceMemberEditInput input, bool isThrowException = false)
+        {
+            return await BaseRequest("/api/v1/channel/voice/member/edit", input, isThrowException);
+        }
+
+        #endregion
+
+        #region 帖子频道
+
+        /// <summary>
+        /// 发布帖子
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public SetChannelArticleAddOutput SetChannelArticleAdd(SetChannelArticleAddInput input, bool isThrowException = false)
+        {
+            return SetChannelArticleAddAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 发布帖子-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<SetChannelArticleAddOutput> SetChannelArticleAddAsync(SetChannelArticleAddInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetChannelArticleAddInput, SetChannelArticleAddOutput>("/api/v1/channel/article/add", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 删除帖子评论回复
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetChannelArticleRemove(SetChannelArticleRemoveInput input, bool isThrowException = false)
+        {
+            return SetChannelArticleRemoveAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 删除帖子评论回复-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetChannelArticleRemoveAsync(SetChannelArticleRemoveInput input, bool isThrowException = false)
+        {
+            return await BaseRequest("/api/v1/channel/article/remove", input, isThrowException);
+        }
+        
         #endregion
 
         #region 身份组

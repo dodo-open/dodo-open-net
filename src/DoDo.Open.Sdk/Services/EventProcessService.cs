@@ -151,6 +151,32 @@ namespace DoDo.Open.Sdk.Services
                     if (eventBodyResult == null) return;
                     CardMessageListSubmitEvent(eventBodyResult);
                 }
+
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelVoiceMemberJoin)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberJoin>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    ChannelVoiceMemberJoinEvent(eventBodyResult);
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelVoiceMemberLeave)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberLeave>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    ChannelVoiceMemberLeaveEvent(eventBodyResult);
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelArticle)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticle>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    ChannelArticleEvent(eventBodyResult);
+                }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelArticleComment)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticleComment>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    ChannelArticleCommentEvent(eventBodyResult);
+                }
+
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberJoin)
                 {
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>>>(message, jsonSerializerOptions);
@@ -227,6 +253,42 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         public virtual void CardMessageListSubmitEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyCardMessageListSubmit>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 成员加入语音频道事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void ChannelVoiceMemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberJoin>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 成员退出语音频道事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void ChannelVoiceMemberLeaveEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberLeave>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 帖子发布事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void ChannelArticleEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticle>> input)
+        {
+
+        }
+
+        /// <summary>
+        /// 帖子评论回复事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void ChannelArticleCommentEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticleComment>> input)
         {
 
         }
