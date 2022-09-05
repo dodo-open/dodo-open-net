@@ -726,34 +726,34 @@ namespace DoDo.Open.Sdk.Services
                                         Theme = "grey",
                                         Title = "卡片消息",
                                         Components = new List<object>
-                                    {
-                                       new
-                                       {
-                                           type = "header",
-                                           text = new
+                                        {
+                                           new
                                            {
-                                               type = "dodo-md",
-                                               content = "发送卡片消息测试"
-                                           }
-                                       },
-                                       new
-                                       {
-                                           type = "image-group",
-                                           elements = new List<object>()
+                                               type = "header",
+                                               text = new
+                                               {
+                                                   type = "dodo-md",
+                                                   content = "发送卡片消息测试"
+                                               }
+                                           },
+                                           new
                                            {
-                                               new
+                                               type = "image-group",
+                                               elements = new List<object>()
                                                {
-                                                   type = "image",
-                                                   src = "https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png"
-                                               },
-                                               new
-                                               {
-                                                   type = "image",
-                                                   src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
+                                                   new
+                                                   {
+                                                       type = "image",
+                                                       src = "https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png"
+                                                   },
+                                                   new
+                                                   {
+                                                       type = "image",
+                                                       src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
+                                                   }
                                                }
                                            }
-                                       }
-                                    }
+                                        }
                                     }
                                 }
                             }, true);
@@ -849,34 +849,34 @@ namespace DoDo.Open.Sdk.Services
                                         Theme = "grey",
                                         Title = "卡片消息",
                                         Components = new List<object>
-                                    {
-                                        new
                                         {
-                                            type = "header",
-                                            text = new
+                                            new
                                             {
-                                                type = "dodo-md",
-                                                content = "发送卡片频道私信测试"
-                                            }
-                                        },
-                                        new
-                                        {
-                                            type = "image-group",
-                                            elements = new List<object>()
+                                                type = "header",
+                                                text = new
+                                                {
+                                                    type = "dodo-md",
+                                                    content = "发送卡片频道私信测试"
+                                                }
+                                            },
+                                            new
                                             {
-                                                new
+                                                type = "image-group",
+                                                elements = new List<object>()
                                                 {
-                                                    type = "image",
-                                                    src = "https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png"
-                                                },
-                                                new
-                                                {
-                                                    type = "image",
-                                                    src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
+                                                    new
+                                                    {
+                                                        type = "image",
+                                                        src = "https://img.imdodo.com/upload/cdn/1C274FE42B6C98494A06D674559B2206_1658739484506.png"
+                                                    },
+                                                    new
+                                                    {
+                                                        type = "image",
+                                                        src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
                                     }
                                 },
                                 DodoId = eventBody.DodoId
