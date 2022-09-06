@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<VersionPrefix>1.4.4</VersionPrefix>
 		<Description>DoDo开放平台官方 .Net SDK</Description>
-		<Authors>dodo-open,Rhyheart</Authors>
+		<Authors>dodo-open</Authors>
 		<PackageProjectUrl>https://github.com/dodo-open/dodo-open-net</PackageProjectUrl>
 		<Copyright>Copyright 2022 DoDo</Copyright>
 		<PackageTags>dodo,dodo-open,bot,sdk</PackageTags>
