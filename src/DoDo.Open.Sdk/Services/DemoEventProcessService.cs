@@ -120,6 +120,12 @@ namespace DoDo.Open.Sdk.Services
 
                 var reply = "";
 
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
                 if (eventBody.MessageBody is MessageBodyText messageBodyText)
                 {
                     var messageBody = messageBodyText;
@@ -1689,12 +1695,6 @@ namespace DoDo.Open.Sdk.Services
                 else if (eventBody.MessageBody is MessageBodyCard messageBodyCard)
                 {
                     var messageBody = messageBodyCard;
-
-                    var jsonSerializerOptions = new JsonSerializerOptions
-                    {
-                        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    };
 
                     reply += "触发消息事件-卡片消息\n";
                     reply += $"{JsonSerializer.Serialize(messageBody, jsonSerializerOptions)}\n";
