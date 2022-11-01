@@ -6,9 +6,9 @@ namespace DoDo.Open.Sdk.Models.Personals
         where T : MessageBodyBase
     {
         /// <summary>
-        /// DoDo号
+        /// DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 消息类型，1：文字消息，2：图片消息，3：视频消息

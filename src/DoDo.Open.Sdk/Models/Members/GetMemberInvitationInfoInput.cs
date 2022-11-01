@@ -3,13 +3,13 @@
     public  class GetMemberInvitationInfoInput
     {
         /// <summary>
-        /// 群号
+        /// 群ID
         /// </summary>
-        public string IslandId { get; set; }
+        public string IslandSourceId { get; set; }
 
         /// <summary>
-        /// DoDo号
+        /// DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
     }
 }

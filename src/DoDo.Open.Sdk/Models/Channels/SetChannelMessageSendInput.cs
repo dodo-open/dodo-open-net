@@ -49,8 +49,8 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string ReferencedMessageId { get; set; }
 
         /// <summary>
-        /// DoDo号，非必传，如果传了，则给该成员发送频道私信
+        /// DoDoID，非必传，如果传了，则给该成员发送频道私信
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
     }
 }

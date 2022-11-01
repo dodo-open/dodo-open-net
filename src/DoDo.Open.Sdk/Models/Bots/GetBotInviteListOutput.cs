@@ -26,9 +26,9 @@ namespace DoDo.Open.Sdk.Models.Bots
     public class GetBotInviteListItem
     {
         /// <summary>
-        /// DoDo号
+        /// DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// DoDo昵称

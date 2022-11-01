@@ -59,7 +59,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetBotInfoOutput> GetBotInfoAsync(GetBotInfoInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetBotInfoInput, GetBotInfoOutput>("/api/v1/bot/info", input, isThrowException);
+            return await BaseRequest<GetBotInfoInput, GetBotInfoOutput>("/api/v2/bot/info", input, isThrowException);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetBotIslandLeaveAsync(SetBotIslandLeaveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/bot/island/leave", input, isThrowException);
+            return await BaseRequest("/api/v2/bot/island/leave", input, isThrowException);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetBotInviteListOutput> GetBotInviteListAsync(GetBotInviteListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetBotInviteListInput, GetBotInviteListOutput>("/api/v1/bot/invite/list", input, isThrowException);
+            return await BaseRequest<GetBotInviteListInput, GetBotInviteListOutput>("/api/v2/bot/invite/list", input, isThrowException);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetBotInviteAddAsync(SetBotInviteAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/bot/invite/add", input, isThrowException);
+            return await BaseRequest("/api/v2/bot/invite/add", input, isThrowException);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetBotInviteRemoveAsync(SetBotInviteRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/bot/invite/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/bot/invite/remove", input, isThrowException);
         }
 
         #endregion
@@ -163,7 +163,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<List<GetIslandListOutput>> GetIslandListAsync(GetIslandListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetIslandListInput, List<GetIslandListOutput>>("/api/v1/island/list", input, isThrowException);
+            return await BaseRequest<GetIslandListInput, List<GetIslandListOutput>>("/api/v2/island/list", input, isThrowException);
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetIslandInfoOutput> GetIslandInfoAsync(GetIslandInfoInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetIslandInfoInput, GetIslandInfoOutput>("/api/v1/island/info", input, isThrowException);
+            return await BaseRequest<GetIslandInfoInput, GetIslandInfoOutput>("/api/v2/island/info", input, isThrowException);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<List<GetIslandLevelRankListOutput>> GetIslandLevelRankListAsync(GetIslandLevelRankListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetIslandLevelRankListInput, List<GetIslandLevelRankListOutput>>("/api/v1/island/level/rank/list", input, isThrowException);
+            return await BaseRequest<GetIslandLevelRankListInput, List<GetIslandLevelRankListOutput>>("/api/v2/island/level/rank/list", input, isThrowException);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetIslandMuteListOutput> GetIslandMuteListAsync(GetIslandMuteListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetIslandMuteListInput, GetIslandMuteListOutput>("/api/v1/island/mute/list", input, isThrowException);
+            return await BaseRequest<GetIslandMuteListInput, GetIslandMuteListOutput>("/api/v2/island/mute/list", input, isThrowException);
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetIslandBanListOutput> GetIslandBanListAsync(GetIslandBanListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetIslandBanListInput, GetIslandBanListOutput>("/api/v1/island/ban/list", input, isThrowException); ;
+            return await BaseRequest<GetIslandBanListInput, GetIslandBanListOutput>("/api/v2/island/ban/list", input, isThrowException); ;
         }
 
         #endregion
@@ -267,7 +267,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<List<GetChannelListOutput>> GetChannelListAsync(GetChannelListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetChannelListInput, List<GetChannelListOutput>>("/api/v1/channel/list", input, isThrowException);
+            return await BaseRequest<GetChannelListInput, List<GetChannelListOutput>>("/api/v2/channel/list", input, isThrowException);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetChannelInfoOutput> GetChannelInfoAsync(GetChannelInfoInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetChannelInfoInput, GetChannelInfoOutput>("/api/v1/channel/info", input, isThrowException);
+            return await BaseRequest<GetChannelInfoInput, GetChannelInfoOutput>("/api/v2/channel/info", input, isThrowException);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<SetChannelAddOutput> SetChannelAddAsync(SetChannelAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelAddInput, SetChannelAddOutput>("/api/v1/channel/add", input, isThrowException);
+            return await BaseRequest<SetChannelAddInput, SetChannelAddOutput>("/api/v2/channel/add", input, isThrowException);
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelEditAsync(SetChannelEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelEditInput, bool>("/api/v1/channel/edit", input, isThrowException);
+            return await BaseRequest<SetChannelEditInput, bool>("/api/v2/channel/edit", input, isThrowException);
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelRemoveAsync(SetChannelRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelRemoveInput, bool>("/api/v1/channel/remove", input, isThrowException);
+            return await BaseRequest<SetChannelRemoveInput, bool>("/api/v2/channel/remove", input, isThrowException);
         }
 
         #endregion
@@ -373,7 +373,7 @@ namespace DoDo.Open.Sdk.Services
         public async Task<SetChannelMessageSendOutput> SetChannelMessageSendAsync<T>(SetChannelMessageSendInput<T> input, bool isThrowException = false)
             where T : MessageBodyBase
         {
-            return await BaseRequest<SetChannelMessageSendInput<T>, SetChannelMessageSendOutput>("/api/v1/channel/message/send", input, isThrowException);
+            return await BaseRequest<SetChannelMessageSendInput<T>, SetChannelMessageSendOutput>("/api/v2/channel/message/send", input, isThrowException);
         }
 
         /// <summary>
@@ -395,7 +395,7 @@ namespace DoDo.Open.Sdk.Services
         public async Task<bool> SetChannelMessageEditAsync<T>(SetChannelMessageEditInput<T> input, bool isThrowException = false)
             where T : MessageBodyBase
         {
-            return await BaseRequest("/api/v1/channel/message/edit", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/message/edit", input, isThrowException);
         }
 
         /// <summary>
@@ -415,29 +415,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelMessageWithdrawAsync(SetChannelMessageWithdrawInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/channel/message/withdraw", input, isThrowException);
-        }
-
-        /// <summary>
-        /// 表情反应
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 SetChannelMessageReactionAdd 和 SetChannelMessageReactionRemove 替代")]
-        public bool SetChannelMessageReaction(SetChannelMessageReactionInput input, bool isThrowException = false)
-        {
-            return SetChannelMessageReactionAsync(input, isThrowException).Result;
-        }
-
-        /// <summary>
-        /// 表情反应-异步
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 SetChannelMessageReactionAddAsync 和 SetChannelMessageReactionRemoveAsync 替代")]
-        public async Task<bool> SetChannelMessageReactionAsync(SetChannelMessageReactionInput input, bool isThrowException = false)
-        {
-            return await BaseRequest("/api/v1/channel/message/reaction", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/message/withdraw", input, isThrowException);
         }
 
         /// <summary>
@@ -457,7 +435,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelMessageReactionAddAsync(SetChannelMessageReactionAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/channel/message/reaction/add", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/message/reaction/add", input, isThrowException);
         }
 
         /// <summary>
@@ -477,7 +455,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelMessageReactionRemoveAsync(SetChannelMessageReactionRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/channel/message/reaction/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/message/reaction/remove", input, isThrowException);
         }
 
         #endregion
@@ -501,7 +479,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetChannelVoiceMemberStatusOutput> GetChannelVoiceMemberStatusAsync(GetChannelVoiceMemberStatusInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetChannelVoiceMemberStatusInput, GetChannelVoiceMemberStatusOutput>("/api/v1/channel/voice/member/status", input, isThrowException);
+            return await BaseRequest<GetChannelVoiceMemberStatusInput, GetChannelVoiceMemberStatusOutput>("/api/v2/channel/voice/member/status", input, isThrowException);
         }
 
         /// <summary>
@@ -521,7 +499,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelVoiceMemberMoveAsync(SetChannelVoiceMemberMoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/channel/voice/member/move", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/voice/member/move", input, isThrowException);
         }
 
         /// <summary>
@@ -541,7 +519,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelVoiceMemberEditAsync(SetChannelVoiceMemberEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/channel/voice/member/edit", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/voice/member/edit", input, isThrowException);
         }
 
         #endregion
@@ -565,7 +543,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<SetChannelArticleAddOutput> SetChannelArticleAddAsync(SetChannelArticleAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelArticleAddInput, SetChannelArticleAddOutput>("/api/v1/channel/article/add", input, isThrowException);
+            return await BaseRequest<SetChannelArticleAddInput, SetChannelArticleAddOutput>("/api/v2/channel/article/add", input, isThrowException);
         }
 
         /// <summary>
@@ -585,7 +563,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelArticleRemoveAsync(SetChannelArticleRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/channel/article/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/article/remove", input, isThrowException);
         }
         
         #endregion
@@ -609,7 +587,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<List<GetRoleListOutput>> GetRoleListAsync(GetRoleListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetRoleListInput, List<GetRoleListOutput>>("/api/v1/role/list", input, isThrowException);
+            return await BaseRequest<GetRoleListInput, List<GetRoleListOutput>>("/api/v2/role/list", input, isThrowException);
         }
 
         /// <summary>
@@ -629,7 +607,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<SetRoleAddOutput> SetRoleAddAsync(SetRoleAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetRoleAddInput, SetRoleAddOutput>("/api/v1/role/add", input, isThrowException);
+            return await BaseRequest<SetRoleAddInput, SetRoleAddOutput>("/api/v2/role/add", input, isThrowException);
         }
 
         /// <summary>
@@ -649,7 +627,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetRoleEditAsync(SetRoleEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetRoleEditInput, bool>("/api/v1/role/edit", input, isThrowException);
+            return await BaseRequest<SetRoleEditInput, bool>("/api/v2/role/edit", input, isThrowException);
         }
 
         /// <summary>
@@ -669,7 +647,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetRoleRemoveAsync(SetRoleRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetRoleRemoveInput, bool>("/api/v1/role/remove", input, isThrowException);
+            return await BaseRequest<SetRoleRemoveInput, bool>("/api/v2/role/remove", input, isThrowException);
         }
 
         /// <summary>
@@ -689,7 +667,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetRoleMemberAddAsync(SetRoleMemberAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/role/member/add", input, isThrowException);
+            return await BaseRequest("/api/v2/role/member/add", input, isThrowException);
         }
 
         /// <summary>
@@ -709,7 +687,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetRoleMemberRemoveAsync(SetRoleMemberRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/role/member/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/role/member/remove", input, isThrowException);
         }
 
         #endregion
@@ -733,7 +711,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetMemberListOutput> GetMemberListAsync(GetMemberListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetMemberListInput, GetMemberListOutput>("/api/v1/member/list", input, isThrowException);
+            return await BaseRequest<GetMemberListInput, GetMemberListOutput>("/api/v2/member/list", input, isThrowException);
         }
 
         /// <summary>
@@ -753,7 +731,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetMemberInfoOutput> GetMemberInfoAsync(GetMemberInfoInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetMemberInfoInput, GetMemberInfoOutput>("/api/v1/member/info", input, isThrowException);
+            return await BaseRequest<GetMemberInfoInput, GetMemberInfoOutput>("/api/v2/member/info", input, isThrowException);
         }
 
         /// <summary>
@@ -773,7 +751,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<List<GetMemberRoleListOutput>> GetMemberRoleListAsync(GetMemberRoleListInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetMemberRoleListInput, List<GetMemberRoleListOutput>>("/api/v1/member/role/list", input, isThrowException);
+            return await BaseRequest<GetMemberRoleListInput, List<GetMemberRoleListOutput>>("/api/v2/member/role/list", input, isThrowException);
         }
 
         /// <summary>
@@ -793,29 +771,29 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetMemberInvitationInfoOutput> GetMemberInvitationInfoAsync(GetMemberInvitationInfoInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetMemberInvitationInfoInput, GetMemberInvitationInfoOutput>("/api/v1/member/invitation/info", input, isThrowException); 
+            return await BaseRequest<GetMemberInvitationInfoInput, GetMemberInvitationInfoOutput>("/api/v2/member/invitation/info", input, isThrowException); 
         }
 
         /// <summary>
-        /// 编辑成员群昵称
+        /// 获取成员DoDo号映射列表
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 SetMemberNickNameEdit 替代")]
-        public bool SetMemberNick(SetMemberNickInput input, bool isThrowException = false)
+        [Obsolete("该方法仅用于v1升级v2时迁移数据使用，后期将会弃用")]
+        public List<GetMemberDodoIdMapListOutput> GetMemberDodoIdMapList(GetMemberDodoIdMapListInput input, bool isThrowException = false)
         {
-            return SetMemberNickAsync(input, isThrowException).Result;
+            return GetMemberDodoIdMapListAsync(input, isThrowException).Result;
         }
 
         /// <summary>
-        /// 编辑成员群昵称-异步
+        /// 获取成员DoDo号映射列表-异步
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 SetMemberNickNameEditAsync 替代")]
-        public async Task<bool> SetMemberNickAsync(SetMemberNickInput input, bool isThrowException = false)
+        [Obsolete("该方法仅用于v1升级v2时迁移数据使用，后期将会弃用")]
+        public async Task<List<GetMemberDodoIdMapListOutput>> GetMemberDodoIdMapListAsync(GetMemberDodoIdMapListInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/member/nick/set", input, isThrowException);
+            return await BaseRequest<GetMemberDodoIdMapListInput, List<GetMemberDodoIdMapListOutput>>("/api/v2/member/dodoid/map/list", input, isThrowException);
         }
 
         /// <summary>
@@ -835,29 +813,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetMemberNickNameEditAsync(SetMemberNickNameEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/member/nick/set", input, isThrowException);
-        }
-
-        /// <summary>
-        /// 禁言成员
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 SetMemberMuteAdd 替代")]
-        public bool SetMemberBan(SetMemberBanInput input, bool isThrowException = false)
-        {
-            return SetMemberBanAsync(input, isThrowException).Result;
-        }
-
-        /// <summary>
-        /// 禁言成员-异步
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 SetMemberMuteAddAsync 替代")]
-        public async Task<bool> SetMemberBanAsync(SetMemberBanInput input, bool isThrowException = false)
-        {
-            return await BaseRequest("/api/v1/member/ban/set", input, isThrowException);
+            return await BaseRequest("/api/v2/member/nick/set", input, isThrowException);
         }
 
         /// <summary>
@@ -877,7 +833,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetMemberMuteAddAsync(SetMemberMuteAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/member/ban/set", input, isThrowException);
+            return await BaseRequest("/api/v2/member/ban/set", input, isThrowException);
         }
 
         /// <summary>
@@ -897,7 +853,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetMemberMuteRemoveAsync(SetMemberMuteRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/member/mute/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/member/mute/remove", input, isThrowException);
         }
 
         /// <summary>
@@ -917,7 +873,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetMemberBanAddAsync(SetMemberBanAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/member/ban/add", input, isThrowException);
+            return await BaseRequest("/api/v2/member/ban/add", input, isThrowException);
         }
 
         /// <summary>
@@ -937,34 +893,12 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetMemberBanRemoveAsync(SetMemberBanRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v1/member/ban/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/member/ban/remove", input, isThrowException);
         }
 
         #endregion
 
         #region 数字藏品
-
-        /// <summary>
-        /// 获取成员高能链数字藏品信息
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 GetMemberNftStatus 替代")]
-        public GetMemberUPowerchainInfoOutput GetMemberUPowerchainInfo(GetMemberUPowerchainInfoInput input, bool isThrowException = false)
-        {
-            return GetMemberUPowerchainInfoAsync(input, isThrowException).Result;
-        }
-
-        /// <summary>
-        /// 获取成员高能链数字藏品信息-异步
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="isThrowException"></param>
-        [Obsolete("该方法已弃用，请使用 GetMemberNftStatusAsync 替代")]
-        public async Task<GetMemberUPowerchainInfoOutput> GetMemberUPowerchainInfoAsync(GetMemberUPowerchainInfoInput input, bool isThrowException = false)
-        {
-            return await BaseRequest<GetMemberUPowerchainInfoInput, GetMemberUPowerchainInfoOutput>("/api/v1/member/upowerchain/info", input, isThrowException);
-        }
 
         /// <summary>
         /// 获取成员数字藏品判断
@@ -983,7 +917,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetMemberNftStatusOutput> GetMemberNftStatusAsync(GetMemberNftStatusInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetMemberNftStatusInput, GetMemberNftStatusOutput>("/api/v1/member/nft/status", input, isThrowException);
+            return await BaseRequest<GetMemberNftStatusInput, GetMemberNftStatusOutput>("/api/v2/member/nft/status", input, isThrowException);
         }
 
         #endregion
@@ -1009,7 +943,7 @@ namespace DoDo.Open.Sdk.Services
         public async Task<SetPersonalMessageSendOutput> SetPersonalMessageSendAsync<T>(SetPersonalMessageSendInput<T> input, bool isThrowException = false)
             where T : MessageBodyBase
         {
-            return await BaseRequest<SetPersonalMessageSendInput<T>, SetPersonalMessageSendOutput>("/api/v1/personal/message/send", input, isThrowException);
+            return await BaseRequest<SetPersonalMessageSendInput<T>, SetPersonalMessageSendOutput>("/api/v2/personal/message/send", input, isThrowException);
         }
 
         #endregion
@@ -1033,7 +967,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<SetResourcePictureUploadOutput> SetResourcePictureUploadAsync(SetResourceUploadInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetResourceUploadInput, SetResourcePictureUploadOutput>("/api/v1/resource/picture/upload", input, isThrowException);
+            return await BaseRequest<SetResourceUploadInput, SetResourcePictureUploadOutput>("/api/v2/resource/picture/upload", input, isThrowException);
         }
 
         #endregion
@@ -1057,7 +991,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetWebSocketConnectionOutput> GetWebSocketConnectionAsync(GetWebSocketConnectionInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetWebSocketConnectionInput, GetWebSocketConnectionOutput>("/api/v1/websocket/connection", input, isThrowException);
+            return await BaseRequest<GetWebSocketConnectionInput, GetWebSocketConnectionOutput>("/api/v2/websocket/connection", input, isThrowException);
         }
 
         #endregion

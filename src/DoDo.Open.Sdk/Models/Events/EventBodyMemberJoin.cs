@@ -3,14 +3,14 @@
     public class EventBodyMemberJoin : EventBodyBase
     {
         /// <summary>
-        /// 来源群号
+        /// 来源群ID
         /// </summary>
-        public string IslandId { get; set; }
+        public string IslandSourceId { get; set; }
 
         /// <summary>
-        /// 来源DoDo号
+        /// 来源DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 变动时间

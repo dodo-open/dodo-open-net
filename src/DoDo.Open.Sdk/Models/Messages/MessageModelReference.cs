@@ -8,9 +8,9 @@
         public string MessageId { get; set; }
 
         /// <summary>
-        /// 被回复者DoDo号
+        /// 被回复者DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 被回复者群昵称

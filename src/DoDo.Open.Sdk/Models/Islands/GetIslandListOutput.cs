@@ -3,6 +3,11 @@
     public class GetIslandListOutput
     {
         /// <summary>
+        /// 群ID
+        /// </summary>
+        public string IslandSourceId { get; set; }
+
+        /// <summary>
         /// 群号
         /// </summary>
         public string IslandId { get; set; }

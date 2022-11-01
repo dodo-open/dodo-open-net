@@ -3,8 +3,8 @@
     public class GetChannelListInput
     {
         /// <summary>
-        /// 群号
+        /// 群ID
         /// </summary>
-        public string IslandId { get; set; }
+        public string IslandSourceId { get; set; }
     }
 }

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetChannelVoiceMemberStatusInput
+    public class GetMemberDodoIdMapListOutput
     {
         /// <summary>
-        /// 群ID
+        /// DoDo号
         /// </summary>
-        public string IslandSourceId { get; set; }
+        public string DodoId { get; set; }
 
         /// <summary>
         /// DoDoID
