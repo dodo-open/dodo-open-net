@@ -1,7 +1,8 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
-namespace DoDo.Open.Sdk.Models.Channels
+
+namespace DoDo.Open.Sdk.Models.ChannelMessages
 {
-    public class SetChannelMessageReactionAddInput
+    public class GetChannelMessageReactionMemberListInput : OpenApiPageInput
     {
         /// <summary>
         /// 消息ID
