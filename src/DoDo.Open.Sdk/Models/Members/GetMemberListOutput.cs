@@ -1,22 +1,7 @@
-﻿using System.Collections.Generic;
-namespace DoDo.Open.Sdk.Models.Members
+﻿namespace DoDo.Open.Sdk.Models.Members
 {
-    public class GetMemberListOutput
+    public class GetMemberListOutput : OpenApiPageOutput<GetMemberListItem>
     {
-        public GetMemberListOutput()
-        {
-            List = new List<GetMemberListItem>();
-        }
-
-        /// <summary>
-        /// 最大ID值
-        /// </summary>
-        public long MaxId { get; set; }
-
-        /// <summary>
-        /// 成员列表
-        /// </summary>
-        public List<GetMemberListItem> List { get; set; }
     }
 
     public class GetMemberListItem

@@ -419,6 +419,66 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
+        /// 置顶消息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public bool SetChannelMessageTop(SetChannelMessageTopInput input, bool isThrowException = false)
+        {
+            return SetChannelMessageTopAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 置顶消息-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<bool> SetChannelMessageTopAsync(SetChannelMessageTopInput input, bool isThrowException = false)
+        {
+            return await BaseRequest("/api/v2/channel/message/top", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 获取消息反应列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public List<GetChannelMessageReactionListOutput> GetChannelMessageReactionList(GetChannelMessageReactionListInput input, bool isThrowException = false)
+        {
+            return GetChannelMessageReactionListAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取消息反应列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<List<GetChannelMessageReactionListOutput>> GetChannelMessageReactionListAsync(GetChannelMessageReactionListInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetChannelMessageReactionListInput, List<GetChannelMessageReactionListOutput>>("/api/v2/channel/message/reaction/list", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 获取消息反应内成员列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetChannelMessageReactionMemberListOutput GetChannelMessageReactionMemberList(GetChannelMessageReactionMemberListInput input, bool isThrowException = false)
+        {
+            return GetChannelMessageReactionMemberListAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取消息反应内成员列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetChannelMessageReactionMemberListOutput> GetChannelMessageReactionMemberListAsync(GetChannelMessageReactionMemberListInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetChannelMessageReactionMemberListInput, GetChannelMessageReactionMemberListOutput>("/api/v2/channel/message/reaction/member/list", input, isThrowException);
+        }
+
+        /// <summary>
         /// 添加表情反应
         /// </summary>
         /// <param name="input"></param>
@@ -648,6 +708,26 @@ namespace DoDo.Open.Sdk.Services
         public async Task<bool> SetRoleRemoveAsync(SetRoleRemoveInput input, bool isThrowException = false)
         {
             return await BaseRequest<SetRoleRemoveInput, bool>("/api/v2/role/remove", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 获取身份组成员列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetRoleMemberListOutput GetRoleMemberList(GetRoleMemberListInput input, bool isThrowException = false)
+        {
+            return GetRoleMemberListAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取身份组成员列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetRoleMemberListOutput> GetRoleMemberListAsync(GetRoleMemberListInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetRoleMemberListInput, GetRoleMemberListOutput>("/api/v2/role/member/list", input, isThrowException);
         }
 
         /// <summary>

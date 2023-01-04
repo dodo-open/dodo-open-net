@@ -6,6 +6,11 @@ namespace DoDo.Open.Sdk.Models.Personals
         where T : MessageBodyBase
     {
         /// <summary>
+        /// 来源群ID
+        /// </summary>
+        public string IslandSourceId { get; set; }
+
+        /// <summary>
         /// DoDoID
         /// </summary>
         public string DodoSourceId { get; set; }

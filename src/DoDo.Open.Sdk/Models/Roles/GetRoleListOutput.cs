@@ -26,5 +26,10 @@
         /// 身份组权限值（16进制）
         /// </summary>
         public string Permission { get; set; }
+
+        /// <summary>
+        /// 身份组成员数
+        /// </summary>
+        public long MemberCount { get; set; }
     }
 }
