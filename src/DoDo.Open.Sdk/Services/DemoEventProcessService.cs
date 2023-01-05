@@ -104,6 +104,7 @@ namespace DoDo.Open.Sdk.Services
                 {
                     await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyText>
                     {
+                        IslandSourceId = eventBody.IslandSourceId,
                         DodoSourceId = eventBody.DodoSourceId,
                         MessageBody = new MessageBodyText
                         {
@@ -241,6 +242,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "创建身份组\n";
                             reply += "编辑身份组 ID\n";
                             reply += "删除身份组 ID\n";
+                            reply += "获取身份组成员列表 ID\n";
                             reply += "赋予成员身份组 ID\n";
                             reply += "取消成员身份组 ID\n";
                         }
@@ -1679,12 +1681,12 @@ namespace DoDo.Open.Sdk.Services
 
                             if (output != null)
                             {
-                                reply += "[ 默认抽成 ]\n";
+                                reply += "[ 默认抽成 ]\n\n";
                                 reply += $"群抽成：{output.DefaultRatio.IslandRatio}\n";
                                 reply += $"被打赏用户：{output.DefaultRatio.UserRatio}\n";
                                 reply += $"平台抽成：{output.DefaultRatio.PlatformRatio}\n";
                                 reply += "\n";
-                                reply += "[ 身份组抽成列表 ]\n";
+                                reply += "[ 身份组抽成列表 ]\n\n";
 
                                 foreach (var item in output.RoleRatioList)
                                 {
