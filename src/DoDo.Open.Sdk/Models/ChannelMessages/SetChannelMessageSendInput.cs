@@ -1,4 +1,5 @@
 ﻿using System;
+using DoDo.Open.Sdk.Consts;
 using DoDo.Open.Sdk.Models.Messages;
 namespace DoDo.Open.Sdk.Models.ChannelMessages
 {

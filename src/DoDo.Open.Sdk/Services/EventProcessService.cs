@@ -1,6 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using DoDo.Open.Sdk.Consts;
 using DoDo.Open.Sdk.Models.Events;
 using DoDo.Open.Sdk.Models.Messages;
 
