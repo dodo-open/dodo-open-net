@@ -1,6 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using DoDo.Open.Sdk.Consts;
 using DoDo.Open.Sdk.Models.Events;
 using DoDo.Open.Sdk.Models.Messages;
 
@@ -57,6 +58,8 @@ namespace DoDo.Open.Sdk.Services
                 var eventSubjectDataResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyBase>>>(message, jsonSerializerOptions);
                 if (eventSubjectDataResult == null) return;
 
+                #region 私信
+
                 if (eventSubjectDataResult.Data.EventType == EventTypeConst.PersonalMessage)
                 {
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<MessageBodyBase>>>>(message, jsonSerializerOptions);
@@ -83,6 +86,11 @@ namespace DoDo.Open.Sdk.Services
                         PersonalMessageEvent(messageResult);
                     }
                 }
+
+                #endregion
+
+                #region 文字频道
+
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelMessage)
                 {
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyBase>>>>(message, jsonSerializerOptions);
@@ -152,6 +160,10 @@ namespace DoDo.Open.Sdk.Services
                     CardMessageListSubmitEvent(eventBodyResult);
                 }
 
+                #endregion
+
+                #region 语音频道
+
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelVoiceMemberJoin)
                 {
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberJoin>>>(message, jsonSerializerOptions);
@@ -164,6 +176,11 @@ namespace DoDo.Open.Sdk.Services
                     if (eventBodyResult == null) return;
                     ChannelVoiceMemberLeaveEvent(eventBodyResult);
                 }
+
+                #endregion
+
+                #region 帖子频道
+
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelArticle)
                 {
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticle>>>(message, jsonSerializerOptions);
@@ -177,6 +194,10 @@ namespace DoDo.Open.Sdk.Services
                     ChannelArticleCommentEvent(eventBodyResult);
                 }
 
+                #endregion
+
+                #region 成员
+
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberJoin)
                 {
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>>>(message, jsonSerializerOptions);
@@ -189,6 +210,25 @@ namespace DoDo.Open.Sdk.Services
                     if (eventBodyResult == null) return;
                     MemberLeaveEvent(eventBodyResult);
                 }
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MemberInvite)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberInvite>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    MemberInviteEvent(eventBodyResult);
+                }
+
+                #endregion
+
+                #region 赠礼系统
+
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.GiftSend)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyGiftSend>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    GiftSendEvent(eventBodyResult);
+                }
+
+                #endregion
             }
         }
 
@@ -201,6 +241,8 @@ namespace DoDo.Open.Sdk.Services
             
         }
 
+        #region 私信
+
         /// <summary>
         /// 私信事件
         /// </summary>
@@ -210,6 +252,10 @@ namespace DoDo.Open.Sdk.Services
         {
 
         }
+
+        #endregion
+
+        #region 文字频道
 
         /// <summary>
         /// 消息事件
@@ -257,6 +303,10 @@ namespace DoDo.Open.Sdk.Services
 
         }
 
+        #endregion
+
+        #region 语音频道
+
         /// <summary>
         /// 成员加入语音频道事件
         /// </summary>
@@ -274,6 +324,10 @@ namespace DoDo.Open.Sdk.Services
         {
 
         }
+
+        #endregion
+
+        #region 帖子频道
 
         /// <summary>
         /// 帖子发布事件
@@ -293,6 +347,10 @@ namespace DoDo.Open.Sdk.Services
 
         }
 
+        #endregion
+
+        #region 成员
+
         /// <summary>
         /// 成员加入事件
         /// </summary>
@@ -310,5 +368,29 @@ namespace DoDo.Open.Sdk.Services
         {
 
         }
+
+        /// <summary>
+        /// 成员邀请事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void MemberInviteEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberInvite>> input)
+        {
+
+        }
+
+        #endregion
+
+        #region 赠礼系统
+
+        /// <summary>
+        /// 成员邀请事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void GiftSendEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyGiftSend>> input)
+        {
+
+        }
+
+        #endregion
     }
 }

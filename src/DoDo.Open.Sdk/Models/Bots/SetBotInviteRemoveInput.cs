@@ -7,8 +7,8 @@ namespace DoDo.Open.Sdk.Models.Bots
     public class SetBotInviteRemoveInput
     {
         /// <summary>
-        /// DoDo号
+        /// DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
     }
 }

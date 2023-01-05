@@ -5,9 +5,14 @@ namespace DoDo.Open.Sdk.Models.Events
         where T : MessageBodyBase
     {
         /// <summary>
-        /// 来源DoDo号
+        /// 来源群ID
         /// </summary>
-        public string DodoId { get; set; }
+        public string IslandSourceId { get; set; }
+
+        /// <summary>
+        /// 来源DoDoID
+        /// </summary>
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 个人信息

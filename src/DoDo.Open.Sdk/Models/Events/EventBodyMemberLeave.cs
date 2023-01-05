@@ -4,14 +4,14 @@ namespace DoDo.Open.Sdk.Models.Events
     public class EventBodyMemberLeave : EventBodyBase
     {
         /// <summary>
-        /// 来源群号
+        /// 来源群ID
         /// </summary>
-        public string IslandId { get; set; }
+        public string IslandSourceId { get; set; }
 
         /// <summary>
-        /// 来源DoDo号
+        /// 来源DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 个人信息
@@ -24,9 +24,9 @@ namespace DoDo.Open.Sdk.Models.Events
         public int LeaveType { get; set; }
 
         /// <summary>
-        /// 操作者DoDo号（执行踢出操作的人）
+        /// 操作者DoDoID（执行踢出操作的人）
         /// </summary>
-        public string OperateDoDoId { get; set; }
+        public string OperateDodoSourceId { get; set; }
 
         /// <summary>
         /// 变动时间

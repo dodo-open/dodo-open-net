@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.ChannelVoices
 {
     public class SetChannelVoiceMemberMoveInput
     {
         /// <summary>
-        /// 群号
+        /// 群ID
         /// </summary>
-        public string IslandId { get; set; }
+        public string IslandSourceId { get; set; }
 
         /// <summary>
-        /// DoDo号
+        /// DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 目标语音频道ID

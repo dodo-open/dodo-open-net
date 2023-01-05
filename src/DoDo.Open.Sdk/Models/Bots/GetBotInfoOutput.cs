@@ -8,9 +8,9 @@
         public string ClientId { get; set; }
 
         /// <summary>
-        /// 机器人DoDo号
+        /// 机器人DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 机器人昵称

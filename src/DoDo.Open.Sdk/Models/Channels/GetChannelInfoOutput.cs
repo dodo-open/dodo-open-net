@@ -23,9 +23,9 @@
         public int DefaultFlag { get; set; }
 
         /// <summary>
-        /// 所属群号
+        /// 所属群ID
         /// </summary>
-        public string IslandId { get; set; }
+        public string IslandSourceId { get; set; }
 
         /// <summary>
         /// 分组ID

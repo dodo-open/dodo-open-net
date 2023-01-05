@@ -6,8 +6,12 @@ using System.Text.RegularExpressions;
 using System.Text.Unicode;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.Bots;
+using DoDo.Open.Sdk.Models.ChannelArticles;
+using DoDo.Open.Sdk.Models.ChannelMessages;
 using DoDo.Open.Sdk.Models.Channels;
+using DoDo.Open.Sdk.Models.ChannelVoices;
 using DoDo.Open.Sdk.Models.Events;
+using DoDo.Open.Sdk.Models.Gifts;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
@@ -59,6 +63,8 @@ namespace DoDo.Open.Sdk.Services
             _openApiOptions.Log?.Invoke($"Received: {message}");
         }
 
+        #region 私信
+
         public override async void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
         {
             try
@@ -98,7 +104,8 @@ namespace DoDo.Open.Sdk.Services
                 {
                     await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyText>
                     {
-                        DodoId = eventBody.DodoId,
+                        IslandSourceId = eventBody.IslandSourceId,
+                        DodoSourceId = eventBody.DodoSourceId,
                         MessageBody = new MessageBodyText
                         {
                             Content = reply
@@ -111,6 +118,10 @@ namespace DoDo.Open.Sdk.Services
                 Exception(e.Message);
             }
         }
+
+        #endregion
+
+        #region 文字频道
 
         public override async void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
         {
@@ -140,7 +151,7 @@ namespace DoDo.Open.Sdk.Services
 
                         if (content.StartsWith("菜单"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**菜单来咯！**\n\n";
                             reply += "**机器人**\n";
                             reply += "**群**\n";
@@ -150,14 +161,14 @@ namespace DoDo.Open.Sdk.Services
                             reply += "**帖子频道**\n";
                             reply += "**身份组**\n";
                             reply += "**成员**\n";
-                            reply += "**数字藏品**\n";
+                            reply += "**赠礼系统**\n";
                             reply += "**私信**\n";
                             reply += "**资源**\n";
                             reply += "**事件**\n";
                         }
                         else if (content.StartsWith("机器人"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**机器人**\n\n";
                             reply += "获取机器人配置\n";
                             reply += "获取机器人信息\n";
@@ -168,7 +179,7 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (content.StartsWith("群"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**群**\n\n";
                             reply += "获取群列表\n";
                             reply += "获取群信息\n";
@@ -178,7 +189,7 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (content.StartsWith("频道"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
 
                             reply += "\n**频道**\n\n";
                             reply += "获取频道列表\n";
@@ -189,7 +200,7 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (content.StartsWith("文字频道"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**文字频道**\n\n";
                             reply += "发送文字消息\n";
                             reply += "发送图片消息\n";
@@ -202,12 +213,15 @@ namespace DoDo.Open.Sdk.Services
                             reply += "编辑文字消息 ID\n";
                             reply += "编辑卡片消息 ID\n";
                             reply += "撤回消息 ID\n";
+                            reply += "置顶消息 ID\n";
+                            reply += "获取消息反应列表 ID\n";
+                            reply += "获取消息反应内成员列表 ID ID\n";
                             reply += "添加表情反应 ID\n";
                             reply += "取消表情反应 ID\n";
                         }
                         else if (content.StartsWith("语音频道"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**语音频道**\n\n";
                             reply += "获取成员语音频道状态\n";
                             reply += "移动语音频道成员 ID\n";
@@ -215,25 +229,26 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (content.StartsWith("帖子频道"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**帖子频道**\n\n";
                             reply += "发布帖子 ID\n";
                             reply += "删除帖子评论回复 ID ID\n";
                         }
                         else if (content.StartsWith("身份组"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**身份组**\n\n";
                             reply += "获取身份组列表\n";
                             reply += "创建身份组\n";
                             reply += "编辑身份组 ID\n";
                             reply += "删除身份组 ID\n";
+                            reply += "获取身份组成员列表 ID\n";
                             reply += "赋予成员身份组 ID\n";
                             reply += "取消成员身份组 ID\n";
                         }
                         else if (content.StartsWith("成员"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**成员**\n\n";
                             reply += "获取成员列表\n";
                             reply += "获取成员信息\n";
@@ -245,15 +260,19 @@ namespace DoDo.Open.Sdk.Services
                             reply += "永久封禁成员\n";
                             reply += "取消成员永久封禁\n";
                         }
-                        else if (content.StartsWith("数字藏品"))
+                        else if (content.StartsWith("赠礼系统"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
-                            reply += "\n**数字藏品**\n\n";
-                            reply += "获取成员数字藏品判断\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
+                            reply += "\n**赠礼系统**\n\n";
+                            reply += "获取群收入\n";
+                            reply += "获取成员分成管理\n";
+                            reply += "获取内容礼物列表 ID\n";
+                            reply += "获取内容礼物内成员列表 ID ID\n";
+                            reply += "获取内容礼物总值列表 ID\n";
                         }
                         else if (content.StartsWith("私信"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**私信**\n\n";
                             reply += "发送文字私信\n";
                             reply += "发送图片私信\n";
@@ -261,13 +280,13 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (content.StartsWith("资源"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**资源**\n\n";
                             reply += "上传资源图片\n";
                         }
                         else if (content.StartsWith("事件"))
                         {
-                            reply += $"<@!{eventBody.DodoId}>\n";
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**事件**\n\n";
                             reply += "获取WebSocket连接\n";
                         }
@@ -297,7 +316,7 @@ namespace DoDo.Open.Sdk.Services
                             if (output != null)
                             {
                                 reply += $"机器人唯一标识：{output.ClientId}\n";
-                                reply += $"机器人DoDo号：{output.DodoId}\n";
+                                reply += $"机器人DoDoID：{output.DodoSourceId}\n";
                                 reply += $"机器人昵称：{output.NickName}\n";
                                 reply += $"机器人头像：{output.AvatarUrl}\n";
                             }
@@ -310,7 +329,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetBotIslandLeaveAsync(new SetBotIslandLeaveInput
                             {
-                                IslandId = eventBody.IslandId
+                                IslandSourceId = eventBody.IslandSourceId
                             }, true);
 
                             if (output)
@@ -336,7 +355,7 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     foreach (var output in outputList.List)
                                     {
-                                        reply += $"DoDo号：{output.DodoId}\n";
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
                                         reply += $"群昵称：{output.NickName}\n";
                                         reply += $"头像：{output.AvatarUrl}\n";
                                         reply += "\n";
@@ -356,7 +375,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetBotInviteAddAsync(new SetBotInviteAddInput
                             {
-                                DodoId = eventBody.DodoId
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output)
@@ -372,7 +391,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetBotInviteRemoveAsync(new SetBotInviteRemoveInput
                             {
-                                 DodoId = eventBody.DodoId
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output)
@@ -399,6 +418,7 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     foreach (var output in outputList)
                                     {
+                                        reply += $"群ID：{output.IslandSourceId}\n";
                                         reply += $"群号：{output.IslandId}\n";
                                         reply += $"群名称：{output.IslandName}\n";
                                         reply += $"群总人数：{output.MemberCount}\n";
@@ -424,12 +444,12 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                             {
-                                IslandId = eventBody.IslandId
+                                IslandSourceId = eventBody.IslandSourceId
                             }, true);
 
                             if (output != null)
                             {
-                                reply += $"群号：{output.IslandId}\n";
+                                reply += $"群ID：{output.IslandSourceId}\n";
                                 reply += $"群名称：{output.IslandName}\n";
                                 reply += $"群头像：{output.CoverUrl}\n";
                                 reply += $"群总人数：{output.MemberCount}\n";
@@ -447,7 +467,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var outputList = await _openApiService.GetIslandLevelRankListAsync(new GetIslandLevelRankListInput
                             {
-                                IslandId = eventBody.IslandId
+                                IslandSourceId = eventBody.IslandSourceId
                             }, true);
 
                             if (outputList != null)
@@ -456,7 +476,7 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     foreach (var output in outputList)
                                     {
-                                        reply += $"DoDo号：{output.DodoId}\n";
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
                                         reply += $"群昵称：{output.NickName}\n";
                                         reply += $"等级：{output.Level}\n";
                                         reply += $"排名：{output.Rank}\n";
@@ -478,7 +498,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var outputList = await _openApiService.GetIslandMuteListAsync(new GetIslandMuteListInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 PageSize = 3,
                                 MaxId = 0
                             }, true);
@@ -489,7 +509,7 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     foreach (var output in outputList.List)
                                     {
-                                        reply += $"DoDo号：{output.DodoId}\n";
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
                                         reply += "\n";
                                     }
                                 }
@@ -507,7 +527,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var outputList = await _openApiService.GetIslandBanListAsync(new GetIslandBanListInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 PageSize = 3,
                                 MaxId = 0
                             }, true);
@@ -518,7 +538,7 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     foreach (var output in outputList.List)
                                     {
-                                        reply += $"DoDo号：{output.DodoId}\n";
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
                                         reply += "\n";
                                     }
                                 }
@@ -541,7 +561,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var outputList = await _openApiService.GetChannelListAsync(new GetChannelListInput
                             {
-                                IslandId = eventBody.IslandId
+                                IslandSourceId = eventBody.IslandSourceId
                             }, true);
 
                             if (outputList != null)
@@ -595,7 +615,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetChannelAddAsync(new SetChannelAddInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 ChannelName = "创建频道测试",
                                 ChannelType = 1
                             }, true);
@@ -615,7 +635,7 @@ namespace DoDo.Open.Sdk.Services
 
                             var output = await _openApiService.SetChannelEditAsync(new SetChannelEditInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 ChannelId = regex.Value,
                                 ChannelName = "编辑频道测试"
                             }, true);
@@ -635,7 +655,7 @@ namespace DoDo.Open.Sdk.Services
 
                             var output = await _openApiService.SetChannelRemoveAsync(new SetChannelRemoveInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 ChannelId = regex.Value
                             }, true);
 
@@ -782,7 +802,7 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     Content = "发送文字频道私信测试"
                                 },
-                                DodoId = eventBody.DodoId
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output != null)
@@ -806,7 +826,7 @@ namespace DoDo.Open.Sdk.Services
                                     Height = 500,
                                     IsOriginal = 1
                                 },
-                                DodoId = eventBody.DodoId
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output != null)
@@ -830,7 +850,7 @@ namespace DoDo.Open.Sdk.Services
                                     Duration = 0,
                                     Size = 0
                                 },
-                                DodoId = eventBody.DodoId
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output != null)
@@ -885,7 +905,7 @@ namespace DoDo.Open.Sdk.Services
                                         }
                                     }
                                 },
-                                DodoId = eventBody.DodoId
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output != null)
@@ -995,6 +1015,95 @@ namespace DoDo.Open.Sdk.Services
                             }
 
                         }
+                        else if (content.StartsWith("置顶消息"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var output = await _openApiService.SetChannelMessageTopAsync(new SetChannelMessageTopInput
+                            {
+                                MessageId = regex.Value,
+                                OperateType = 1
+                            }, true);
+
+                            if (output)
+                            {
+                                reply += "置顶消息成功！";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+
+                        }
+                        else if (content.StartsWith("获取消息反应列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetChannelMessageReactionListAsync(new GetChannelMessageReactionListInput
+                            {
+                                MessageId = regex.Value
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.Count > 0)
+                                {
+                                    foreach (var output in outputList)
+                                    {
+                                        reply += $"反应表情类型：{output.Emoji.Type}\n";
+                                        reply += $"反应表情ID：{output.Emoji.Id}\n";
+                                        reply += $"反应数量：{output.Count}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+
+                        }
+                        else if (content.StartsWith("获取消息反应内成员列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?) (\d+?)$");
+                            var regexs = regex.Value.Split(' ');
+                            var outputList = await _openApiService.GetChannelMessageReactionMemberListAsync(new GetChannelMessageReactionMemberListInput
+                            {
+                                MessageId = regexs[0],
+                                Emoji = new MessageModelEmoji
+                                {
+                                    Type = 1,
+                                    Id = regexs[1]
+                                },
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
                         else if (content.StartsWith("添加表情反应"))
                         {
                             var regex = Regex.Match(content, @"(\d+?)$");
@@ -1050,8 +1159,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.GetChannelVoiceMemberStatusAsync(new GetChannelVoiceMemberStatusInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output != null)
@@ -1072,8 +1181,8 @@ namespace DoDo.Open.Sdk.Services
 
                             var output = await _openApiService.SetChannelVoiceMemberMoveAsync(new SetChannelVoiceMemberMoveInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 ChannelId = regex.Value
                             }, true);
 
@@ -1093,7 +1202,7 @@ namespace DoDo.Open.Sdk.Services
                             var output = await _openApiService.SetChannelVoiceMemberEditAsync(new SetChannelVoiceMemberEditInput
                             {
                                 ChannelId = regex.Value,
-                                DodoId = eventBody.DodoId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 OperateType = 3
                             }, true);
 
@@ -1161,7 +1270,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var outputList = await _openApiService.GetRoleListAsync(new GetRoleListInput
                             {
-                                IslandId = eventBody.IslandId
+                                IslandSourceId = eventBody.IslandSourceId
                             }, true);
 
                             if (outputList != null)
@@ -1173,8 +1282,9 @@ namespace DoDo.Open.Sdk.Services
                                         reply += $"身份组ID：{output.RoleId}\n";
                                         reply += $"身份组名称：{output.RoleName}\n";
                                         reply += $"身份组颜色：{output.RoleColor}\n";
-                                        reply += $"位置：{output.Position}\n";
-                                        reply += $"权限值：{output.Permission}\n";
+                                        reply += $"身份组排序位置：{output.Position}\n";
+                                        reply += $"身份组权限值：{output.Permission}\n";
+                                        reply += $"身份组成员数：{output.MemberCount}\n";
                                         reply += "\n";
                                     }
                                 }
@@ -1193,7 +1303,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetRoleAddAsync(new SetRoleAddInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 RoleName = "创建身份组测试",
                                 RoleColor = "#999999",
                                 Position = 1,
@@ -1215,7 +1325,7 @@ namespace DoDo.Open.Sdk.Services
 
                             var output = await _openApiService.SetRoleEditAsync(new SetRoleEditInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 RoleId = regex.Value,
                                 RoleName = "编辑身份组测试",
                                 RoleColor = "#999999",
@@ -1238,7 +1348,7 @@ namespace DoDo.Open.Sdk.Services
 
                             var output = await _openApiService.SetRoleRemoveAsync(new SetRoleRemoveInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 RoleId = regex.Value
                             }, true);
 
@@ -1251,14 +1361,47 @@ namespace DoDo.Open.Sdk.Services
                                 reply += "调用接口失败！";
                             }
                         }
+                        else if (content.StartsWith("获取身份组成员列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetRoleMemberListAsync(new GetRoleMemberListInput
+                            {
+                                IslandSourceId = eventBody.IslandSourceId,
+                                RoleId = regex.Value,
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
                         else if (content.StartsWith("赋予成员身份组"))
                         {
                             var regex = Regex.Match(content, @"(\d+?)$");
 
                             var output = await _openApiService.SetRoleMemberAddAsync(new SetRoleMemberAddInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 RoleId = regex.Value
                             }, true);
 
@@ -1277,8 +1420,8 @@ namespace DoDo.Open.Sdk.Services
                             var regex = Regex.Match(content, @"(\d+?)$");
                             var output = await _openApiService.SetRoleMemberRemoveAsync(new SetRoleMemberRemoveInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 RoleId = regex.Value
                             }, true);
 
@@ -1301,7 +1444,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var outputList = await _openApiService.GetMemberListAsync(new GetMemberListInput
                             {
-                                IslandId = eventBody.IslandId,
+                                IslandSourceId = eventBody.IslandSourceId,
                                 PageSize = 3,
                                 MaxId = 0
                             }, true);
@@ -1312,7 +1455,7 @@ namespace DoDo.Open.Sdk.Services
                                 {
                                     foreach (var output in outputList.List)
                                     {
-                                        reply += $"DoDo号：{output.DodoId}\n";
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
                                         reply += $"群昵称：{output.NickName}\n";
                                         reply += $"DoDo昵称：{output.PersonalNickName}\n";
                                         reply += $"头像：{output.AvatarUrl}\n";
@@ -1339,14 +1482,14 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.GetMemberInfoAsync(new GetMemberInfoInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output != null)
                             {
-                                reply += $"群号：{output.IslandId}\n";
-                                reply += $"DoDo号：{output.DodoId}\n";
+                                reply += $"群ID：{output.IslandSourceId}\n";
+                                reply += $"DoDoID：{output.DodoSourceId}\n";
                                 reply += $"群昵称：{output.NickName}\n";
                                 reply += $"DoDo昵称：{output.PersonalNickName}\n";
                                 reply += $"头像：{output.AvatarUrl}\n";
@@ -1367,8 +1510,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var outputList = await _openApiService.GetMemberRoleListAsync(new GetMemberRoleListInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (outputList != null)
@@ -1400,13 +1543,13 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.GetMemberInvitationInfoAsync(new GetMemberInvitationInfoInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output != null)
                             {
-                                reply += $"DoDo号：{output.DodoId}\n";
+                                reply += $"DoDoID：{output.DodoSourceId}\n";
                                 reply += $"群昵称：{output.NickName}\n";
                                 reply += $"邀请人数：{output.InvitationCount}\n";
                             }
@@ -1420,8 +1563,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetMemberNickNameEditAsync(new SetMemberNickNameEditInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 NickName = "编辑成员群昵称测试"
                             }, true);
 
@@ -1438,8 +1581,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetMemberMuteAddAsync(new SetMemberMuteAddInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 Duration = 30,
                                 Reason = "禁言测试"
                             }, true);
@@ -1457,8 +1600,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetMemberMuteRemoveAsync(new SetMemberMuteRemoveInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output)
@@ -1474,8 +1617,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetMemberBanAddAsync(new SetMemberBanAddInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 NoticeChannelId = eventBody.ChannelId,
                                 Reason = "封禁测试"
                             }, true);
@@ -1493,8 +1636,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetMemberBanRemoveAsync(new SetMemberBanRemoveInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output)
@@ -1509,30 +1652,159 @@ namespace DoDo.Open.Sdk.Services
 
                         #endregion
 
-                        #region 数字藏品
+                        #region 赠礼系统
 
-                        else if (content.StartsWith("获取成员数字藏品判断"))
+                        else if (content.StartsWith("获取群收入"))
                         {
-                            var output = await _openApiService.GetMemberNftStatusAsync(new GetMemberNftStatusInput
+                            var output = await _openApiService.GetGiftAccountAsync(new GetGiftAccountInput
                             {
-                                IslandId = eventBody.IslandId,
-                                DodoId = eventBody.DodoId,
-                                Platform = "upower",
-                                Issuer = "哔哩哔哩",
-                                Series = "dodo测试1"
+                                IslandSourceId = eventBody.IslandSourceId
                             }, true);
 
                             if (output != null)
                             {
-                                reply += $"是否已绑定该数藏平台：{output.IsBandPlatform}\n";
-                                reply += $"是否拥有该发行方的NFT：{output.IsHaveIssuer}\n";
-                                reply += $"是否拥有该系列的NFT：{output.IsHaveSeries}\n";
+                                reply += $"总收入（里程）：{output.TotalIncome}\n";
+                                reply += $"待结算收入（里程）：{output.SettlableIncome}\n";
+                                reply += $"可转账收入（里程）：{output.TransferableIncome}\n";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取成员分成管理"))
+                        {
+                            var output = await _openApiService.GetGiftShareRatioInfoAsync(new GetGiftShareRatioInfoInput
+                            {
+                                IslandSourceId = eventBody.IslandSourceId
+                            }, true);
+
+                            if (output != null)
+                            {
+                                reply += "[ 默认抽成 ]\n\n";
+                                reply += $"群抽成：{output.DefaultRatio.IslandRatio}\n";
+                                reply += $"被打赏用户：{output.DefaultRatio.UserRatio}\n";
+                                reply += $"平台抽成：{output.DefaultRatio.PlatformRatio}\n";
+                                reply += "\n";
+                                reply += "[ 身份组抽成列表 ]\n\n";
+
+                                foreach (var item in output.RoleRatioList)
+                                {
+                                    reply += $"身份组ID：{item.RoleId}\n";
+                                    reply += $"身份组名称：{item.RoleName}\n";
+                                    reply += $"群抽成：{item.IslandRatio}\n";
+                                    reply += $"被打赏用户：{item.UserRatio}\n";
+                                    reply += $"平台抽成：{item.PlatformRatio}\n";
+                                    reply += "\n";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取内容礼物列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetGiftListAsync(new GetGiftListInput
+                            {
+                                TargetType = 1,
+                                TargetId = regex.Value
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.Count > 0)
+                                {
+                                    foreach (var output in outputList)
+                                    {
+                                        reply += $"礼物ID：{output.GiftId}\n";
+                                        reply += $"礼物数量：{output.GiftCount}\n";
+                                        reply += $"礼物总价值（铃钱）：{output.GiftTotalAmount}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
                             }
                             else
                             {
                                 reply += "调用接口失败！";
                             }
 
+                        }
+                        else if (content.StartsWith("获取内容礼物内成员列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?) (\d+?)$");
+                            var regexs = regex.Value.Split(' ');
+
+                            var outputList = await _openApiService.GetGiftMemberListAsync(new GetGiftMemberListInput
+                            {
+                                TargetType = 1,
+                                TargetId = regexs[0],
+                                GiftId = regexs[1],
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += $"礼物数量：{output.GiftCount}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取内容礼物总值列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetGiftGrossValueListAsync(new GetGiftGrossValueListInput
+                            {
+                                TargetType = 1,
+                                TargetId = regex.Value,
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += $"赠礼总值（铃钱）：{output.GiftTotalAmount}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
                         }
 
                         #endregion
@@ -1543,7 +1815,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyText>
                             {
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 MessageBody = new MessageBodyText
                                 {
                                     Content = "发送文字私信测试"
@@ -1563,7 +1836,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyPicture>
                             {
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 MessageBody = new MessageBodyPicture
                                 {
                                     Url = "https://img.imdodo.com/dodo/8c77d48865bf547a69fb3bba6228760c.png",
@@ -1586,7 +1860,8 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyVideo>
                             {
-                                DodoId = eventBody.DodoId,
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
                                 MessageBody = new MessageBodyVideo
                                 {
                                     Url = "https://video.imdodo.com/dodo/ff85c752daf7d67884cb9ad3921a5d01.mp4",
@@ -1728,7 +2003,7 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "触发消息表情反应事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"反应对象类型：{eventBody.ReactionTarget.Type}\n";
                 reply += $"反应对象ID：{eventBody.ReactionTarget.Id}\n";
                 reply += $"反应表情类型：{eventBody.ReactionEmoji.Type}\n";
@@ -1761,7 +2036,7 @@ namespace DoDo.Open.Sdk.Services
                 reply += "触发卡片消息按钮事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
                 reply += $"来源消息ID：{eventBody.MessageId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
                 reply += $"Value：{eventBody.Value}\n";
 
@@ -1797,7 +2072,7 @@ namespace DoDo.Open.Sdk.Services
                 reply += "触发卡片消息表单回传事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
                 reply += $"来源消息ID：{eventBody.MessageId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
                 reply += $"表单数据：{JsonSerializer.Serialize(eventBody.FormData, jsonSerializerOptions)}\n";
 
@@ -1833,7 +2108,7 @@ namespace DoDo.Open.Sdk.Services
                 reply += "触发卡片消息列表回传事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
                 reply += $"来源消息ID：{eventBody.MessageId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"交互自定义ID：{eventBody.InteractCustomId}\n";
                 reply += $"列表数据：{JsonSerializer.Serialize(eventBody.ListData, jsonSerializerOptions)}\n";
 
@@ -1852,6 +2127,10 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
+        #endregion
+
+        #region 语音频道
+
         public override async void ChannelVoiceMemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberJoin>> input)
         {
             try
@@ -1862,11 +2141,11 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "触发成员加入语音频道事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
-                    IslandId = eventBody.IslandId
+                    IslandSourceId = eventBody.IslandSourceId
                 });
 
                 if (output == null)
@@ -1897,11 +2176,11 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "触发成员退出语音频道事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
-                    IslandId = eventBody.IslandId
+                    IslandSourceId = eventBody.IslandSourceId
                 });
 
                 if (output == null)
@@ -1922,6 +2201,10 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
+        #endregion
+
+        #region 帖子频道
+
         public override async void ChannelArticleEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticle>> input)
         {
             try
@@ -1938,7 +2221,7 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "帖子发布事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"帖子ID：{eventBody.ArticleId}\n";
                 reply += $"标题：{eventBody.Title}\n";
                 reply += $"内容：{eventBody.Content}\n";
@@ -1946,7 +2229,7 @@ namespace DoDo.Open.Sdk.Services
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
-                    IslandId = eventBody.IslandId
+                    IslandSourceId = eventBody.IslandSourceId
                 });
 
                 if (output == null)
@@ -1983,7 +2266,7 @@ namespace DoDo.Open.Sdk.Services
 
                 reply += "帖子评论回复事件\n";
                 reply += $"来源频道ID：{eventBody.ChannelId}\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"帖子ID：{eventBody.ArticleId}\n";
                 reply += $"评论ID：{eventBody.CommentId}\n";
                 reply += $"回复ID：{eventBody.ReplyId}\n";
@@ -1992,7 +2275,7 @@ namespace DoDo.Open.Sdk.Services
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
-                    IslandId = eventBody.IslandId
+                    IslandSourceId = eventBody.IslandSourceId
                 });
 
                 if (output == null)
@@ -2013,6 +2296,10 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
+        #endregion
+
+        #region 成员
+
         public override async void MemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>> input)
         {
             try
@@ -2022,12 +2309,12 @@ namespace DoDo.Open.Sdk.Services
                 var reply = "";
 
                 reply += "触发成员加入事件\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"变动时间：{eventBody.ModifyTime}\n";
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
-                    IslandId = eventBody.IslandId
+                    IslandSourceId = eventBody.IslandSourceId
                 });
 
                 if (output == null)
@@ -2057,14 +2344,14 @@ namespace DoDo.Open.Sdk.Services
                 var reply = "";
 
                 reply += "触发成员退出事件\n";
-                reply += $"来源DoDo号：{eventBody.DodoId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
                 reply += $"退出类型：{eventBody.LeaveType}\n";
-                reply += $"操作者DoDo号：{eventBody.OperateDoDoId}\n";
+                reply += $"操作者DoDoID：{eventBody.OperateDodoSourceId}\n";
                 reply += $"变动时间：{eventBody.ModifyTime}\n";
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
-                    IslandId = eventBody.IslandId
+                    IslandSourceId = eventBody.IslandSourceId
                 });
 
                 if (output == null)
@@ -2084,5 +2371,103 @@ namespace DoDo.Open.Sdk.Services
                 Exception(e.Message);
             }
         }
+
+        public override async void MemberInviteEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberInvite>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                reply += "触发成员邀请事件\n";
+                reply += $"来源群ID：{eventBody.IslandSourceId}\n";
+                reply += $"邀请人DoDoID：{eventBody.DodoSourceId}\n";
+                reply += $"邀请人群昵称：{eventBody.DodoIslandNickName}\n";
+                reply += $"被邀请人DoDoID：{eventBody.ToDodoSourceId}\n";
+                reply += $"被邀请人群昵称：{eventBody.ToDodoIslandNickName}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandSourceId = eventBody.IslandSourceId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region 赠礼系统
+
+        public override async void GiftSendEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyGiftSend>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
+                reply += "触发赠礼成功事件\n";
+                reply += $"来源群ID：{eventBody.IslandSourceId}\n";
+                reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"订单号：{eventBody.OrderNo}\n";
+                reply += $"内容类型：{eventBody.TargetType}\n";
+                reply += $"内容ID：{eventBody.TargetId}\n";
+                reply += $"礼物总价值（铃钱）：{eventBody.TotalAmount}\n";
+                reply += $"礼物信息：{JsonSerializer.Serialize(eventBody.Gift, jsonSerializerOptions)}\n";
+                reply += $"群分成（百分比）：{eventBody.IslandRatio}\n";
+                reply += $"群收入（里程）：{eventBody.IslandIncome}\n";
+                reply += $"赠礼人DoDoID：{eventBody.DodoSourceId}\n";
+                reply += $"赠礼人群昵称：{eventBody.DodoIslandNickName}\n";
+                reply += $"被赠礼人DoDoID：{eventBody.ToDodoSourceId}\n";
+                reply += $"被赠礼人群昵称：{eventBody.ToDodoIslandNickName}\n";
+                reply += $"被赠礼人分成（百分比）：{eventBody.ToDodoRatio}\n";
+                reply += $"被赠礼人收入（里程）：{eventBody.ToDodoIncome}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandSourceId = eventBody.IslandSourceId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        #endregion
     }
 }

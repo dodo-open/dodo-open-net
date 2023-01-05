@@ -1,5 +1,5 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.ChannelMessages
 {
     public class SetChannelMessageReactionInput
     {

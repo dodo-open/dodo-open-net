@@ -1,5 +1,6 @@
-﻿using DoDo.Open.Sdk.Models.Messages;
-namespace DoDo.Open.Sdk.Models.Channels
+﻿using DoDo.Open.Sdk.Consts;
+using DoDo.Open.Sdk.Models.Messages;
+namespace DoDo.Open.Sdk.Models.ChannelMessages
 {
     public class SetChannelMessageEditInput<T>
         where T : MessageBodyBase

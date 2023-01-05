@@ -1,4 +1,4 @@
-﻿namespace DoDo.Open.Sdk.Models.Events
+﻿namespace DoDo.Open.Sdk.Consts
 {
     public class EventSubjectDataTypeConst
     {

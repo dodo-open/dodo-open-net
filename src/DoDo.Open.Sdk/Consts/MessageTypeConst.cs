@@ -1,4 +1,4 @@
-﻿namespace DoDo.Open.Sdk.Models.Messages
+﻿namespace DoDo.Open.Sdk.Consts
 {
     public class MessageTypeConst
     {

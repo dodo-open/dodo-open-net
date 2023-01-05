@@ -3,9 +3,9 @@
     public class GetMemberInvitationInfoOutput
     {
         /// <summary>
-        /// DoDo号
+        /// DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 群昵称

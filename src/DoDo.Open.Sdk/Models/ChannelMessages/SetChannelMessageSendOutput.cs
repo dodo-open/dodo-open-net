@@ -1,4 +1,4 @@
-﻿namespace DoDo.Open.Sdk.Models.Channels
+﻿namespace DoDo.Open.Sdk.Models.ChannelMessages
 {
     public class SetChannelMessageSendOutput
     {

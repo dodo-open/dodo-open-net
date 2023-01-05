@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.ChannelVoices
 {
     public class SetChannelVoiceMemberEditInput
     {
@@ -12,9 +12,9 @@ namespace DoDo.Open.Sdk.Models.Channels
         public string ChannelId { get; set; }
 
         /// <summary>
-        /// DoDo号
+        /// DoDoID
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
 
         /// <summary>
         /// 执行管理

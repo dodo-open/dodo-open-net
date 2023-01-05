@@ -1,5 +1,5 @@
 ﻿using DoDo.Open.Sdk.Models.Messages;
-namespace DoDo.Open.Sdk.Models.Channels
+namespace DoDo.Open.Sdk.Models.ChannelMessages
 {
     public class SetChannelMessageReactionRemoveInput
     {
@@ -14,8 +14,8 @@ namespace DoDo.Open.Sdk.Models.Channels
         public MessageModelEmoji Emoji { get; set; }
 
         /// <summary>
-        /// DoDo号，不传或传空时表示移除机器人自身的反应
+        /// DoDoID，不传或传空时表示移除机器人自身的反应
         /// </summary>
-        public string DodoId { get; set; }
+        public string DodoSourceId { get; set; }
     }
 }
