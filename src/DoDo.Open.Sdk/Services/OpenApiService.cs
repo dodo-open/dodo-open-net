@@ -11,6 +11,7 @@ using DoDo.Open.Sdk.Models.ChannelArticles;
 using DoDo.Open.Sdk.Models.ChannelMessages;
 using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.ChannelVoices;
+using DoDo.Open.Sdk.Models.Gifts;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
@@ -981,26 +982,106 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
-        #region 数字藏品
+        #region 赠礼系统
 
         /// <summary>
-        /// 获取成员数字藏品判断
+        /// 获取群收入
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
-        public GetMemberNftStatusOutput GetMemberNftStatus(GetMemberNftStatusInput input, bool isThrowException = false)
+        public GetGiftAccountOutput GetGiftAccount(GetGiftAccountInput input, bool isThrowException = false)
         {
-            return GetMemberNftStatusAsync(input, isThrowException).Result;
+            return GetGiftAccountAsync(input, isThrowException).Result;
         }
 
         /// <summary>
-        /// 获取成员数字藏品判断-异步
+        /// 获取群收入-异步
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
-        public async Task<GetMemberNftStatusOutput> GetMemberNftStatusAsync(GetMemberNftStatusInput input, bool isThrowException = false)
+        public async Task<GetGiftAccountOutput> GetGiftAccountAsync(GetGiftAccountInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetMemberNftStatusInput, GetMemberNftStatusOutput>("/api/v2/member/nft/status", input, isThrowException);
+            return await BaseRequest<GetGiftAccountInput, GetGiftAccountOutput>("/api/v2/gift/account/info", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 获取成员分成管理
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetGiftShareRatioInfoOutput GetGiftShareRatioInfo(GetGiftShareRatioInfoInput input, bool isThrowException = false)
+        {
+            return GetGiftShareRatioInfoAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取成员分成管理-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetGiftShareRatioInfoOutput> GetGiftShareRatioInfoAsync(GetGiftShareRatioInfoInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetGiftShareRatioInfoInput, GetGiftShareRatioInfoOutput>("/api/v2/gift/share/ratio/info", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 获取内容礼物列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public List<GetGiftListOutput> GetGiftList(GetGiftListInput input, bool isThrowException = false)
+        {
+            return GetGiftListAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取内容礼物列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<List<GetGiftListOutput>> GetGiftListAsync(GetGiftListInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetGiftListInput, List<GetGiftListOutput>>("/api/v2/gift/list", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 获取内容礼物内成员列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetGiftMemberListOutput GetGiftMemberList(GetGiftMemberListInput input, bool isThrowException = false)
+        {
+            return GetGiftMemberListAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取内容礼物内成员列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetGiftMemberListOutput> GetGiftMemberListAsync(GetGiftMemberListInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetGiftMemberListInput, GetGiftMemberListOutput>("/api/v2/gift/member/list", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 获取内容礼物总值列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetGiftGrossValueListOutput GetGiftGrossValueList(GetGiftGrossValueListInput input, bool isThrowException = false)
+        {
+            return GetGiftGrossValueListAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取内容礼物总值列表-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetGiftGrossValueListOutput> GetGiftGrossValueListAsync(GetGiftGrossValueListInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetGiftGrossValueListInput, GetGiftGrossValueListOutput>("/api/v2/gift/gross/value/list", input, isThrowException);
         }
 
         #endregion

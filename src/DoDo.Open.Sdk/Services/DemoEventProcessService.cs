@@ -1513,29 +1513,11 @@ namespace DoDo.Open.Sdk.Services
 
                         #endregion
 
-                        #region 数字藏品
+                        #region 赠礼系统
 
                         else if (content.StartsWith("获取成员数字藏品判断"))
                         {
-                            var output = await _openApiService.GetMemberNftStatusAsync(new GetMemberNftStatusInput
-                            {
-                                IslandSourceId = eventBody.IslandSourceId,
-                                DodoSourceId = eventBody.DodoSourceId,
-                                Platform = "upower",
-                                Issuer = "哔哩哔哩",
-                                Series = "dodo测试1"
-                            }, true);
-
-                            if (output != null)
-                            {
-                                reply += $"是否已绑定该数藏平台：{output.IsBandPlatform}\n";
-                                reply += $"是否拥有该发行方的NFT：{output.IsHaveIssuer}\n";
-                                reply += $"是否拥有该系列的NFT：{output.IsHaveSeries}\n";
-                            }
-                            else
-                            {
-                                reply += "调用接口失败！";
-                            }
+                           
 
                         }
 
