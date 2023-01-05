@@ -63,6 +63,8 @@ namespace DoDo.Open.Sdk.Services
             _openApiOptions.Log?.Invoke($"Received: {message}");
         }
 
+        #region 私信
+
         public override async void PersonalMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyPersonalMessage<T>>> input)
         {
             try
@@ -115,6 +117,10 @@ namespace DoDo.Open.Sdk.Services
                 Exception(e.Message);
             }
         }
+
+        #endregion
+
+        #region 文字频道
 
         public override async void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
         {
@@ -383,7 +389,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetBotInviteRemoveAsync(new SetBotInviteRemoveInput
                             {
-                                 DodoSourceId = eventBody.DodoSourceId
+                                DodoSourceId = eventBody.DodoSourceId
                             }, true);
 
                             if (output)
@@ -2119,6 +2125,10 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
+        #endregion
+
+        #region 语音频道
+
         public override async void ChannelVoiceMemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelVoiceMemberJoin>> input)
         {
             try
@@ -2188,6 +2198,10 @@ namespace DoDo.Open.Sdk.Services
                 Exception(e.Message);
             }
         }
+
+        #endregion
+
+        #region 帖子频道
 
         public override async void ChannelArticleEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelArticle>> input)
         {
@@ -2280,6 +2294,10 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
+        #endregion
+
+        #region 成员
+
         public override async void MemberJoinEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberJoin>> input)
         {
             try
@@ -2351,5 +2369,103 @@ namespace DoDo.Open.Sdk.Services
                 Exception(e.Message);
             }
         }
+
+        public override async void MemberInviteEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyMemberInvite>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                reply += "触发成员邀请事件\n";
+                reply += $"来源群ID：{eventBody.IslandSourceId}\n";
+                reply += $"邀请人DoDoID：{eventBody.DodoSourceId}\n";
+                reply += $"邀请人群昵称：{eventBody.DodoIslandNickName}\n";
+                reply += $"被邀请人DoDoID：{eventBody.ToDodoSourceId}\n";
+                reply += $"被邀请人群昵称：{eventBody.ToDodoIslandNickName}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandSourceId = eventBody.IslandSourceId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region 赠礼系统
+
+        public override async void GiftSendEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyGiftSend>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
+                reply += "触发赠礼成功事件\n";
+                reply += $"来源群ID：{eventBody.IslandSourceId}\n";
+                reply += $"来源频道ID：{eventBody.ChannelId}\n";
+                reply += $"订单号：{eventBody.OrderNo}\n";
+                reply += $"内容类型：{eventBody.TargetType}\n";
+                reply += $"内容ID：{eventBody.TargetId}\n";
+                reply += $"礼物总价值（铃钱）：{eventBody.TotalAmount}\n";
+                reply += $"礼物信息：{JsonSerializer.Serialize(eventBody.Gift, jsonSerializerOptions)}\n";
+                reply += $"群分成（百分比）：{eventBody.IslandRatio}\n";
+                reply += $"群收入（里程）：{eventBody.IslandIncome}\n";
+                reply += $"赠礼人DoDoID：{eventBody.DodoSourceId}\n";
+                reply += $"赠礼人群昵称：{eventBody.DodoIslandNickName}\n";
+                reply += $"被赠礼人DoDoID：{eventBody.ToDodoSourceId}\n";
+                reply += $"被赠礼人群昵称：{eventBody.ToDodoIslandNickName}\n";
+                reply += $"被赠礼人分成（百分比）：{eventBody.ToDodoRatio}\n";
+                reply += $"被赠礼人收入（里程）：{eventBody.ToDodoIncome}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandSourceId = eventBody.IslandSourceId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        #endregion
     }
 }

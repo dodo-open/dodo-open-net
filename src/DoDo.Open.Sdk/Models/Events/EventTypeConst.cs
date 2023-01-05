@@ -2,6 +2,17 @@
 {
     public class EventTypeConst
     {
+        #region 私信
+
+        /// <summary>
+        /// 私信事件
+        /// </summary>
+        public static string PersonalMessage = "1001";
+
+        #endregion
+
+        #region 文字频道
+
         /// <summary>
         /// 消息事件
         /// </summary>
@@ -27,6 +38,10 @@
         /// </summary>
         public static string CardMessageListSubmit = "3004";
 
+        #endregion
+
+        #region 语音频道
+
         /// <summary>
         /// 成员加入语音频道事件
         /// </summary>
@@ -37,6 +52,10 @@
         /// </summary>
         public static string ChannelVoiceMemberLeave = "5002";
 
+        #endregion
+
+        #region 帖子频道
+
         /// <summary>
         /// 帖子发布事件
         /// </summary>
@@ -46,6 +65,10 @@
         /// 帖子评论回复事件
         /// </summary>
         public static string ChannelArticleComment = "6002";
+
+        #endregion
+
+        #region 成员
 
         /// <summary>
         /// 成员加入事件
@@ -58,8 +81,20 @@
         public static string MemberLeave = "4002";
 
         /// <summary>
-        /// 私信事件
+        /// 成员邀请事件
         /// </summary>
-        public static string PersonalMessage = "1001";
+        public static string MemberInvite = "4003";
+
+        #endregion
+
+        #region 赠礼系统
+
+        /// <summary>
+        /// 赠礼成功事件
+        /// </summary>
+        public static string GiftSend = "7001";
+
+        #endregion
+
     }
 }
