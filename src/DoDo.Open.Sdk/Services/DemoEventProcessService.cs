@@ -11,6 +11,7 @@ using DoDo.Open.Sdk.Models.ChannelMessages;
 using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.ChannelVoices;
 using DoDo.Open.Sdk.Models.Events;
+using DoDo.Open.Sdk.Models.Gifts;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
@@ -153,7 +154,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "**帖子频道**\n";
                             reply += "**身份组**\n";
                             reply += "**成员**\n";
-                            reply += "**数字藏品**\n";
+                            reply += "**赠礼系统**\n";
                             reply += "**私信**\n";
                             reply += "**资源**\n";
                             reply += "**事件**\n";
@@ -205,6 +206,9 @@ namespace DoDo.Open.Sdk.Services
                             reply += "编辑文字消息 ID\n";
                             reply += "编辑卡片消息 ID\n";
                             reply += "撤回消息 ID\n";
+                            reply += "置顶消息 ID\n";
+                            reply += "获取消息反应列表 ID\n";
+                            reply += "获取消息反应内成员列表 ID ID\n";
                             reply += "添加表情反应 ID\n";
                             reply += "取消表情反应 ID\n";
                         }
@@ -248,11 +252,15 @@ namespace DoDo.Open.Sdk.Services
                             reply += "永久封禁成员\n";
                             reply += "取消成员永久封禁\n";
                         }
-                        else if (content.StartsWith("数字藏品"))
+                        else if (content.StartsWith("赠礼系统"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
-                            reply += "\n**数字藏品**\n\n";
-                            reply += "获取成员数字藏品判断\n";
+                            reply += "\n**赠礼系统**\n\n";
+                            reply += "获取群收入\n";
+                            reply += "获取成员分成管理\n";
+                            reply += "获取内容礼物列表 ID\n";
+                            reply += "获取内容礼物内成员列表 ID ID\n";
+                            reply += "获取内容礼物总值列表 ID\n";
                         }
                         else if (content.StartsWith("私信"))
                         {
@@ -999,6 +1007,95 @@ namespace DoDo.Open.Sdk.Services
                             }
 
                         }
+                        else if (content.StartsWith("置顶消息"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var output = await _openApiService.SetChannelMessageTopAsync(new SetChannelMessageTopInput
+                            {
+                                MessageId = regex.Value,
+                                OperateType = 1
+                            }, true);
+
+                            if (output)
+                            {
+                                reply += "置顶消息成功！";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+
+                        }
+                        else if (content.StartsWith("获取消息反应列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetChannelMessageReactionListAsync(new GetChannelMessageReactionListInput
+                            {
+                                MessageId = regex.Value
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.Count > 0)
+                                {
+                                    foreach (var output in outputList)
+                                    {
+                                        reply += $"反应表情类型：{output.Emoji.Type}\n";
+                                        reply += $"反应表情ID：{output.Emoji.Id}\n";
+                                        reply += $"反应数量：{output.Count}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+
+                        }
+                        else if (content.StartsWith("获取消息反应内成员列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?) (\d+?)$");
+                            var regexs = regex.Value.Split(' ');
+                            var outputList = await _openApiService.GetChannelMessageReactionMemberListAsync(new GetChannelMessageReactionMemberListInput
+                            {
+                                MessageId = regexs[0],
+                                Emoji = new MessageModelEmoji
+                                {
+                                    Type = 1,
+                                    Id = regexs[1]
+                                },
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
                         else if (content.StartsWith("添加表情反应"))
                         {
                             var regex = Regex.Match(content, @"(\d+?)$");
@@ -1177,8 +1274,9 @@ namespace DoDo.Open.Sdk.Services
                                         reply += $"身份组ID：{output.RoleId}\n";
                                         reply += $"身份组名称：{output.RoleName}\n";
                                         reply += $"身份组颜色：{output.RoleColor}\n";
-                                        reply += $"位置：{output.Position}\n";
-                                        reply += $"权限值：{output.Permission}\n";
+                                        reply += $"身份组排序位置：{output.Position}\n";
+                                        reply += $"身份组权限值：{output.Permission}\n";
+                                        reply += $"身份组成员数：{output.MemberCount}\n";
                                         reply += "\n";
                                     }
                                 }
@@ -1249,6 +1347,39 @@ namespace DoDo.Open.Sdk.Services
                             if (output)
                             {
                                 reply += "删除身份组成功\n";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取身份组成员列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetRoleMemberListAsync(new GetRoleMemberListInput
+                            {
+                                IslandSourceId = eventBody.IslandSourceId,
+                                RoleId = regex.Value,
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
                             }
                             else
                             {
@@ -1515,10 +1646,157 @@ namespace DoDo.Open.Sdk.Services
 
                         #region 赠礼系统
 
-                        else if (content.StartsWith("获取成员数字藏品判断"))
+                        else if (content.StartsWith("获取群收入"))
                         {
-                           
+                            var output = await _openApiService.GetGiftAccountAsync(new GetGiftAccountInput
+                            {
+                                IslandSourceId = eventBody.IslandSourceId
+                            }, true);
 
+                            if (output != null)
+                            {
+                                reply += $"总收入（里程）：{output.TotalIncome}\n";
+                                reply += $"待结算收入（里程）：{output.SettlableIncome}\n";
+                                reply += $"可转账收入（里程）：{output.TransferableIncome}\n";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取成员分成管理"))
+                        {
+                            var output = await _openApiService.GetGiftShareRatioInfoAsync(new GetGiftShareRatioInfoInput
+                            {
+                                IslandSourceId = eventBody.IslandSourceId
+                            }, true);
+
+                            if (output != null)
+                            {
+                                reply += "[ 默认抽成 ]\n";
+                                reply += $"群抽成：{output.DefaultRatio.IslandRatio}\n";
+                                reply += $"被打赏用户：{output.DefaultRatio.UserRatio}\n";
+                                reply += $"平台抽成：{output.DefaultRatio.PlatformRatio}\n";
+                                reply += "\n";
+                                reply += "[ 身份组抽成列表 ]\n";
+
+                                foreach (var item in output.RoleRatioList)
+                                {
+                                    reply += $"身份组ID：{item.RoleId}\n";
+                                    reply += $"身份组名称：{item.RoleName}\n";
+                                    reply += $"群抽成：{item.IslandRatio}\n";
+                                    reply += $"被打赏用户：{item.UserRatio}\n";
+                                    reply += $"平台抽成：{item.PlatformRatio}\n";
+                                    reply += "\n";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取内容礼物列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetGiftListAsync(new GetGiftListInput
+                            {
+                                TargetType = 1,
+                                TargetId = regex.Value
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.Count > 0)
+                                {
+                                    foreach (var output in outputList)
+                                    {
+                                        reply += $"礼物ID：{output.GiftId}\n";
+                                        reply += $"礼物数量：{output.GiftCount}\n";
+                                        reply += $"礼物总价值（铃钱）：{output.GiftTotalAmount}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+
+                        }
+                        else if (content.StartsWith("获取内容礼物内成员列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?) (\d+?)$");
+                            var regexs = regex.Value.Split(' ');
+
+                            var outputList = await _openApiService.GetGiftMemberListAsync(new GetGiftMemberListInput
+                            {
+                                TargetType = 1,
+                                TargetId = regexs[0],
+                                GiftId = regexs[1],
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += $"礼物数量：{output.GiftCount}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("获取内容礼物总值列表"))
+                        {
+                            var regex = Regex.Match(content, @"(\d+?)$");
+
+                            var outputList = await _openApiService.GetGiftGrossValueListAsync(new GetGiftGrossValueListInput
+                            {
+                                TargetType = 1,
+                                TargetId = regex.Value,
+                                PageSize = 3,
+                                MaxId = 0
+                            }, true);
+
+                            if (outputList != null)
+                            {
+                                if (outputList.List.Count > 0)
+                                {
+                                    foreach (var output in outputList.List)
+                                    {
+                                        reply += $"DoDoID：{output.DodoSourceId}\n";
+                                        reply += $"群昵称：{output.NickName}\n";
+                                        reply += $"赠礼总值（铃钱）：{output.GiftTotalAmount}\n";
+                                        reply += "\n";
+                                    }
+                                }
+                                else
+                                {
+                                    reply += "暂无列表数据！";
+                                }
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
                         }
 
                         #endregion
@@ -1529,6 +1807,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyText>
                             {
+                                IslandSourceId = eventBody.IslandSourceId,
                                 DodoSourceId = eventBody.DodoSourceId,
                                 MessageBody = new MessageBodyText
                                 {
@@ -1549,6 +1828,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyPicture>
                             {
+                                IslandSourceId = eventBody.IslandSourceId,
                                 DodoSourceId = eventBody.DodoSourceId,
                                 MessageBody = new MessageBodyPicture
                                 {
@@ -1572,6 +1852,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             var output = await _openApiService.SetPersonalMessageSendAsync(new SetPersonalMessageSendInput<MessageBodyVideo>
                             {
+                                IslandSourceId = eventBody.IslandSourceId,
                                 DodoSourceId = eventBody.DodoSourceId,
                                 MessageBody = new MessageBodyVideo
                                 {
