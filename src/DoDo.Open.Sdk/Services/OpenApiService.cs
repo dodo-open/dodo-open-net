@@ -12,6 +12,7 @@ using DoDo.Open.Sdk.Models.ChannelMessages;
 using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.ChannelVoices;
 using DoDo.Open.Sdk.Models.Gifts;
+using DoDo.Open.Sdk.Models.Integrals;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
@@ -1082,6 +1083,50 @@ namespace DoDo.Open.Sdk.Services
         public async Task<GetGiftGrossValueListOutput> GetGiftGrossValueListAsync(GetGiftGrossValueListInput input, bool isThrowException = false)
         {
             return await BaseRequest<GetGiftGrossValueListInput, GetGiftGrossValueListOutput>("/api/v2/gift/gross/value/list", input, isThrowException);
+        }
+
+        #endregion
+
+        #region 积分系统
+
+        /// <summary>
+        /// 获取成员积分信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetIntegralInfoOutput GetIntegralInfo(GetIntegralInfoInput input, bool isThrowException = false)
+        {
+            return GetIntegralInfoAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 获取成员积分信息-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetIntegralInfoOutput> GetIntegralInfoAsync(GetIntegralInfoInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetIntegralInfoInput, GetIntegralInfoOutput>("/api/v2/integral/info", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 管理成员积分
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public SetIntegralEditOutput SetIntegralEdit(SetIntegralEditInput input, bool isThrowException = false)
+        {
+            return SetIntegralEditAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 管理成员积分-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<SetIntegralEditOutput> SetIntegralEditAsync(SetIntegralEditInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetIntegralEditInput, SetIntegralEditOutput>("/api/v2/integral/edit", input, isThrowException);
         }
 
         #endregion

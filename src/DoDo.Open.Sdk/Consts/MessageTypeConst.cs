@@ -31,5 +31,10 @@
         /// 卡片消息
         /// </summary>
         public static int Card = 6;
+
+        /// <summary>
+        /// 红包消息
+        /// </summary>
+        public static int RedPacket = 7;
     }
 }

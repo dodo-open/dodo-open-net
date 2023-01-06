@@ -12,6 +12,7 @@ using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.ChannelVoices;
 using DoDo.Open.Sdk.Models.Events;
 using DoDo.Open.Sdk.Models.Gifts;
+using DoDo.Open.Sdk.Models.Integrals;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
@@ -162,6 +163,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "**身份组**\n";
                             reply += "**成员**\n";
                             reply += "**赠礼系统**\n";
+                            reply += "**积分系统**\n";
                             reply += "**私信**\n";
                             reply += "**资源**\n";
                             reply += "**事件**\n";
@@ -269,6 +271,13 @@ namespace DoDo.Open.Sdk.Services
                             reply += "获取内容礼物列表 ID\n";
                             reply += "获取内容礼物内成员列表 ID ID\n";
                             reply += "获取内容礼物总值列表 ID\n";
+                        }
+                        else if (content.StartsWith("积分系统"))
+                        {
+                            reply += $"<@!{eventBody.DodoSourceId}>\n";
+                            reply += "\n**积分系统**\n\n";
+                            reply += "获取成员积分信息\n";
+                            reply += "管理成员积分\n";
                         }
                         else if (content.StartsWith("私信"))
                         {
@@ -1809,6 +1818,47 @@ namespace DoDo.Open.Sdk.Services
 
                         #endregion
 
+                        #region 积分系统
+
+                        else if (content.StartsWith("获取成员积分信息"))
+                        {
+                            var output = await _openApiService.GetIntegralInfoAsync(new GetIntegralInfoInput
+                            {
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId
+                            }, true);
+
+                            if (output != null)
+                            {
+                                reply += $"剩余积分：{output.IntegralBalance}\n";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+                        else if (content.StartsWith("管理成员积分"))
+                        {
+                            var output = await _openApiService.SetIntegralEditAsync(new SetIntegralEditInput
+                            {
+                                IslandSourceId = eventBody.IslandSourceId,
+                                DodoSourceId = eventBody.DodoSourceId,
+                                OperateType = 1,
+                                Integral = 10
+                            }, true);
+
+                            if (output != null)
+                            {
+                                reply += $"剩余积分：{output.IntegralBalance}\n";
+                            }
+                            else
+                            {
+                                reply += "调用接口失败！";
+                            }
+                        }
+
+                        #endregion
+
                         #region 私信
 
                         else if (content.StartsWith("发送文字私信"))
@@ -1973,6 +2023,17 @@ namespace DoDo.Open.Sdk.Services
 
                     reply += "触发消息事件-卡片消息\n";
                     reply += $"{JsonSerializer.Serialize(messageBody, jsonSerializerOptions)}\n";
+                }
+                else if (eventBody.MessageBody is MessageBodyRedPacket messageBodyRedPacket)
+                {
+                    var messageBody = messageBodyRedPacket;
+
+                    reply += "触发消息事件-红包消息\n";
+                    reply += $"红包类型：{messageBody.Type}\n";
+                    reply += $"金额：{messageBody.Amount}\n";
+                    reply += $"数量：{messageBody.Count}\n";
+                    reply += $"领取对象类型：{messageBody.ReceiverType}\n";
+                    reply += $"身份组ID列表：{JsonSerializer.Serialize(messageBody.RoleIdList, jsonSerializerOptions)}\n";
                 }
 
                 if (reply != "")
@@ -2444,6 +2505,91 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"被赠礼人群昵称：{eventBody.ToDodoIslandNickName}\n";
                 reply += $"被赠礼人分成（百分比）：{eventBody.ToDodoRatio}\n";
                 reply += $"被赠礼人收入（里程）：{eventBody.ToDodoIncome}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandSourceId = eventBody.IslandSourceId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region 积分系统
+
+        public override async void IntegralChangeEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyIntegralChange>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                reply += "触发积分变更事件\n";
+                reply += $"来源群ID：{eventBody.IslandSourceId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
+                reply += $"场景类型：{eventBody.OperateType}\n";
+                reply += $"积分：{eventBody.Integral}\n";
+
+                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
+                {
+                    IslandSourceId = eventBody.IslandSourceId
+                });
+
+                if (output == null)
+                    return;
+
+                await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
+                {
+                    ChannelId = output.SystemChannelId,
+                    MessageBody = new MessageBodyText
+                    {
+                        Content = reply
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                Exception(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region 商城系统
+
+        public override async void GoodsPurchaseEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyGoodsPurchase>> input)
+        {
+            try
+            {
+                var eventBody = input.Data.EventBody;
+
+                var reply = "";
+
+                reply += "触发商品购买成功事件\n";
+                reply += $"来源群ID：{eventBody.IslandSourceId}\n";
+                reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
+                reply += $"订单号：{eventBody.OrderNo}\n";
+                reply += $"商品类型：{eventBody.GoodsType}\n";
+                reply += $"商品ID：{eventBody.GoodsId}\n";
+                reply += $"商品名称：{eventBody.GoodsName}\n";
+                reply += $"商品图片地址：{eventBody.GoodsImageUrl}\n";
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
