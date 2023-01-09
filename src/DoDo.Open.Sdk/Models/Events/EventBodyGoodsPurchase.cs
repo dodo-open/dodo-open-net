@@ -1,4 +1,6 @@
-﻿namespace DoDo.Open.Sdk.Models.Events
+﻿using System.Collections.Generic;
+
+namespace DoDo.Open.Sdk.Models.Events
 {
     public class EventBodyGoodsPurchase
     {
@@ -33,8 +35,8 @@
         public string GoodsName { get; set; }
 
         /// <summary>
-        /// 商品图片地址
+        /// 商品图片列表
         /// </summary>
-        public string GoodsImageUrl { get; set; }
+        public List<string> GoodsImageList { get; set; }
     }
 }

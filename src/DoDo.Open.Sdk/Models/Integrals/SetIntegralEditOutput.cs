@@ -5,6 +5,6 @@
         /// <summary>
         /// 剩余积分
         /// </summary>
-        public decimal IntegralBalance { get; set; }
+        public long IntegralBalance { get; set; }
     }
 }

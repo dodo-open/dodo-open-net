@@ -2582,6 +2582,12 @@ namespace DoDo.Open.Sdk.Services
 
                 var reply = "";
 
+                var jsonSerializerOptions = new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
                 reply += "触发商品购买成功事件\n";
                 reply += $"来源群ID：{eventBody.IslandSourceId}\n";
                 reply += $"来源DoDoID：{eventBody.DodoSourceId}\n";
@@ -2589,7 +2595,7 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"商品类型：{eventBody.GoodsType}\n";
                 reply += $"商品ID：{eventBody.GoodsId}\n";
                 reply += $"商品名称：{eventBody.GoodsName}\n";
-                reply += $"商品图片地址：{eventBody.GoodsImageUrl}\n";
+                reply += $"商品图片地址：{JsonSerializer.Serialize(eventBody.GoodsImageList,jsonSerializerOptions)}\n";
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {

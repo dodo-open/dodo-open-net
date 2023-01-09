@@ -20,6 +20,6 @@
         /// <summary>
         /// 积分
         /// </summary>
-        public decimal Integral { get; set; }
+        public long Integral { get; set; }
     }
 }
