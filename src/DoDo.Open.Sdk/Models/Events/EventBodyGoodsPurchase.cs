@@ -20,7 +20,7 @@ namespace DoDo.Open.Sdk.Models.Events
         public string OrderNo { get; set; }
 
         /// <summary>
-        /// 商品类型
+        /// 商品类型，1：身份组，2：自定义商品
         /// </summary>
         public int GoodsType { get; set; }
 
