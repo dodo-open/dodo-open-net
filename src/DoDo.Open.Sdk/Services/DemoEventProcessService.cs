@@ -276,7 +276,7 @@ namespace DoDo.Open.Sdk.Services
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**积分系统**\n\n";
-                            reply += "获取成员积分信息\n";
+                            reply += "查询成员积分\n";
                             reply += "管理成员积分\n";
                         }
                         else if (content.StartsWith("私信"))
@@ -1820,7 +1820,7 @@ namespace DoDo.Open.Sdk.Services
 
                         #region 积分系统
 
-                        else if (content.StartsWith("获取成员积分信息"))
+                        else if (content.StartsWith("查询成员积分"))
                         {
                             var output = await _openApiService.GetIntegralInfoAsync(new GetIntegralInfoInput
                             {

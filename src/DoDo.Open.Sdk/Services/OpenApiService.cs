@@ -1090,7 +1090,7 @@ namespace DoDo.Open.Sdk.Services
         #region 积分系统
 
         /// <summary>
-        /// 获取成员积分信息
+        /// 查询成员积分
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
@@ -1100,7 +1100,7 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 获取成员积分信息-异步
+        /// 查询成员积分-异步
         /// </summary>
         /// <param name="input"></param>
         /// <param name="isThrowException"></param>
