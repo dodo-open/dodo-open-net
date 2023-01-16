@@ -10,17 +10,17 @@ namespace DoDo.Open.Sdk.Models.Messages
         public int Type { get; set; }
 
         /// <summary>
-        /// 金额
-        /// </summary>
-        public decimal Amount { get; set; }
-
-        /// <summary>
-        /// 数量
+        /// 红包个数
         /// </summary>
         public int Count { get; set; }
 
         /// <summary>
-        /// 领取对象类型，1：全体成员，2：身份组
+        /// 总金额
+        /// </summary>
+        public decimal TotalAmount { get; set; }
+
+        /// <summary>
+        /// 领取对象类型，1：全体成员，2：特定身份组专属
         /// </summary>
         public int ReceiverType { get; set; }
 

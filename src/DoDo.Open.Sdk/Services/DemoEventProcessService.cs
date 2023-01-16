@@ -670,7 +670,7 @@ namespace DoDo.Open.Sdk.Services
 
                             if (output)
                             {
-                                reply += "编辑频道成功\n";
+                                reply += "删除频道成功\n";
                             }
                             else
                             {
@@ -2030,8 +2030,8 @@ namespace DoDo.Open.Sdk.Services
 
                     reply += "触发消息事件-红包消息\n";
                     reply += $"红包类型：{messageBody.Type}\n";
-                    reply += $"金额：{messageBody.Amount}\n";
-                    reply += $"数量：{messageBody.Count}\n";
+                    reply += $"红包数量：{messageBody.Count}\n";
+                    reply += $"总金额：{messageBody.TotalAmount}\n";
                     reply += $"领取对象类型：{messageBody.ReceiverType}\n";
                     reply += $"身份组ID列表：{JsonSerializer.Serialize(messageBody.RoleIdList, jsonSerializerOptions)}\n";
                 }
