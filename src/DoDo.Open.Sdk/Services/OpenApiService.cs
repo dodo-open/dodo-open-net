@@ -12,6 +12,7 @@ using DoDo.Open.Sdk.Models.ChannelMessages;
 using DoDo.Open.Sdk.Models.Channels;
 using DoDo.Open.Sdk.Models.ChannelVoices;
 using DoDo.Open.Sdk.Models.Gifts;
+using DoDo.Open.Sdk.Models.Integrals;
 using DoDo.Open.Sdk.Models.Islands;
 using DoDo.Open.Sdk.Models.Members;
 using DoDo.Open.Sdk.Models.Messages;
@@ -331,7 +332,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelEditAsync(SetChannelEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelEditInput, bool>("/api/v2/channel/edit", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/edit", input, isThrowException);
         }
 
         /// <summary>
@@ -351,7 +352,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetChannelRemoveAsync(SetChannelRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetChannelRemoveInput, bool>("/api/v2/channel/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/channel/remove", input, isThrowException);
         }
 
         #endregion
@@ -388,7 +389,7 @@ namespace DoDo.Open.Sdk.Services
         public bool SetChannelMessageEdit<T>(SetChannelMessageEditInput<T> input, bool isThrowException = false)
             where T : MessageBodyBase
         {
-            return SetChannelMessageEditAsync(input,isThrowException).Result;
+            return SetChannelMessageEditAsync(input, isThrowException).Result;
         }
 
         /// <summary>
@@ -629,7 +630,7 @@ namespace DoDo.Open.Sdk.Services
         {
             return await BaseRequest("/api/v2/channel/article/remove", input, isThrowException);
         }
-        
+
         #endregion
 
         #region 身份组
@@ -691,7 +692,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetRoleEditAsync(SetRoleEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetRoleEditInput, bool>("/api/v2/role/edit", input, isThrowException);
+            return await BaseRequest("/api/v2/role/edit", input, isThrowException);
         }
 
         /// <summary>
@@ -711,7 +712,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetRoleRemoveAsync(SetRoleRemoveInput input, bool isThrowException = false)
         {
-            return await BaseRequest<SetRoleRemoveInput, bool>("/api/v2/role/remove", input, isThrowException);
+            return await BaseRequest("/api/v2/role/remove", input, isThrowException);
         }
 
         /// <summary>
@@ -855,7 +856,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<GetMemberInvitationInfoOutput> GetMemberInvitationInfoAsync(GetMemberInvitationInfoInput input, bool isThrowException = false)
         {
-            return await BaseRequest<GetMemberInvitationInfoInput, GetMemberInvitationInfoOutput>("/api/v2/member/invitation/info", input, isThrowException); 
+            return await BaseRequest<GetMemberInvitationInfoInput, GetMemberInvitationInfoOutput>("/api/v2/member/invitation/info", input, isThrowException);
         }
 
         /// <summary>
@@ -1082,6 +1083,50 @@ namespace DoDo.Open.Sdk.Services
         public async Task<GetGiftGrossValueListOutput> GetGiftGrossValueListAsync(GetGiftGrossValueListInput input, bool isThrowException = false)
         {
             return await BaseRequest<GetGiftGrossValueListInput, GetGiftGrossValueListOutput>("/api/v2/gift/gross/value/list", input, isThrowException);
+        }
+
+        #endregion
+
+        #region 积分系统
+
+        /// <summary>
+        /// 查询成员积分
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public GetIntegralInfoOutput GetIntegralInfo(GetIntegralInfoInput input, bool isThrowException = false)
+        {
+            return GetIntegralInfoAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 查询成员积分-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<GetIntegralInfoOutput> GetIntegralInfoAsync(GetIntegralInfoInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<GetIntegralInfoInput, GetIntegralInfoOutput>("/api/v2/integral/info", input, isThrowException);
+        }
+
+        /// <summary>
+        /// 管理成员积分
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public SetIntegralEditOutput SetIntegralEdit(SetIntegralEditInput input, bool isThrowException = false)
+        {
+            return SetIntegralEditAsync(input, isThrowException).Result;
+        }
+
+        /// <summary>
+        /// 管理成员积分-异步
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="isThrowException"></param>
+        public async Task<SetIntegralEditOutput> SetIntegralEditAsync(SetIntegralEditInput input, bool isThrowException = false)
+        {
+            return await BaseRequest<SetIntegralEditInput, SetIntegralEditOutput>("/api/v2/integral/edit", input, isThrowException);
         }
 
         #endregion

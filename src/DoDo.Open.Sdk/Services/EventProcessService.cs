@@ -134,6 +134,12 @@ namespace DoDo.Open.Sdk.Services
                         if (messageResult == null) return;
                         ChannelMessageEvent(messageResult);
                     }
+                    else if (eventBody.MessageType == MessageTypeConst.RedPacket)
+                    {
+                        var messageResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<MessageBodyRedPacket>>>>(message, jsonSerializerOptions);
+                        if (messageResult == null) return;
+                        ChannelMessageEvent(messageResult);
+                    }
                 }
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.MessageReaction)
                 {
@@ -226,6 +232,28 @@ namespace DoDo.Open.Sdk.Services
                     var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyGiftSend>>>(message, jsonSerializerOptions);
                     if (eventBodyResult == null) return;
                     GiftSendEvent(eventBodyResult);
+                }
+
+                #endregion
+
+                #region 积分系统
+
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.IntegralChange)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyIntegralChange>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    IntegralChangeEvent(eventBodyResult);
+                }
+
+                #endregion
+
+                #region 商城系统
+
+                else if (eventSubjectDataResult.Data.EventType == EventTypeConst.GoodsPurchase)
+                {
+                    var eventBodyResult = JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBusiness<EventBodyGoodsPurchase>>>(message, jsonSerializerOptions);
+                    if (eventBodyResult == null) return;
+                    GoodsPurchaseEvent(eventBodyResult);
                 }
 
                 #endregion
@@ -387,6 +415,32 @@ namespace DoDo.Open.Sdk.Services
         /// </summary>
         /// <param name="input"></param>
         public virtual void GiftSendEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyGiftSend>> input)
+        {
+
+        }
+
+        #endregion
+
+        #region 积分系统
+
+        /// <summary>
+        /// 积分变更事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void IntegralChangeEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyIntegralChange>> input)
+        {
+
+        }
+
+        #endregion
+
+        #region 商城系统
+
+        /// <summary>
+        /// 商品购买成功事件
+        /// </summary>
+        /// <param name="input"></param>
+        public virtual void GoodsPurchaseEvent(EventSubjectOutput<EventSubjectDataBusiness<EventBodyGoodsPurchase>> input)
         {
 
         }

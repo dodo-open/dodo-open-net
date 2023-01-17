@@ -96,5 +96,23 @@
 
         #endregion
 
+        #region 积分系统
+
+        /// <summary>
+        /// 积分变更事件
+        /// </summary>
+        public static string IntegralChange = "8001";
+
+        #endregion
+
+        #region 商城系统
+
+        /// <summary>
+        /// 商品购买成功事件
+        /// </summary>
+        public static string GoodsPurchase = "9001";
+
+        #endregion
+
     }
 }
