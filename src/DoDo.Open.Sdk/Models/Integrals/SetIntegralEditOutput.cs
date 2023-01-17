@@ -3,7 +3,7 @@
     public class SetIntegralEditOutput
     {
         /// <summary>
-        /// 剩余积分
+        /// 积分余额
         /// </summary>
         public long IntegralBalance { get; set; }
     }

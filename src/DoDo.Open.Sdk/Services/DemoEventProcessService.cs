@@ -1830,7 +1830,7 @@ namespace DoDo.Open.Sdk.Services
 
                             if (output != null)
                             {
-                                reply += $"剩余积分：{output.IntegralBalance}\n";
+                                reply += $"积分余额：{output.IntegralBalance}\n";
                             }
                             else
                             {
@@ -1849,7 +1849,7 @@ namespace DoDo.Open.Sdk.Services
 
                             if (output != null)
                             {
-                                reply += $"剩余积分：{output.IntegralBalance}\n";
+                                reply += $"积分余额：{output.IntegralBalance}\n";
                             }
                             else
                             {
@@ -2030,7 +2030,7 @@ namespace DoDo.Open.Sdk.Services
 
                     reply += "触发消息事件-红包消息\n";
                     reply += $"红包类型：{messageBody.Type}\n";
-                    reply += $"红包数量：{messageBody.Count}\n";
+                    reply += $"红包个数：{messageBody.Count}\n";
                     reply += $"总金额：{messageBody.TotalAmount}\n";
                     reply += $"领取对象类型：{messageBody.ReceiverType}\n";
                     reply += $"身份组ID列表：{JsonSerializer.Serialize(messageBody.RoleIdList, jsonSerializerOptions)}\n";
