@@ -11,5 +11,10 @@
         /// 是否异步处理
         /// </summary>
         public bool IsAsync { get; set; }
+
+        /// <summary>
+        /// 事件协议，0：WebSocket，1：WebHook
+        /// </summary>
+        public int Protocol { get; set; }
     }
 }

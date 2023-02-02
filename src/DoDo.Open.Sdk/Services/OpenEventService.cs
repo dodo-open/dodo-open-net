@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DoDo.Open.Sdk.Consts;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.WebSockets;
 
@@ -26,12 +27,68 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 接收事件消息
+        /// 接收事件消息-WebSocket
         /// </summary>
         /// <returns></returns>
         public async Task ReceiveAsync()
         {
+            await ReceiveAsync("");
+        }
+
+        /// <summary>
+        /// 接收事件消息-WebHook
+        /// </summary>
+        /// <returns></returns>
+        public async Task ReceiveAsync(string message)
+        {
+            if (_openEventOptions.Protocol == EventProtocolConst.WebSocket)
+            {
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    _eventProcessService.Exception("事件协议为WebSocket，无需传入message！");
+                    return;
+                }
+            }
+
+            if (_openEventOptions.Protocol == EventProtocolConst.WebHook)
+            {
+                if (string.IsNullOrWhiteSpace(message))
+                {
+                    _eventProcessService.Exception("事件协议为WebHook，message不能为空！");
+                    return;
+                }
+
+                if (_openEventOptions.IsAsync)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            _eventProcessService.ReceivedInternal(message);
+                        }
+                        catch (Exception ex)
+                        {
+                            try
+                            {
+                                _eventProcessService.Exception(ex.Message);
+                            }
+                            catch (Exception)
+                            {
+                                // ignored
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    _eventProcessService.ReceivedInternal(message);
+                }
+
+                return;
+            }
+
             try
+
             {
                 GetWebSocketConnectionOutput getWebSocketConnectionOutput = null;
 
