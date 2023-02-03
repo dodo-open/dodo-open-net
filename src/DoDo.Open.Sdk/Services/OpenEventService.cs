@@ -313,8 +313,8 @@ namespace DoDo.Open.Sdk.Services
         /// <summary>
         /// 接收事件消息-WebHook
         /// </summary>
-        /// <param name="input">WebHook入参</param>
-        /// <returns>解密后消息</returns>
+        /// <param name="input">入参</param>
+        /// <returns>出参</returns>
         public async Task<OpenWebHookOutput> ReceiveAsync(OpenWebHookInput input)
         {
             try
