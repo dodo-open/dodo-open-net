@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DoDo.Open.Sdk.Consts;
 using DoDo.Open.Sdk.Models;
 using DoDo.Open.Sdk.Models.WebSockets;
+using DoDo.Open.Sdk.Utils;
 
 namespace DoDo.Open.Sdk.Services
 {
@@ -41,62 +42,8 @@ namespace DoDo.Open.Sdk.Services
         /// <returns></returns>
         public async Task ReceiveAsync()
         {
-            await ReceiveAsync("");
-        }
-
-        /// <summary>
-        /// 接收事件消息-WebHook
-        /// </summary>
-        /// <returns></returns>
-        public async Task ReceiveAsync(string message)
-        {
-            if (_openEventOptions.Protocol == EventProtocolConst.WebSocket)
+            try
             {
-                if (!string.IsNullOrWhiteSpace(message))
-                {
-                    _eventProcessService.Exception("事件协议为WebSocket，无需传入message！");
-                    return;
-                }
-            }
-
-            if (_openEventOptions.Protocol == EventProtocolConst.WebHook)
-            {
-                if (string.IsNullOrWhiteSpace(message))
-                {
-                    _eventProcessService.Exception("事件协议为WebHook，message不能为空！");
-                    return;
-                }
-
-                if (_openEventOptions.IsAsync)
-                {
-                    Task.Factory.StartNew(() =>
-                    {
-                        try
-                        {
-                            _eventProcessService.ReceivedInternal(message);
-                        }
-                        catch (Exception ex)
-                        {
-                            try
-                            {
-                                _eventProcessService.Exception(ex.Message);
-                            }
-                            catch (Exception)
-                            {
-                                // ignored
-                            }
-                        }
-                    });
-                }
-                else
-                {
-                    _eventProcessService.ReceivedInternal(message);
-                }
-
-                return;
-            }
-
-            try{
                 GetWebSocketConnectionOutput getWebSocketConnectionOutput = null;
 
                 for (var i = 0; i < 3; i++)
@@ -350,6 +297,50 @@ namespace DoDo.Open.Sdk.Services
                     // ignored
                 }
             }
+        }
+
+        /// <summary>
+        /// 接收事件消息-WebHook
+        /// </summary>
+        /// <param name="payload">加密消息</param>
+        /// <returns>解密后消息</returns>
+        public async Task<string> ReceiveAsync(string payload)
+        {
+            if (string.IsNullOrWhiteSpace(payload))
+            {
+                _eventProcessService.Exception("事件协议为WebHook，payload不能为空！");
+                return "";
+            }
+
+            var message = OpenSecretUtil.WebHookDecrypt(payload, _openEventOptions.SecretKey);
+
+            if (_openEventOptions.IsAsync)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        _eventProcessService.ReceivedInternal(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        try
+                        {
+                            _eventProcessService.Exception(ex.Message);
+                        }
+                        catch (Exception)
+                        {
+                            // ignored
+                        }
+                    }
+                });
+            }
+            else
+            {
+                _eventProcessService.ReceivedInternal(message);
+            }
+
+            return message;
         }
 
         /// <summary>
