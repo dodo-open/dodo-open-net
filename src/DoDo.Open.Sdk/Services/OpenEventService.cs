@@ -324,7 +324,21 @@ namespace DoDo.Open.Sdk.Services
                     throw new Exception("Payload不能为空！");
                 }
 
-                var message = OpenSecretUtil.WebHookDecrypt(input.Payload, _openEventOptions.SecretKey);
+                var message = "";
+
+                try
+                {
+                     message = OpenSecretUtil.WebHookDecrypt(input.Payload, _openEventOptions.SecretKey);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
+                if (string.IsNullOrWhiteSpace(message))
+                {
+                    throw new Exception("Payload解密失败！");
+                }
 
                 var eventSubjectResult =
                     JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBase>>(message, _jsonSerializerOptions);

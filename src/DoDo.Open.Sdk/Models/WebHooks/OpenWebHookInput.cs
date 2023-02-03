@@ -11,7 +11,7 @@ namespace DoDo.Open.Sdk.Models.WebHooks
         public string ClientId { get; set; }
 
         /// <summary>
-        /// 消息Payload
+        /// 消息Payload，默认加密
         /// </summary>
         [JsonPropertyName("payload")]
         public string Payload { get; set; }
