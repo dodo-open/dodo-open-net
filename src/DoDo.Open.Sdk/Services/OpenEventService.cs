@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Net.WebSockets;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using DoDo.Open.Sdk.Consts;
 using DoDo.Open.Sdk.Models;
+using DoDo.Open.Sdk.Models.Events;
+using DoDo.Open.Sdk.Models.WebHooks;
 using DoDo.Open.Sdk.Models.WebSockets;
 using DoDo.Open.Sdk.Utils;
 
@@ -19,6 +24,12 @@ namespace DoDo.Open.Sdk.Services
         private readonly OpenApiService _openApiService;
         private readonly EventProcessService _eventProcessService;
         private readonly OpenEventOptions _openEventOptions;
+
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
 
         public OpenEventService(OpenApiService openApiService, EventProcessService eventProcessService, OpenEventOptions openEventOptions)
         {
@@ -302,45 +313,90 @@ namespace DoDo.Open.Sdk.Services
         /// <summary>
         /// 接收事件消息-WebHook
         /// </summary>
-        /// <param name="payload">加密消息</param>
+        /// <param name="input">WebHook入参</param>
         /// <returns>解密后消息</returns>
-        public async Task<string> ReceiveAsync(string payload)
+        public async Task<OpenWebHookOutput> ReceiveAsync(OpenWebHookInput input)
         {
-            if (string.IsNullOrWhiteSpace(payload))
+            try
             {
-                _eventProcessService.Exception("事件协议为WebHook，payload不能为空！");
-                return "";
-            }
-
-            var message = OpenSecretUtil.WebHookDecrypt(payload, _openEventOptions.SecretKey);
-
-            if (_openEventOptions.IsAsync)
-            {
-                Task.Factory.StartNew(() =>
+                if (string.IsNullOrWhiteSpace(input.Payload))
                 {
-                    try
+                    throw new Exception("Payload不能为空");
+                }
+
+                var message = OpenSecretUtil.WebHookDecrypt(input.Payload, _openEventOptions.SecretKey);
+
+                var eventSubjectResult =
+                    JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataBase>>(message, _jsonSerializerOptions);
+                if (eventSubjectResult == null)
+                {
+                    throw new Exception("事件数据格式异常！");
+                }
+
+                if (eventSubjectResult.Type == EventSubjectDataTypeConst.Authentication)
+                {
+                    var eventSubjectDataResult =
+                        JsonSerializer.Deserialize<EventSubjectOutput<EventSubjectDataAuthentication>>(message,
+                            _jsonSerializerOptions);
+                    if (eventSubjectDataResult == null) throw new Exception();
+
+                    return new OpenWebHookOutput<EventSubjectDataAuthentication>
                     {
-                        _eventProcessService.ReceivedInternal(message);
-                    }
-                    catch (Exception ex)
+                        Status = 0,
+                        Message = "",
+                        Data = eventSubjectDataResult.Data
+                    };
+                }
+
+                if (_openEventOptions.IsAsync)
+                {
+                    Task.Factory.StartNew(() =>
                     {
                         try
                         {
-                            _eventProcessService.Exception(ex.Message);
+                            _eventProcessService.ReceivedInternal(message);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            // ignored
+                            try
+                            {
+                                _eventProcessService.Exception(ex.Message);
+                            }
+                            catch (Exception)
+                            {
+                                // ignored
+                            }
                         }
-                    }
-                });
-            }
-            else
-            {
-                _eventProcessService.ReceivedInternal(message);
-            }
+                    });
+                }
+                else
+                {
+                    _eventProcessService.ReceivedInternal(message);
+                }
 
-            return message;
+                return new OpenWebHookOutput
+                {
+                    Status = 0,
+                    Message = ""
+                };
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    _eventProcessService.Exception(e.Message);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
+                return new OpenWebHookOutput
+                {
+                    Status = -9999,
+                    Message = e.Message
+                };
+            }
         }
 
         /// <summary>
