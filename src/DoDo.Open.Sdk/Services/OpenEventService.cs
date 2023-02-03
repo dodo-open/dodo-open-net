@@ -45,17 +45,6 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
-        /// 停止接收事件消息-WebSocket
-        /// </summary>
-        public async Task StopReceiveAsync()
-        {
-            if (_clientWebSocket != null && _clientWebSocket.State != WebSocketState.Closed)
-            {
-                await _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
-            }
-        }
-
-        /// <summary>
         /// 接收事件消息-WebHook
         /// </summary>
         /// <returns></returns>
@@ -107,9 +96,7 @@ namespace DoDo.Open.Sdk.Services
                 return;
             }
 
-            try
-
-            {
+            try{
                 GetWebSocketConnectionOutput getWebSocketConnectionOutput = null;
 
                 for (var i = 0; i < 3; i++)
@@ -365,5 +352,23 @@ namespace DoDo.Open.Sdk.Services
             }
         }
 
+        /// <summary>
+        /// 停止接收事件消息
+        /// </summary>
+        public async Task StopReceiveAsync()
+        {
+            if (_openEventOptions.Protocol == EventProtocolConst.WebSocket)
+            {
+                if (_clientWebSocket != null && _clientWebSocket.State != WebSocketState.Closed)
+                {
+                    await _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+                }
+            }
+
+            if (_openEventOptions.Protocol == EventProtocolConst.WebHook)
+            {
+                _eventProcessService.Disconnected("停止接收");
+            }
+        }
     }
 }
