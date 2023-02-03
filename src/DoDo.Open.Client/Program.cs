@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Text.Json;
 using DoDo.Open.Sdk.Consts;
 using DoDo.Open.Sdk.Models;
+using DoDo.Open.Sdk.Models.WebHooks;
 using DoDo.Open.Sdk.Services;
 using DoDo.Open.Sdk.Utils;
 
@@ -29,6 +31,10 @@ openEventOptions.IsReconnect = true;
 await openEventService.ReceiveAsync();
 
 //接收来自WebHook的事件消息，开发者回调地址收到消息后，可将消息推送至该服务进行处理
-//openEventOptions.Protocol = EventProtocolConst.WebHook;
-//openEventOptions.SecretKey = "事件密钥SecretKey";
-//await openEventService.ReceiveAsync("加密消息Payload");
+/*openEventOptions.Protocol = EventProtocolConst.WebHook;
+openEventOptions.SecretKey = "事件密钥SecretKey";
+var openWebHookOutput = await openEventService.ReceiveAsync(new OpenWebHookInput
+{
+    ClientId = "机器人唯一标识",
+    Payload = "加密消息"
+});*/
