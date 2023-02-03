@@ -321,7 +321,7 @@ namespace DoDo.Open.Sdk.Services
             {
                 if (string.IsNullOrWhiteSpace(input.Payload))
                 {
-                    throw new Exception("Payload不能为空");
+                    throw new Exception("Payload不能为空！");
                 }
 
                 var message = OpenSecretUtil.WebHookDecrypt(input.Payload, _openEventOptions.SecretKey);
