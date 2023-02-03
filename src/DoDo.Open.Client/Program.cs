@@ -30,4 +30,4 @@ await openEventService.ReceiveAsync();
 
 //接收来自WebHook的事件消息，开发者回调地址收到消息后，可将消息推送至该服务进行处理
 //openEventOptions.Protocol = EventProtocolConst.WebHook;
-//await openEventService.ReceiveAsync(EncryptUtil.WebHookDecrypt("加密消息Payload", "解密密钥SecretKey"));
+//await openEventService.ReceiveAsync(OpenSecretUtil.WebHookDecrypt("加密消息Payload", "解密密钥SecretKey"));

@@ -1316,7 +1316,7 @@ namespace DoDo.Open.Sdk.Services
                                 RoleName = "创建身份组测试",
                                 RoleColor = "#999999",
                                 Position = 1,
-                                Permission = PermissionUtil.CalculationPermission(Permission.Administrator)
+                                Permission = OpenPermissionUtil.CalculationPermission(Permission.Administrator)
                             }, true);
 
                             if (output != null)

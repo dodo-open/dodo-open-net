@@ -4,7 +4,10 @@ using System.Security.Cryptography;
 
 namespace DoDo.Open.Sdk.Utils
 {
-    public class EncryptUtil
+    /// <summary>
+    /// 开放秘密工具
+    /// </summary>
+    public class OpenSecretUtil
     {
         /// <summary>
         /// WebHook解密
