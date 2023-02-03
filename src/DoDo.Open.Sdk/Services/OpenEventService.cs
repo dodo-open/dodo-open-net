@@ -27,12 +27,32 @@ namespace DoDo.Open.Sdk.Services
         }
 
         /// <summary>
+        /// 获取事件配置
+        /// </summary>
+        /// <returns></returns>
+        public OpenEventOptions GetEventOptions()
+        {
+            return _openEventOptions;
+        }
+
+        /// <summary>
         /// 接收事件消息-WebSocket
         /// </summary>
         /// <returns></returns>
         public async Task ReceiveAsync()
         {
             await ReceiveAsync("");
+        }
+
+        /// <summary>
+        /// 停止接收事件消息-WebSocket
+        /// </summary>
+        public async Task StopReceiveAsync()
+        {
+            if (_clientWebSocket != null && _clientWebSocket.State != WebSocketState.Closed)
+            {
+                await _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+            }
         }
 
         /// <summary>
@@ -342,17 +362,6 @@ namespace DoDo.Open.Sdk.Services
                 {
                     // ignored
                 }
-            }
-        }
-
-        /// <summary>
-        /// 停止接收事件消息
-        /// </summary>
-        public async Task StopReceiveAsync()
-        {
-            if (_clientWebSocket != null && _clientWebSocket.State != WebSocketState.Closed)
-            {
-                await _clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
             }
         }
 
