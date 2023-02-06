@@ -57,9 +57,9 @@ namespace DoDo.Open.Sdk.Utils
         }
 
         /// <summary>
-        /// 16进制字符串转Byte数组
+        /// 十六进制字符串转字节数组
         /// </summary>
-        /// <param name="hexStr">16进制字符</param>
+        /// <param name="hexStr">十六进制字符串</param>
         /// <returns></returns>
         private static byte[] HexStringToBytes(string hexStr)
         {
