@@ -18,14 +18,29 @@ namespace DoDo.Open.Sdk.Utils
         public static string WebHookDecrypt(string payload, string secretKey)
         {
             var aes = Aes.Create();
+
             aes.KeySize = 256;
-            aes.Key = HexStringToBytes(secretKey);
-            aes.IV = new byte[aes.BlockSize / 8];
             aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.IV = new byte[16];
+
+            return AESDecrypt(HexStringToBytes(payload), HexStringToBytes(secretKey), aes);
+        }
+
+        /// <summary>
+        /// AES解密
+        /// </summary>
+        /// <param name="payload">加密消息</param>
+        /// <param name="secretKey">解密密钥</param>
+        /// <param name="aes">AES配置</param>
+        /// <returns></returns>
+        private static string AESDecrypt(byte[] payload, byte[] secretKey, Aes aes)
+        {
+            aes.Key = secretKey;
 
             var decipher = aes.CreateDecryptor(aes.Key, aes.IV);
 
-            using (var ms = new MemoryStream(HexStringToBytes(payload)))
+            using (var ms = new MemoryStream(payload))
             {
                 string decrypted;
 
