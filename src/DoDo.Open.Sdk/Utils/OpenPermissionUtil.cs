@@ -5,7 +5,10 @@ using DoDo.Open.Sdk.Models.Permissions;
 
 namespace DoDo.Open.Sdk.Utils
 {
-    public class PermissionUtil
+    /// <summary>
+    /// 开放权限工具
+    /// </summary>
+    public class OpenPermissionUtil
     {
         /// <summary>
         /// 计算权限值
