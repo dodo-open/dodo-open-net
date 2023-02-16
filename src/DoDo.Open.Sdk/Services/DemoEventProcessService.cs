@@ -122,7 +122,7 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
-        #region 文字频道
+        #region 频道消息
 
         public override async void ChannelMessageEvent<T>(EventSubjectOutput<EventSubjectDataBusiness<EventBodyChannelMessage<T>>> input)
         {
@@ -157,7 +157,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "**机器人**\n";
                             reply += "**群**\n";
                             reply += "**频道**\n";
-                            reply += "**文字频道**\n";
+                            reply += "**频道消息**\n";
                             reply += "**语音频道**\n";
                             reply += "**帖子频道**\n";
                             reply += "**身份组**\n";
@@ -200,10 +200,10 @@ namespace DoDo.Open.Sdk.Services
                             reply += "编辑频道 ID\n";
                             reply += "删除频道 ID\n";
                         }
-                        else if (content.StartsWith("文字频道"))
+                        else if (content.StartsWith("频道消息"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
-                            reply += "\n**文字频道**\n\n";
+                            reply += "\n**频道消息**\n\n";
                             reply += "发送文字消息\n";
                             reply += "发送图片消息\n";
                             reply += "发送视频消息\n";
@@ -680,7 +680,7 @@ namespace DoDo.Open.Sdk.Services
 
                         #endregion
 
-                        #region 文字频道
+                        #region 频道消息
 
                         else if (content.StartsWith("发送文字消息"))
                         {

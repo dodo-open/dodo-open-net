@@ -357,7 +357,7 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
-        #region 文字频道
+        #region 频道消息
 
         /// <summary>
         /// 发送消息

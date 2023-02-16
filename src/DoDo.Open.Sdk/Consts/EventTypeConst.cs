@@ -11,7 +11,7 @@
 
         #endregion
 
-        #region 文字频道
+        #region 频道消息
 
         /// <summary>
         /// 消息事件

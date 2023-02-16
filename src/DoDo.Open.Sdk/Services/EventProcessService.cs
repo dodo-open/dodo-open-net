@@ -89,7 +89,7 @@ namespace DoDo.Open.Sdk.Services
 
                 #endregion
 
-                #region 文字频道
+                #region 频道消息
 
                 else if (eventSubjectDataResult.Data.EventType == EventTypeConst.ChannelMessage)
                 {
@@ -283,7 +283,7 @@ namespace DoDo.Open.Sdk.Services
 
         #endregion
 
-        #region 文字频道
+        #region 频道消息
 
         /// <summary>
         /// 消息事件
