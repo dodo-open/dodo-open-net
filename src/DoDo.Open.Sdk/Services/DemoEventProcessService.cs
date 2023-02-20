@@ -2568,17 +2568,9 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"被赠礼人分成（百分比）：{eventBody.ToDodoRatio}\n";
                 reply += $"被赠礼人收入（里程）：{eventBody.ToDodoIncome}\n";
 
-                var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
-                {
-                    IslandSourceId = eventBody.IslandSourceId
-                });
-
-                if (output == null)
-                    return;
-
                 await _openApiService.SetChannelMessageSendAsync(new SetChannelMessageSendInput<MessageBodyText>
                 {
-                    ChannelId = output.SystemChannelId,
+                    ChannelId = eventBody.ChannelId,
                     MessageBody = new MessageBodyText
                     {
                         Content = reply
