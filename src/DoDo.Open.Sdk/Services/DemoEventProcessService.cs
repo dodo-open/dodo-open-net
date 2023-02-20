@@ -189,7 +189,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "获取群禁言名单\n";
                             reply += "获取群封禁名单\n";
                         }
-                        else if (content.StartsWith("频道"))
+                        else if (content.Equals("频道"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
 
@@ -200,7 +200,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "编辑频道 ID\n";
                             reply += "删除频道 ID\n";
                         }
-                        else if (content.StartsWith("频道消息"))
+                        else if (content.StartsWith("频道消息") || content.StartsWith("文字频道"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**频道消息**\n\n";
@@ -787,6 +787,37 @@ namespace DoDo.Open.Sdk.Services
                                                        src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
                                                    }
                                                }
+                                           },
+                                           new
+                                           {
+                                               type = "button-group",
+                                               elements = new List<object>()
+                                               {
+                                                   new
+                                                   {
+                                                       type = "button",
+                                                       interactCustomId = "交互自定义Id1",
+                                                       click = new
+                                                       {
+                                                           action="call_back",
+                                                           value="value"
+                                                       },
+                                                       color = "green",
+                                                       name = "回传参数",
+                                                   },
+                                                   new
+                                                   {
+                                                       type = "button",
+                                                       interactCustomId = "交互自定义Id2",
+                                                       click = new
+                                                       {
+                                                           action="copy_content",
+                                                           value="这段话会在点击按钮后复制到剪贴板"
+                                                       },
+                                                       color = "grey",
+                                                       name = "复制内容",
+                                                   }
+                                               }
                                            }
                                         }
                                     }
@@ -910,7 +941,38 @@ namespace DoDo.Open.Sdk.Services
                                                         src = "https://img.imdodo.com/upload/cdn/09151DF5C726C6E2F5915E5B117EF98E_1660189645615.png"
                                                     }
                                                 }
-                                            }
+                                            },
+                                           new
+                                           {
+                                               type = "button-group",
+                                               elements = new List<object>()
+                                               {
+                                                   new
+                                                   {
+                                                       type = "button",
+                                                       interactCustomId = "交互自定义Id1",
+                                                       click = new
+                                                       {
+                                                           action="call_back",
+                                                           value="value"
+                                                       },
+                                                       color = "green",
+                                                       name = "回传参数",
+                                                   },
+                                                   new
+                                                   {
+                                                       type = "button",
+                                                       interactCustomId = "交互自定义Id2",
+                                                       click = new
+                                                       {
+                                                           action="copy_content",
+                                                           value="这段话会在点击按钮后复制到剪贴板"
+                                                       },
+                                                       color = "grey",
+                                                       name = "复制内容",
+                                                   }
+                                               }
+                                           }
                                         }
                                     }
                                 },
@@ -2595,7 +2657,7 @@ namespace DoDo.Open.Sdk.Services
                 reply += $"商品类型：{eventBody.GoodsType}\n";
                 reply += $"商品ID：{eventBody.GoodsId}\n";
                 reply += $"商品名称：{eventBody.GoodsName}\n";
-                reply += $"商品图片地址：{JsonSerializer.Serialize(eventBody.GoodsImageList,jsonSerializerOptions)}\n";
+                reply += $"商品图片地址：{JsonSerializer.Serialize(eventBody.GoodsImageList, jsonSerializerOptions)}\n";
 
                 var output = await _openApiService.GetIslandInfoAsync(new GetIslandInfoInput
                 {
