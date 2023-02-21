@@ -150,7 +150,7 @@ namespace DoDo.Open.Sdk.Services
                     {
                         #region 菜单
 
-                        if (content.StartsWith("菜单"))
+                        if (content.Equals("菜单"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**菜单来咯！**\n\n";
@@ -168,7 +168,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "**资源**\n";
                             reply += "**事件**\n";
                         }
-                        else if (content.StartsWith("机器人"))
+                        else if (content.Equals("机器人"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**机器人**\n\n";
@@ -179,7 +179,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "添加成员到机器人邀请列表\n";
                             reply += "移除成员出机器人邀请列表\n";
                         }
-                        else if (content.StartsWith("群"))
+                        else if (content.Equals("群"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**群**\n\n";
@@ -200,7 +200,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "编辑频道 ID\n";
                             reply += "删除频道 ID\n";
                         }
-                        else if (content.StartsWith("频道消息") || content.StartsWith("文字频道"))
+                        else if (content.Equals("频道消息"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**频道消息**\n\n";
@@ -218,10 +218,10 @@ namespace DoDo.Open.Sdk.Services
                             reply += "置顶消息 ID\n";
                             reply += "获取消息反应列表 ID\n";
                             reply += "获取消息反应内成员列表 ID ID\n";
-                            reply += "添加表情反应 ID\n";
-                            reply += "取消表情反应 ID\n";
+                            reply += "添加表情反应 ID ID\n";
+                            reply += "取消表情反应 ID ID\n";
                         }
-                        else if (content.StartsWith("语音频道"))
+                        else if (content.Equals("语音频道"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**语音频道**\n\n";
@@ -229,14 +229,14 @@ namespace DoDo.Open.Sdk.Services
                             reply += "移动语音频道成员 ID\n";
                             reply += "管理语音中的成员 ID\n";
                         }
-                        else if (content.StartsWith("帖子频道"))
+                        else if (content.Equals("帖子频道"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**帖子频道**\n\n";
                             reply += "发布帖子 ID\n";
                             reply += "删除帖子评论回复 ID ID\n";
                         }
-                        else if (content.StartsWith("身份组"))
+                        else if (content.Equals("身份组"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**身份组**\n\n";
@@ -248,7 +248,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "赋予成员身份组 ID\n";
                             reply += "取消成员身份组 ID\n";
                         }
-                        else if (content.StartsWith("成员"))
+                        else if (content.Equals("成员"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**成员**\n\n";
@@ -262,7 +262,7 @@ namespace DoDo.Open.Sdk.Services
                             reply += "永久封禁成员\n";
                             reply += "取消成员永久封禁\n";
                         }
-                        else if (content.StartsWith("赠礼系统"))
+                        else if (content.Equals("赠礼系统"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**赠礼系统**\n\n";
@@ -272,14 +272,14 @@ namespace DoDo.Open.Sdk.Services
                             reply += "获取内容礼物内成员列表 ID ID\n";
                             reply += "获取内容礼物总值列表 ID\n";
                         }
-                        else if (content.StartsWith("积分系统"))
+                        else if (content.Equals("积分系统"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**积分系统**\n\n";
                             reply += "查询成员积分\n";
                             reply += "管理成员积分\n";
                         }
-                        else if (content.StartsWith("私信"))
+                        else if (content.Equals("私信"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**私信**\n\n";
@@ -287,13 +287,13 @@ namespace DoDo.Open.Sdk.Services
                             reply += "发送图片私信\n";
                             reply += "发送视频私信\n";
                         }
-                        else if (content.StartsWith("资源"))
+                        else if (content.Equals("资源"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**资源**\n\n";
                             reply += "上传资源图片\n";
                         }
-                        else if (content.StartsWith("事件"))
+                        else if (content.Equals("事件"))
                         {
                             reply += $"<@!{eventBody.DodoSourceId}>\n";
                             reply += "\n**事件**\n\n";
@@ -466,6 +466,7 @@ namespace DoDo.Open.Sdk.Services
                                 reply += $"群描述：{output.Description}\n";
                                 reply += $"默认访问频道ID：{output.DefaultChannelId}\n";
                                 reply += $"系统消息频道ID：{output.SystemChannelId}\n";
+                                reply += $"群主DoDoID：{output.OwnerDodoSourceId}\n";
                             }
                             else
                             {
@@ -1177,15 +1178,16 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (content.StartsWith("添加表情反应"))
                         {
-                            var regex = Regex.Match(content, @"(\d+?)$");
+                            var regex = Regex.Match(content, @"(\d+?) (\d+?)$");
+                            var regexs = regex.Value.Split(' ');
 
                             var output = await _openApiService.SetChannelMessageReactionAddAsync(new SetChannelMessageReactionAddInput
                             {
-                                MessageId = eventBody.MessageId,
+                                MessageId = regexs[0],
                                 Emoji = new MessageModelEmoji
                                 {
                                     Type = 1,
-                                    Id = regex.Value
+                                    Id = regexs[1]
                                 }
                             }, true);
 
@@ -1200,15 +1202,16 @@ namespace DoDo.Open.Sdk.Services
                         }
                         else if (content.StartsWith("取消表情反应"))
                         {
-                            var regex = Regex.Match(content, @"(\d+?)$");
+                            var regex = Regex.Match(content, @"(\d+?) (\d+?)$");
+                            var regexs = regex.Value.Split(' ');
 
                             var output = await _openApiService.SetChannelMessageReactionRemoveAsync(new SetChannelMessageReactionRemoveInput
                             {
-                                MessageId = eventBody.MessageId,
+                                MessageId = regexs[0],
                                 Emoji = new MessageModelEmoji
                                 {
                                     Type = 1,
-                                    Id = regex.Value
+                                    Id = regexs[1]
                                 }
                             }, true);
 
@@ -1570,6 +1573,7 @@ namespace DoDo.Open.Sdk.Services
                                 reply += $"是否机器人：{output.IsBot}\n";
                                 reply += $"在线设备：{output.OnlineDevice}\n";
                                 reply += $"在线状态：{output.OnlineStatus}\n";
+                                reply += $"邀请人DoDoID：{output.InviterDodoSourceId}\n";
                             }
                             else
                             {

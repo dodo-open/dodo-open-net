@@ -56,5 +56,10 @@
         /// 在线状态
         /// </summary>
         public int OnlineStatus { get; set; }
+
+        /// <summary>
+        /// 邀请人DoDoID
+        /// </summary>
+        public string InviterDodoSourceId { get; set; }
     }
 }

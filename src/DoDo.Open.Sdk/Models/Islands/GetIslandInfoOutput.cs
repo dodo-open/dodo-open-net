@@ -41,5 +41,10 @@
         /// 系统消息频道ID
         /// </summary>
         public string SystemChannelId { get; set; }
+
+        /// <summary>
+        /// 群主DoDoID
+        /// </summary>
+        public string OwnerDodoSourceId { get; set; }
     }
 }

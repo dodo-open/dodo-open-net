@@ -898,7 +898,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetMemberNickNameEditAsync(SetMemberNickNameEditInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v2/member/nick/set", input, isThrowException);
+            return await BaseRequest("/api/v2/member/nickname/edit", input, isThrowException);
         }
 
         /// <summary>
@@ -918,7 +918,7 @@ namespace DoDo.Open.Sdk.Services
         /// <param name="isThrowException"></param>
         public async Task<bool> SetMemberMuteAddAsync(SetMemberMuteAddInput input, bool isThrowException = false)
         {
-            return await BaseRequest("/api/v2/member/ban/set", input, isThrowException);
+            return await BaseRequest("/api/v2/member/mute/add", input, isThrowException);
         }
 
         /// <summary>
